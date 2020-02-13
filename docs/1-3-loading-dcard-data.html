@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="1.3 Loading dcard data | Playing Data with R" />
+<meta property="og:type" content="book" />
+
+
+<meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+<meta name="github-repo" content="P4CSS/PDR" />
+
+<meta name="author" content="JILUNG HSIEH" />
+
+<meta name="date" content="2020-02-14" />
+
+
+<meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook.">
+
+<title>1.3 Loading dcard data | Playing Data with R</title>
+
+<script src="libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
+<script src="libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="libs/navigation-1.1/tabsets.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container-fluid main-container">
+
+
+<div class="row">
+<div class="col-sm-12">
+<div id="TOC">
+<ul>
+<li><a href="index.html#about">About</a></li>
+<li class="has-sub"><a href="1-r-basic.html#r-basic"><span class="toc-section-number">1</span> R basic</a><ul>
+<li><a href="preface.html#preface">Preface</a></li>
+<li class="has-sub"><a href="1-1-excuting-code-in-r-markdown.html#excuting-code-in-r-markdown"><span class="toc-section-number">1.1</span> Excuting code in R markdown</a><ul>
+<li><a href="1-1-excuting-code-in-r-markdown.html#inserting-a-new-code-cell"><span class="toc-section-number">1.1.1</span> Inserting a new code cell</a></li>
+</ul></li>
+<li class="has-sub"><a href="1-2-installing-and-loading-packages.html#installing-and-loading-packages"><span class="toc-section-number">1.2</span> Installing and loading packages</a><ul>
+<li><a href="1-2-installing-and-loading-packages.html#install-following-packages-at-home"><span class="toc-section-number">1.2.1</span> Install following packages <strong>at home</strong></a></li>
+<li><a href="1-2-installing-and-loading-packages.html#loading-third-party-packages"><span class="toc-section-number">1.2.2</span> Loading third-party packages</a></li>
+<li><a href="1-2-installing-and-loading-packages.html#註解"><span class="toc-section-number">1.2.3</span> 註解</a></li>
+</ul></li>
+<li><a href="1-3-loading-dcard-data.html#loading-dcard-data"><span class="toc-section-number">1.3</span> Loading dcard data</a></li>
+<li class="has-sub"><a href="1-4-getting-taipei-theft-report-data.html#getting-taipei-theft-report-data"><span class="toc-section-number">1.4</span> Getting Taipei theft report data</a><ul>
+<li><a href="1-4-getting-taipei-theft-report-data.html#getting-from-the-web-directly"><span class="toc-section-number">1.4.1</span> Getting from the web directly</a></li>
+<li><a href="1-4-getting-taipei-theft-report-data.html#loading-a-csv-file-in-data-directory"><span class="toc-section-number">1.4.2</span> Loading a csv file in data directory</a></li>
+</ul></li>
+<li><a href="1-5-loading-moi-data-through-api.html#loading-moi-data-through-api"><span class="toc-section-number">1.5</span> Loading MOI data through API</a></li>
+<li><a href="1-6-getting-104-query-data.html#getting-104-query-data"><span class="toc-section-number">1.6</span> Getting 104 query data</a></li>
+<li><a href="1-7-getting-ubike.html#getting-ubike"><span class="toc-section-number">1.7</span> Getting ubike</a></li>
+</ul></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-sm-12">
+<div id="loading-dcard-data" class="section level2">
+<h2><span class="header-section-number">1.3</span> Loading dcard data</h2>
+<ul>
+<li>先不要去管<code>fromJSON(content(GET(url), &quot;text&quot;))</code>是什麼意思，先著重在語言的形式。通常一個函式會寫為<code>func_name()</code>，所以上述其實是三個函式由內而外一層套一層，從最內層開始往外做。</li>
+<li>這其實很make-sense，因為如果你有一個數學式<code>(1 + (3-3)/2)/8</code>，也是會從最裡面那層做出來。</li>
+</ul>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">url &lt;-<span class="st"> &quot;https://www.dcard.tw/_api/forums/relationship/posts?popular=true&quot;</span></a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">res &lt;-<span class="st"> </span><span class="kw">fromJSON</span>(<span class="kw">content</span>(<span class="kw">GET</span>(url), <span class="st">&quot;text&quot;</span>))</a>
+<a class="sourceLine" id="cb9-3" data-line-number="3">dplyr<span class="op">::</span><span class="kw">glimpse</span>(res)</a></code></pre></div>
+<pre><code>## Observations: 30
+## Variables: 33
+## $ id                  &lt;int&gt; 233008068, 233062888, 233061385, 233066495, 23306…
+## $ title               &lt;chr&gt; &quot;#2/13更連結 曬照 閃光團v.s單身汪攻防戰！&quot;, &quot;洗澡的小情趣&quot;, &quot;2020單身脫魯 …
+## $ excerpt             &lt;chr&gt; &quot;#2/13 更，WOW~看到兩邊人馬的熱烈曬照，販販刷留言刷得很開心吶～～～好多甜甜的閃閃的告白…
+## $ anonymousSchool     &lt;lgl&gt; FALSE, FALSE, TRUE, TRUE, TRUE, TRUE, FALSE, TRUE…
+## $ anonymousDepartment &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, T…
+## $ pinned              &lt;lgl&gt; TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, F…
+## $ forumId             &lt;chr&gt; &quot;42851318-b9e2-4a75-8a05-9fe180becefe&quot;, &quot;42851318…
+## $ replyId             &lt;int&gt; NA, NA, 233054425, NA, NA, NA, NA, NA, 233055406,…
+## $ createdAt           &lt;chr&gt; &quot;2020-02-03T10:10:21.780Z&quot;, &quot;2020-02-12T11:04:15.…
+## $ updatedAt           &lt;chr&gt; &quot;2020-02-13T15:19:06.798Z&quot;, &quot;2020-02-13T16:00:40.…
+## $ commentCount        &lt;int&gt; 989, 72, 941, 72, 201, 58, 4373, 445, 233, 31, 37…
+## $ likeCount           &lt;int&gt; 2456, 8559, 3665, 3509, 3250, 2971, 2706, 2007, 1…
+## $ withNickname        &lt;lgl&gt; TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, TRUE, FAL…
+## $ tags                &lt;list&gt; [&lt;&gt;, &lt;&gt;, &lt;&gt;, &lt;&gt;, &quot;HIDE_THUMBNAIL&quot;, &quot;HIDE_THUMBNA…
+## $ topics              &lt;list&gt; [&lt;&quot;單身狗&quot;, &quot;愛你3000次&quot;, &quot;閃光團&quot;, &quot;送禮&quot;, &quot;情人節&quot;&gt;, &lt;&quot;男友&quot;, …
+## $ meta                &lt;df[,2]&gt; &lt;data.frame[26 x 2]&gt;
+## $ forumName           &lt;chr&gt; &quot;感情&quot;, &quot;感情&quot;, &quot;感情&quot;, &quot;感情&quot;, &quot;感情&quot;, &quot;感情&quot;, &quot;感情&quot;, &quot;感情&quot;, &quot;…
+## $ forumAlias          &lt;chr&gt; &quot;relationship&quot;, &quot;relationship&quot;, &quot;relationship&quot;, &quot;…
+## $ gender              &lt;chr&gt; &quot;D&quot;, &quot;F&quot;, &quot;M&quot;, &quot;F&quot;, &quot;F&quot;, &quot;M&quot;, &quot;M&quot;, &quot;F&quot;, &quot;M&quot;, &quot;F&quot;,…
+## $ school              &lt;chr&gt; &quot;好物縱火販&quot;, &quot;シカマロ&quot;, NA, NA, NA, NA, &quot;好小子&quot;, NA, &quot;國立清華…
+## $ department          &lt;chr&gt; &quot;ec_firemaker&quot;, &quot;naoko&quot;, NA, NA, NA, NA, &quot;toyot&quot;,…
+## $ replyTitle          &lt;chr&gt; NA, NA, &quot;2020還單身的都給我出來&quot;, NA, NA, NA, NA, NA, &quot;男友的…
+## $ mediaMeta           &lt;list&gt; [&lt;data.frame[7 x 8]&gt;, &lt;data.frame[3 x 10]&gt;, &lt;dat…
+## $ reactions           &lt;list&gt; [&lt;data.frame[6 x 2]&gt;, &lt;data.frame[4 x 2]&gt;, &lt;data…
+## $ hidden              &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, …
+## $ customStyle         &lt;df[,3]&gt; &lt;data.frame[26 x 3]&gt;
+## $ isSuspiciousAccount &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, …
+## $ layout              &lt;chr&gt; &quot;classic&quot;, &quot;classic&quot;, &quot;classic&quot;, &quot;classic&quot;, &quot;clas…
+## $ withImages          &lt;lgl&gt; TRUE, TRUE, FALSE, TRUE, FALSE, FALSE, TRUE, FALS…
+## $ withVideos          &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, …
+## $ media               &lt;list&gt; [&lt;data.frame[6 x 1]&gt;, &lt;data.frame[2 x 1]&gt;, &lt;data…
+## $ reportReasonText    &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;…
+## $ postAvatar          &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;…</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">head</span>(res)</a></code></pre></div>
+<pre><code>##          id                                    title
+## 1 233008068 #2/13更連結 曬照 閃光團v.s單身汪攻防戰！
+## 2 233062888                             洗澡的小情趣
+## 3 233061385                  2020單身脫魯 集氣許願樓
+## 4 233066495                          早上起床發現...
+## 5 233063657                     讓我體驗有男友的感覺
+## 6 233066796                     最嚮往的情侶生活模式
+##                                                                                                                                                                                                     excerpt
+## 1                          #2/13 更，WOW~看到兩邊人馬的熱烈曬照，販販刷留言刷得很開心吶～～～好多甜甜的閃閃的告白好ㄘ好ㄘヾ（´︶`*）ﾉ，更多好笑、可愛的狗勾....啊腫麼好多都4柴（´･ω･`）？（（嗯，有空來做留
+## 2 男友‍️以下稱他為 那君，我和那君每天都會一起洗澡，昨天，我一如往常的低頭洗著我的頭髮（搓搓搓，那君：「我頭髮好像變長了欸！\U0001f929」我：「嗯？是喔」（努力的搓搓搓，兩人都沒有說話的，過了一小段時間後，那
+## 3                                                                                                            我想要脫魯 我想要脫魯 我想要脫魯，很重要許願三次，集氣集起來，祝2020單身狗 天上掉下來男/女朋友
+## 4          今天早上起床之後突然回頭看到男友的手，咦！，他的手什麼時候這麼好看ㄌ！，好～再來一張，然後突然想到我的相簿裡有！剝蝦的手，好想當那隻蝦（⁎⁍̴̛\u1d17⁍̴̛⁎）（別ㄟ！，難怪我每次都超愛牽他的手，或是把他
+## 5             母胎單的朋友表示，說一句話讓她也能體驗有男友的感覺，所以姐妹們也是很努力，只是後面的對話越來越好笑，1 你要那麼想，我也沒有辦法。2 她只是朋友/妹妹而已。3 多喝熱水。4 沒事的話我打遊戲去了。5 
+## 6  彼此都有一份穩定的工作，一起存錢買房，一起分享彼此工作上的大小事，當對方傾訴的垃圾桶，養隻陪伴彼此的寵物，每個禮拜兩人如果都有共同休假的日子，早上一起去吃個早午餐，下午去看場電影、遛遛狗；晚上可以自己
+##   anonymousSchool anonymousDepartment pinned
+## 1           FALSE                TRUE   TRUE
+## 2           FALSE                TRUE  FALSE
+## 3            TRUE                TRUE  FALSE
+## 4            TRUE                TRUE  FALSE
+## 5            TRUE                TRUE  FALSE
+## 6            TRUE                TRUE  FALSE
+##                                forumId   replyId                createdAt
+## 1 42851318-b9e2-4a75-8a05-9fe180becefe        NA 2020-02-03T10:10:21.780Z
+## 2 42851318-b9e2-4a75-8a05-9fe180becefe        NA 2020-02-12T11:04:15.011Z
+## 3 42851318-b9e2-4a75-8a05-9fe180becefe 233054425 2020-02-12T06:15:08.879Z
+## 4 42851318-b9e2-4a75-8a05-9fe180becefe        NA 2020-02-13T02:58:32.517Z
+## 5 42851318-b9e2-4a75-8a05-9fe180becefe        NA 2020-02-12T13:27:18.597Z
+## 6 42851318-b9e2-4a75-8a05-9fe180becefe        NA 2020-02-13T04:21:14.383Z
+##                  updatedAt commentCount likeCount withNickname           tags
+## 1 2020-02-13T15:19:06.798Z          989      2456         TRUE               
+## 2 2020-02-13T16:00:40.450Z           72      8559         TRUE               
+## 3 2020-02-12T06:15:08.879Z          941      3665        FALSE               
+## 4 2020-02-13T15:44:25.655Z           72      3509        FALSE               
+## 5 2020-02-12T13:27:18.597Z          201      3250        FALSE HIDE_THUMBNAIL
+## 6 2020-02-13T04:21:14.383Z           58      2971        FALSE HIDE_THUMBNAIL
+##                                     topics meta.layout meta.disableAdSense
+## 1 單身狗, 愛你3000次, 閃光團, 送禮, 情人節     classic                  NA
+## 2                   男友, 日常, 洗澡, 情趣     classic                TRUE
+## 3                   單身, 愛情, 集氣, 許願     classic                  NA
+## 4                               手控, 男友     classic                  NA
+## 5                                              classic                  NA
+## 6                 愛情, 模式, 價值觀, 生活     classic                  NA
+##   forumName   forumAlias gender     school   department             replyTitle
+## 1      感情 relationship      D 好物縱火販 ec_firemaker                   &lt;NA&gt;
+## 2      感情 relationship      F   シカマロ        naoko                   &lt;NA&gt;
+## 3      感情 relationship      M       &lt;NA&gt;         &lt;NA&gt; 2020還單身的都給我出來
+## 4      感情 relationship      F       &lt;NA&gt;         &lt;NA&gt;                   &lt;NA&gt;
+## 5      感情 relationship      F       &lt;NA&gt;         &lt;NA&gt;                   &lt;NA&gt;
+## 6      感情 relationship      M       &lt;NA&gt;         &lt;NA&gt;                   &lt;NA&gt;
+##                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              mediaMeta
+## 1                                                                                                                                                                                                                                                                                                                                                                                                                                                 d5e12314-ae52-4da6-b71e-f8fac079cde7, d5e12314-ae52-4da6-b71e-f8fac079cde7, 5f83bcae-f005-4dbf-b862-7591cb4929d6, 7084b3a6-ce06-4d1a-980a-86ba84376e0a, b94cd302-4c1f-4fc0-93ec-b63d77105d00, 1dfd20e5-ccc0-45e8-945f-810655619b02, f1bc2af8-bc23-4527-8221-a68d9e3b4848, https://i.imgur.com/OPDes1ml.jpg, http://i.imgur.com/OPDes1m.jpg, http://i.imgur.com/XCDhJ6e.png, http://i.imgur.com/bKejPOh.jpg, http://i.imgur.com/JrRu8b4.jpg, http://i.imgur.com/i5RdGvC.png, http://i.imgur.com/P8LgiYb.png, https://i.imgur.com/OPDes1ml.jpg, https://imgur.com/OPDes1m, https://imgur.com/XCDhJ6e, https://imgur.com/bKejPOh, https://imgur.com/JrRu8b4, https://imgur.com/i5RdGvC, https://imgur.com/P8LgiYb, https://i.imgur.com/OPDes1ml.jpg, https://i.imgur.com/OPDes1ml.jpg, https://i.imgur.com/XCDhJ6el.jpg, https://i.imgur.com/bKejPOhl.jpg, https://i.imgur.com/JrRu8b4l.jpg, https://i.imgur.com/i5RdGvCl.jpg, https://i.imgur.com/P8LgiYbl.jpg, image/thumbnail, image/imgur, image/imgur, image/imgur, image/imgur, image/imgur, image/imgur, ANNOTATED, ANNOTATED, ANNOTATED, ANNOTATED, ANNOTATED, ANNOTATED, ANNOTATED, 2020-02-03T10:21:25.830Z, 2020-02-03T10:21:25.830Z, 2020-02-03T11:54:01.577Z, 2020-02-03T10:21:25.830Z, 2020-02-03T10:21:25.830Z, 2020-02-03T10:21:25.830Z, 2020-02-03T10:21:25.830Z, 2020-02-13T15:19:06.798Z, 2020-02-13T15:19:06.798Z, 2020-02-13T15:19:06.798Z, 2020-02-13T15:19:06.798Z, 2020-02-13T15:19:06.798Z, 2020-02-13T15:19:06.798Z, 2020-02-13T15:19:06.798Z
+## 2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         10a37035-7b28-4c58-b1c6-83319e5b8203, 613ee91a-4618-48ad-bc9d-4370175320b7, 10a37035-7b28-4c58-b1c6-83319e5b8203, https://megapx-assets.dcard.tw/images/31d33e04-4926-4dd1-a743-55c9cfe872d7/640.jpeg, https://megapx-assets.dcard.tw/images/5fa1beb8-7edd-4836-aff4-089f5880be10/1280.jpeg, https://megapx-assets.dcard.tw/images/31d33e04-4926-4dd1-a743-55c9cfe872d7/1280.jpeg, https://megapx-assets.dcard.tw/images/31d33e04-4926-4dd1-a743-55c9cfe872d7/640.jpeg, https://megapx.dcard.tw/v1/images/5fa1beb8-7edd-4836-aff4-089f5880be10, https://megapx.dcard.tw/v1/images/31d33e04-4926-4dd1-a743-55c9cfe872d7, https://megapx-assets.dcard.tw/images/31d33e04-4926-4dd1-a743-55c9cfe872d7/640.jpeg, https://megapx-assets.dcard.tw/images/5fa1beb8-7edd-4836-aff4-089f5880be10/640.jpeg, https://megapx-assets.dcard.tw/images/31d33e04-4926-4dd1-a743-55c9cfe872d7/640.jpeg, image/thumbnail, image/megapx, image/megapx, ANNOTATED, GOOGLE_VISION_ADULT_VERY_LIKELY, SAFE, ANNOTATED, POSSIBLY_UNSAFE, GOOGLE_VISION_ADULT_LIKELY, ANNOTATED, GOOGLE_VISION_ADULT_VERY_LIKELY, SAFE, 2020-02-12T11:04:15.011Z, 2020-02-13T06:58:01.888Z, 2020-02-12T11:04:15.011Z, 2020-02-13T16:00:40.450Z, 2020-02-13T16:00:40.450Z, 2020-02-13T16:00:40.450Z, 452, 1414, 1414, 640, 2000, 2000
+## 3                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 NULL
+## 4 8b5c28d7-d435-429f-b01f-73939ee229ba, 8b5c28d7-d435-429f-b01f-73939ee229ba, d0a4becd-24b4-4fa9-b562-fd3cef9cebb6, f60cbc44-2d7d-4aa4-8d00-bc2b513c71c2, 7b009eb2-fdc8-4309-9bb3-0a59458514ed, https://megapx-assets.dcard.tw/images/089887e6-dc3c-405b-8e47-972048748d65/640.jpeg, https://megapx-assets.dcard.tw/images/089887e6-dc3c-405b-8e47-972048748d65/1280.jpeg, https://megapx-assets.dcard.tw/images/bc599ba3-e605-4074-a208-55cbeaf3ded4/1280.jpeg, https://megapx-assets.dcard.tw/images/3699aaae-c7cd-43bf-bb3c-b5c853a405df/full.jpeg, https://megapx-assets.dcard.tw/images/b6386d6f-2e5f-414c-8be8-dfcc3b27d12d/1280.jpeg, https://megapx-assets.dcard.tw/images/089887e6-dc3c-405b-8e47-972048748d65/640.jpeg, https://megapx.dcard.tw/v1/images/089887e6-dc3c-405b-8e47-972048748d65, https://megapx.dcard.tw/v1/images/bc599ba3-e605-4074-a208-55cbeaf3ded4, https://megapx.dcard.tw/v1/images/3699aaae-c7cd-43bf-bb3c-b5c853a405df, https://megapx.dcard.tw/v1/images/b6386d6f-2e5f-414c-8be8-dfcc3b27d12d, https://megapx-assets.dcard.tw/images/089887e6-dc3c-405b-8e47-972048748d65/640.jpeg, https://megapx-assets.dcard.tw/images/089887e6-dc3c-405b-8e47-972048748d65/640.jpeg, https://megapx-assets.dcard.tw/images/bc599ba3-e605-4074-a208-55cbeaf3ded4/640.jpeg, https://megapx-assets.dcard.tw/images/3699aaae-c7cd-43bf-bb3c-b5c853a405df/320.jpeg, https://megapx-assets.dcard.tw/images/b6386d6f-2e5f-414c-8be8-dfcc3b27d12d/640.jpeg, image/thumbnail, image/megapx, image/megapx, image/megapx, image/megapx, ANNOTATED, ANNOTATED, ANNOTATED, GOOGLE_VISION_ADULT_LIKELY, SAFE, ANNOTATED, ANNOTATED, 2020-02-13T02:58:32.517Z, 2020-02-13T02:58:32.517Z, 2020-02-13T02:58:32.517Z, 2020-02-13T02:58:32.517Z, 2020-02-13T15:21:43.069Z, 2020-02-13T15:44:25.655Z, 2020-02-13T15:44:25.655Z, 2020-02-13T15:44:25.655Z, 2020-02-13T15:44:25.655Z, 2020-02-13T15:44:25.655Z, 360, 750, 1125, 479, 1122, 640, 1334, 2001, 470, 2000
+## 5                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 NULL
+## 6                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 NULL
+##                                                                                                                                                                                                                                                   reactions
+## 1 286f599c-f86a-4932-82f0-f5a06f1eca03, e8e6bc5d-41b0-4129-b134-97507523d7ff, aa0d425f-d530-4478-9a77-fe3aedc79eea, 514c2569-fd53-4d9d-a415-bf0f88e7329f, 4b018f48-e184-445f-adf1-fc8e04ba09b9, 011ead16-9b83-4729-9fde-c588920c6c2d, 2384, 51, 11, 7, 2, 1
+## 2                                                                                  286f599c-f86a-4932-82f0-f5a06f1eca03, e8e6bc5d-41b0-4129-b134-97507523d7ff, 4b018f48-e184-445f-adf1-fc8e04ba09b9, aa0d425f-d530-4478-9a77-fe3aedc79eea, 8113, 428, 15, 3
+## 3                                                                                   286f599c-f86a-4932-82f0-f5a06f1eca03, e8e6bc5d-41b0-4129-b134-97507523d7ff, 514c2569-fd53-4d9d-a415-bf0f88e7329f, 011ead16-9b83-4729-9fde-c588920c6c2d, 3577, 52, 33, 3
+## 4                                                                                                                             286f599c-f86a-4932-82f0-f5a06f1eca03, e8e6bc5d-41b0-4129-b134-97507523d7ff, 4b018f48-e184-445f-adf1-fc8e04ba09b9, 3460, 47, 2
+## 5                                          286f599c-f86a-4932-82f0-f5a06f1eca03, e8e6bc5d-41b0-4129-b134-97507523d7ff, 514c2569-fd53-4d9d-a415-bf0f88e7329f, 4b018f48-e184-445f-adf1-fc8e04ba09b9, aa0d425f-d530-4478-9a77-fe3aedc79eea, 2985, 254, 9, 1, 1
+## 6                                                                                                                             286f599c-f86a-4932-82f0-f5a06f1eca03, 514c2569-fd53-4d9d-a415-bf0f88e7329f, 4b018f48-e184-445f-adf1-fc8e04ba09b9, 2956, 14, 1
+##   hidden customStyle.label.text customStyle.label.bgColor
+## 1  FALSE                   &lt;NA&gt;                      &lt;NA&gt;
+## 2  FALSE                   &lt;NA&gt;                      &lt;NA&gt;
+## 3  FALSE                   &lt;NA&gt;                      &lt;NA&gt;
+## 4  FALSE                   &lt;NA&gt;                      &lt;NA&gt;
+## 5  FALSE                   &lt;NA&gt;                      &lt;NA&gt;
+## 6  FALSE                   &lt;NA&gt;                      &lt;NA&gt;
+##   customStyle.headerColor customStyle.enableSupportCampaign isSuspiciousAccount
+## 1                    &lt;NA&gt;                                NA               FALSE
+## 2                    &lt;NA&gt;                                NA               FALSE
+## 3                    &lt;NA&gt;                                NA               FALSE
+## 4                    &lt;NA&gt;                                NA               FALSE
+## 5                    &lt;NA&gt;                                NA               FALSE
+## 6                    &lt;NA&gt;                                NA               FALSE
+##    layout withImages withVideos
+## 1 classic       TRUE      FALSE
+## 2 classic       TRUE      FALSE
+## 3 classic      FALSE      FALSE
+## 4 classic       TRUE      FALSE
+## 5 classic      FALSE      FALSE
+## 6 classic      FALSE      FALSE
+##                                                                                                                                                                                                                                                                                                                                                    media
+## 1                                                                                                                                                         http://i.imgur.com/OPDes1m.jpg, http://i.imgur.com/XCDhJ6e.png, http://i.imgur.com/bKejPOh.jpg, http://i.imgur.com/JrRu8b4.jpg, http://i.imgur.com/i5RdGvC.png, http://i.imgur.com/P8LgiYb.png
+## 2                                                                                                                                                                             https://megapx-assets.dcard.tw/images/5fa1beb8-7edd-4836-aff4-089f5880be10/1280.jpeg, https://megapx-assets.dcard.tw/images/31d33e04-4926-4dd1-a743-55c9cfe872d7/1280.jpeg
+## 3                                                                                                                                                                                                                                                                                                                                                   NULL
+## 4 https://megapx-assets.dcard.tw/images/089887e6-dc3c-405b-8e47-972048748d65/1280.jpeg, https://megapx-assets.dcard.tw/images/bc599ba3-e605-4074-a208-55cbeaf3ded4/1280.jpeg, https://megapx-assets.dcard.tw/images/3699aaae-c7cd-43bf-bb3c-b5c853a405df/full.jpeg, https://megapx-assets.dcard.tw/images/b6386d6f-2e5f-414c-8be8-dfcc3b27d12d/1280.jpeg
+## 5                                                                                                                                                                                                                                                                                                                                                   NULL
+## 6                                                                                                                                                                                                                                                                                                                                                   NULL
+##   reportReasonText postAvatar
+## 1                            
+## 2                            
+## 3                            
+## 4                            
+## 5                            
+## 6</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="co"># View(res)</span></a></code></pre></div>
+</div>
+<p style="text-align: center;">
+<a href="1-2-installing-and-loading-packages.html"><button class="btn btn-default">Previous</button></a>
+<a href="1-4-getting-taipei-theft-report-data.html"><button class="btn btn-default">Next</button></a>
+</p>
+</div>
+</div>
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+</body>
+</html>
