@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Playing Data with R</title>
+  <title>Chapter 1 Data Journalism | Playing Data with R</title>
   <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
   <meta name="generator" content="bookdown 0.17 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Playing Data with R" />
+  <meta property="og:title" content="Chapter 1 Data Journalism | Playing Data with R" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="P4CSS/PDR" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Playing Data with R" />
+  <meta name="twitter:title" content="Chapter 1 Data Journalism | Playing Data with R" />
   
   <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-<link rel="next" href="data-journalism.html"/>
+<link rel="prev" href="index.html"/>
+<link rel="next" href="r-.html"/>
 <script src="libs/header-attrs-2.1/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -274,54 +274,65 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Playing Data with R</h1>
-<p class="author"><em>JILUNG HSIEH</em></p>
-<p class="date"><em>2020-02-17</em></p>
+<div id="data-journalism" class="section level1" number="1">
+<h1><span class="header-section-number">Chapter 1</span> Data Journalism</h1>
+<div id="what-is-什麼是資料新聞" class="section level2" number="1.1">
+<h2><span class="header-section-number">1.1</span> What-is 什麼是資料新聞？</h2>
+<p>我其實很少在談論何謂資料新聞，或者為他下定義。但我還蠻喜歡一位台籍資料新聞記者林辰峰在某一次受邀回國演講後所講的一段動機。</p>
+<blockquote>
+<p>想像你是一名記者，一名追求事實，挖掘真相的記者。你對政治獻金相關議題很有興趣，做訪前研究時，發現網路上有多筆龐大政治獻金數據。你盯著電腦螢幕，看著眼前一筆又一筆的數據。你順手點了滑鼠右鍵，希望下載這份資料庫，卻發現網頁不開放右鍵下載。「或許我應該將這些數據一筆一筆抄下來。」你或許會這樣告訴自己。無奈數據共有數萬筆，書手抄寫容易犯錯又耗時。你單手托腮，無奈地嘆了一口氣。你肯定新聞就藏在這些數據裡，但卻不知該如何是好。文章來源：
+<a href="https://www.twreporter.org/a/opinion-data-journalist" class="uri">https://www.twreporter.org/a/opinion-data-journalist</a></p>
+</blockquote>
+<p>接著，我們可以從一些資料新聞的案例，來看看何謂資料新聞。
+1. <a href="https://www.washingtonpost.com/news/worldviews/wp/2016/08/13/the-world-is-getting-better-at-paid-maternity-leave-the-u-s-is-not/?noredirect=on&amp;utm_term=.8ce417321dc7">Melissa Etehad &amp; Jeremy C.F. Lin (2016-08-13). The world is getting better at paid maternity leave. The U.S. is not. The Washington Post.</a>。這篇的第二作者即為前述所提到的林辰峰（Jeremy Lin），他當時人在華盛頓郵報。
+2. <a href="https://www.cw.com.tw/article/article.action?id=5079941">田孟心（2016-12-15）。頂加房子租多貴？天下雜誌。</a>。這位作者是現在的天下雜誌記者，當時他與另一位天下的資料新聞記者林佳賢一起維護Dataman這個臉書粉絲團。那應該是該記者剛接觸資料分析和程式設計的第一年。
+3. <a href="https://www.cw.com.tw/article/article.action?id=5093610">邱學慈（2019-01-08）。PTT原始資料全揭露！「韓流」怎麼造出來的？天下雜誌</a>。 大約在2018年暑假的時候邱學慈才剛利用暑期課程學完R，之後在下學期便修了台大新聞所Adrian教授的社會網絡分析課程，便延伸在天下做了這樣的作品。</p>
+<p>其實從這些例子的時間大概可看到，學習程式只是一種用來處理資料的功夫，你也可以用EXCEL或者Google sheet來處理資料，只要你能夠處理這些資料，那我想你就有辦法寫作資料新聞。所以我比較傾向於前述林辰峰的說法，資料新聞的開始是一種從資料中發掘事實的動機。如果你有那個動機，那大概過程的技術問題你都會去克服；相反的如果沒有那個動機，那大概學了程式也不知道能夠做什麼。</p>
 </div>
-<div id="about" class="section level1 unnumbered" number="">
-<h1>About</h1>
+<div id="何謂資料" class="section level2" number="1.2">
+<h2><span class="header-section-number">1.2</span> 何謂資料？</h2>
+<p>並不是所有人所認定的「資料」的概念都是相同的，比方來說，從網路上可獲得有觀察值和統計資料兩大種。</p>
+<ol style="list-style-type: decimal">
+<li><strong>觀察值（Observation）</strong>：每一列就是一次的觀察，比方說紀錄所有登革熱案例的發生地點、鄰里，或是空氣品質資料測站的歷史紀錄、或是紀錄PTT上面誰曾經回應過誰、或是臉書上的競選廣告資料（花多少錢、打什麼年齡層、打多久）也是屬於觀察值資料。這種觀察值資料不多，多半出現在輿論資料或者新聞資料等尚未彙整過的資料。未彙整的資料多半資料量龐大，很少用開放資料的方式被分享。這類紀錄資料通常要進一步進行彙整才能夠繪圖或者做分析。在<a href="http://data.gov.tw/node/21026">登革熱近12個月每日確定病例統計</a>的資料中，就字面上看來是統計資料，但實際上資料是一筆一筆紀錄每個案例的狀況，所以應該是觀察值資料，而非統計資料，這標題有「統計」兩個字不太恰當。</li>
+<li><strong>統計資料</strong>：指的是該資料呈現的是根據某個或者某幾個變數所計數（counting）的資料，是最常見的資料。例如台北市每小時在每個區有多少竊盜案、逐年的死因統計資料、內政部的各縣市鄉鎮的性別、教育程度、婚姻狀況的人口數。</li>
+</ol>
+<p>統計資料有幾種不同的情形會攸關資料分析能夠發揮的程度。大概分成一下幾種情形：
+1. <strong>資料是比例資料</strong>: 比例資料是資料分析上最不樂見的資料型態，會使得資料完全無法結合其他的資料表。偏偏很多政府單位開放出來是這種型態，例如各地區的女警比例、大專院校教務會議的女性成員比例。不過有些比例資料是有意義的，例如逐週醫療院所的類流感就診所佔比例，可以知道來看病的病人中大概有多少比例是有流感症狀的，這可以代表流感流行的嚴重程度。
+2. <strong>資料是平均過後的資料</strong>：通常這類的資料難以結合其他的資料進行加工。但ETC的資料就是這類的資料，他每五分鐘就紀錄了一個路段的大客車數以及其平均速率。
+3. <strong>資料已經被做成二維的資料表</strong>：通常我們會希望，每一個欄就是一個變數，例如性別、年齡組、婚姻狀況、教育程度等等，都是一個直欄上的變數。但有時候政府公布的資料已經是產製成該單位的年度報告或新聞資訊的報告圖表了，所以會是以兩個變項分別在欄與列的方式來呈現。例如性別x年齡組的表格、婚姻狀況x教育程度的表格。這類資料經常缺少基本單位，例如「鄉鎮市區」或者「時間區間」等等。</p>
+</div>
+<div id="資料的詮釋" class="section level2" number="1.3">
+<h2><span class="header-section-number">1.3</span> 資料的詮釋</h2>
+<p>記者在做的事情顯然就是在詮釋資料。這篇文章的作者提供了數個例子來教我們資料詮釋時可能會產生的謬誤。
+<a href="https://hbr.org/2013/04/the-hidden-biases-in-big-data">Kate Crawford (2013) The Hidden Biases in Big Data</a></p>
+<p>Crawford（2013）一文曾提及使用資料分析可能帶來的謬誤。例如當Sandy颱風侵襲美東時，有研究在蒐集Twitter的資料後發現，如預期中雜貨店的購物行為提升，但非預期中地，夜生活卻在颱風來襲後增多，也許是cabin fever strikes。但該篇報導認為這樣的資料大多蒐集自曼哈頓，顯然不是嚴重受到侵襲的區域。他認為「Data are assumed to accurately reflect the social world, but there are significant gaps, with little or no signal coming from particular communities.」</p>
+<p>他舉了另外一個例子是，Boston設計了一個StreetBump smartphone app，透過偵測手機的震動來知道哪一些路段有洞。但這篇文章認為，有些有數位落差的區域，尤其是老人，顯然會因此偏重在那些具有數位資源的區域misallocating important public resources。這也沒錯，但現在手機上看報紙那麼方便，到處都沒電話亭，這樣就有處理了數位落差的問題嗎？</p>
+<p>他又舉了Google Trend預測流感為例，比CDC整整高估了兩倍，雖然可以解釋說，Google上面的media coverage導致重複資訊不斷出現，但他認為這樣做可能會造成政府錯估疫情？這我也覺得很妙，看疫情是看趨勢，CDC說的6%也不見得對，說不定還有潛藏疫情，不知道為何要用一種為了打資料科學而雞蛋裡挑骨頭的毛病來寫作？作者提到，政府可能會因為這樣而產生資源分配不均，但我認為這三個例子到資源分配的決策都還非常遙遠。</p>
+<p>基本上，「資料的詮釋」通常只能反映出記者或研究者本身對某個事件或現象的詮釋角度。資料詮釋所反映的不是真實，也不是社會現實。我們在過去的經驗中，經常可以發現從資料或視覺化的操弄，往往可以讓使用者迷失焦點，甚至獲得完全相反方向的結果。因此，詮釋時其實經常陷於報導與資料的兩難，經常遇到資料量過度稀少，即使要說明一個現象，證據數量不夠、說服力不夠。但，所幸新聞是一個即使是少數樣本亦值得說明其狀況的文本，專注說明資料的outlier，也許就是所謂「新聞點」的產生地。唯一要記得的是，不可把少數人的現象過分推論到整個母體或群體，這是資料新聞寫作上常犯的錯誤。</p>
+</div>
+<div id="where-is-data-資料在哪裡" class="section level2" number="1.4">
+<h2><span class="header-section-number">1.4</span> Where-is data? 資料在哪裡？</h2>
 
-<div id="自述" class="section level2 unnumbered" number="">
-<h2>自述</h2>
-<p>2016年有幸可以到臺灣大學新聞所帶領一群未來的記者學習資料分析的技巧。說是資料分析，不如說是程式設計。當時紐約時報、國際上各大報紙大量地產製資料新聞，嘗試用資料搭配視覺化來敘事，或者透過資料探勘方法，挖掘數字、資料背後的異常現象、趨勢、分佈等等。</p>
-<p>為了兼顧每一位學生的學習情形，特地採用小班教學，但卻有不少外系的學生也一起到課堂上來學習，因而以每個學期開課、每堂課最多三十人的模式授課。這樣頻繁授課的好處是，可以反覆地、快速地嘗試各種不同的授課方式，並且在次學期授課中進行調整。而這本書則是在授課過程零星所記錄下來的經驗和知識。</p>
-<p>2016年開始在臺大教書的那個暑假，我其實擅長的程式語言是Python，且有二至三年開授「社會科學程式設計:ProgrammingforSocialScience」的經驗。但到任前單位主管希望我能夠以R為主要授課語言，單位主管和紐約時報的圖表編輯部門有數年的互動，她告訴我紐約時報圖表記者們都用R語言。而在2016年的當時，北臺灣業界和研究單位所開授的網路爬蟲、資料分析、機器學習等課程，都是以R為主要語言。顯然當時以Python為主要語言的「深度學習」族群尚未在臺灣發展起來(在2018年的現在，也就是我寫下這句話之時，其實臺灣熱門的是Python程式語言)。</p>
-<p>那年暑假，我用了Datacamp來產生我對R語言的基礎認識、聽了二至三門Coursera上的R語言課程來了解R語言的授課方式、參考了三至四份以R為語言的國外課程教材、甚至自費參與由臺灣業界一群熱心的工程師所開發的網路爬蟲課程、與當時臺灣資料科學年會所開發的「手把手教你資料分析」課程觀摩他人上課的節奏和使用範例，我非常感謝有這群先行者的努力和無私的分享，讓我在後續的課程安排上駕輕就熟。</p>
-<p>在2016年國外所開設以R來進行資料分析的課程也不算多，但在2018年的今日，Stanford的PoliticalScience與Chicago的MasterofComputationalSocialScience均開設了質量非常高的R在社會科學應用上的課程，Stanford的PoliticalScience甚至將其拆解為150A、150B、150C三門課程來授課。</p>
-<p>基於這樣的出發點，所以這本書的核心對象就是從沒有寫過程式的大學生。</p>
+<div class="exercise">
+<span id="exr:unnamed-chunk-1" class="exercise"><strong>Exercise 1.1  (Where is data?)  </strong></span>請問在Alexa網站流量調查「Top Sites in Taiwan」所列的Top 100網站中，哪些網站可能具有資料分析價值？或者哪些網站可能具有新聞價值？
 </div>
-<div id="學程式這回事" class="section level2 unnumbered" number="">
-<h2>學程式這回事</h2>
-<div id="何謂演算法" class="section level3 unnumbered" number="">
-<h3>何謂演算法？</h3>
-<p>演算法（Algorithm）為處理事情、解決問題的邏輯，多取自日常生活的問題解決步驟。例如Google用以排名搜尋結果的「PageRanking」即參考自人與人之間，如何透過每次的訊息交換，建立起人的聲望。而推薦機制的核心概念「協同式推薦」，則仿自市集群眾購物行為的共同喜好、熱門物品等機制。
-而程式語言（ProgrammingLanguage）則是演算法的實作。定義一套機器能夠編譯的語法，將演算法實作出來。脫離程式語法的演算法也可以被英文邏輯性地加以表徵，被稱之為「Pseudo-code」。一段典型的Pseudo-code如下，描述了ATM提款機如何提款與存款的決策步驟。</p>
-<pre><code>Ifoption=depositthen
-Output&#39;Enteramounttodeposit&#39;
-Inputamount
-balance=balance+amount
-Ifoption=withdrawalthen
-Output&#39;Enteramounttowithdraw&#39;
-Inputamount
-balance=balance-amount
-Output&#39;Balanceis&#39;balance</code></pre>
-<p>因此，程式語言的學習，則類似將日常生活的處事方法，用正確的邏輯方式來表達，並用一種指定的語言來描述。準此，程式語言的學習是「語言與邏輯」。而回想我們如何學會英文或者有天突然覺得自己將英文的運用推到另一個層次之上時，往往有一番自己的方法和領會，多半來自於個人目標與適合個人的學習方法，例如，考TOEIC、TOFEL、GRE，看美國影集、看英文原版小說，或者為了打電玩。</p>
 </div>
-<div id="掌握課外學習資源" class="section level3 unnumbered" number="">
-<h3>掌握課外學習資源</h3>
-<p>現在網路上自學資源非常多，尤其是各家線上開放課程，或者是code.org、Datacamp等線上互動學習平台，所以我在授課的過程，我多半是在課堂上強調程式語言中的關鍵技術、使用方法、使用時機和比較彼此間的差異，我甚少把一個概念和各種可用的函式在課堂上講完全，反而建議學生可以透過買書、上線上的課程來相互補充。我那時衍生了一個口頭禪是「聽一次聽不懂」</p>
+<div id="what-does-data-look-like" class="section level2" number="1.5">
+<h2><span class="header-section-number">1.5</span> What does data look like?</h2>
+<p>由於R其實是一個<strong>統計軟體</strong>，因此對於怎麼操作它，只要有一點統計的思維就會非常容易入屎。簡單地說，就是用<strong>變項（Variable）</strong>來想像所有的資料。對普遍的資料而言，橫列（Row）就是資料項，直欄（Column）就是變項欄。對於部分自認為統計都快忘光的初學者，直接用R來思考很容易有熟悉感；對於完全沒統計基礎的初學者，則建議用資料表（如Microsoft Excel或Google sheet）來想像它。</p>
 
 </div>
 </div>
-</div>
+
+
+
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="data-journalism.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="r-.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

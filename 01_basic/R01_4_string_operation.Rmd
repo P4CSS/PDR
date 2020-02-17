@@ -1,0 +1,9 @@
+## Character operations
+### Character operations
+
+```{r}
+a <- seq(11, 55, 11)
+paste("A", a)		# concatenate
+paste0("A", a)		# concatenate
+
+```

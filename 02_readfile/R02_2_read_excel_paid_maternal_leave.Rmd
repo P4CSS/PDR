@@ -1,0 +1,170 @@
+# 讀取Excel：以世界各國產假支薪政策為例
+
+這份資料適合完全沒有碰過R的人學習，更適用於了解R的基本資料型態的人（如vector、data.frame等）。在這份教學中你將依序透過操作學到：
+1. 如何讀入Excel檔（.xlsx, .xls）？
+2. 運用R base套件篩選資料列與欄。如何從data.frame選出所需要的變項欄？如何篩出所要的資料列？
+3. 如何進行基礎的NA值處理？`is.na()`
+4. 如何繪製長條圖？如何繪製數個子圖？如何利用for-loop重複執行類似的程式碼？
+5. 利用`barplot()`來繪製長條圖。
+
+在這個案例中尤其要注意的是如何運用R的base套件選取所需的變項欄與篩取合乎條件的資料列，這是基本功，也是拿到資料、成功讀檔、確認變項變數型態後的下一件事，以及進入資料彙整（Summarization）前所需要思考的前置步驟。因為NA值的處理通常依照案例需求有不同的作法，繪圖更是需要根據案例、視資料類型、視覺化工具等進行調整。所以，我自己通常R寫久了以後，不見得會記得要怎麼繪圖（我會對我用過的函式留下一點點印象，然後用**ctrl-shift-f**查詢看看是否我在哪一個檔案曾經用過該函式。
+
+**案例說明：產假支薪（Paid Maternal Leave）**。本案例將利用R來重製華盛頓郵報在2016/08/13的一篇談論美國婦女產假支薪情形的報導。這個案例中將會應用到data.frame和基本的繪圖與資料摘要方法。[Melissa Etehad & Jeremy C.F. Lin (August 13, 2016) The world is getting better at paid maternity leave. The U.S. is not. The Washington Post](https://www.washingtonpost.com/news/worldviews/wp/2016/08/13/the-world-is-getting-better-at-paid-maternity-leave-the-u-s-is-not/?utm_term=.060efaf71b59)
+
+我希望仿照The Washington Post的報導，先以最後一年為基準分5, 4, 3, 2, 1（福利由高到沒有）數層來繪製。首先先繪製最後一年（matleave_13）為5的。然後再分左右兩半，左邊原為一開始有紀錄就是5的（包含最早matleave_95沒資料的如SRB和MNE），右邊原為一開始有紀錄就不是5的。但為了方便起見，我把問題簡化為「左半側為matleave_95為5的，右半側為matleave_95不是5的」如下圖，所以照我方法繪製出來的圖會有一點差異，MNE和SRB就被歸到右邊（灰色）第一年不是5的資料群。
+而以下的範例程式，就以繪製出有紀錄的最後一年（matleave_13）為5，有資料的第一年（matleave_95）亦為5的區塊，也就是左半邊藍色的區塊。
+
+
+
+## 程式寫作：使用base套件
+### 步驟一：用readxl套件讀取Excel檔
+
+```{r}
+# install.packages("readxl")
+library(readxl)
+options(stringsAsFactors = FALSE)
+
+rawdata <- read_excel("data/WORLD-MACHE_Gender_6.8.15.xls", "Sheet1", col_names=T)
+```
+* R的base套件中沒有內建讀取Excel檔的工具，所以需要安裝並載入讀取Excel檔的第三方套件`readxl`才有辦法讀取Excel檔。
+* 為了避免讀取到文字型態chr的資料被程式自動轉為factor，使用`options(stringsAsFactors = FALSE)`自動將所有帶參數`stringsAsFactors`的參數值設為`FALSE`。
+* 利用`?read_excel`查詢一下可以怎麼用該函式如下。help上提到，該函式的功能為讀取.xls與xlsx檔，正確來說，是將.xls檔和.xlsx檔讀取後轉存為R的資料型態如data.frame或list。
+* `read_excel()`函式有以下幾個參數可以設定：
+    * `path`指的是檔案路徑、
+    * `sheet`指的是哪一個資料表，可以給資料表名稱（如上例）或者指定第幾個資料表；
+    * `skip`則可以忽略掉一些Excel開頭可能包含的幾列不需要的詮釋資料，其他可以詳閱查詢help的說明。
+```{example}
+read_excel(path, sheet = NULL, range = NULL, col_names = TRUE, col_types = NULL, na = "", trim_ws = TRUE, skip = 0, n_max = Inf, guess_max = min(1000, n_max))
+```
+
+**觀察資料**：通常讀取好資料後，我會習慣性地用`View()`指令來觀察該data.frame。然後我會運用一些函式來協助我觀察一下該data.frame的特性。`class()`可以獲取資料型態、`dim()`可以獲知有幾列幾行（先列後行）、`names()`可以知道有哪些變項。但我最常用的是dplyr套件的`glimpse()`或`str()`，它告訴我這個其為一個data.frame，且有197個observation，也就是列，和156個變項。且`str()`會列出每個變數的變數名稱、變數型態（例如下方的iso2變數型態為chr（character，文字型態），而`wb_econ`的變數型態為num（numeric，數值型態），每個變數他會列出前幾筆資料。
+
+```{r}
+class(rawdata)
+dim(rawdata)
+names(rawdata)
+str(rawdata)
+glimpse(rawdata)
+```
+
+
+
+### 步驟二：選取所需變項
+```{r}
+matleave <- rawdata[ , c(3, 6:24)]
+glimpse(matleave)
+```
+選擇所需變項欄必須要把條件寫在rawdata中括號的逗號右側。我需要iso3的欄位作為國名的代號（iso3變項內的值為國家的三碼代號，例如台灣為TWN）。而6:24則為matleave_95至matleave_13的所有欄位。我這邊是選出第三行、與六至二十四行。`c(3, 6:24)`為標準兩個vector相串連（concatinating）的結果，`6:24`相當於產生`c(6, 7, 8, …, 24)`，而`c(3, 6:24)`則是把3擺在`6:24`之前。
+
+
+
+### 步驟三：將NA值取代為0。
+
+```{r}
+matleave[is.na(matleave)] <- 0 
+```
+
+**`NA`** 相當於「Not Available」或「Not a Value」的意思。通常若資料沒填到的話會有兩種情形，一種是什麼都沒有，系統會自動塞NA，另一種是系統會塞入一個長度為零的空字串「""」。`matleave[is.na(matleave)]`會選擇所有是NA的資料。`is.na(matleave)`會傳回一個包含TRUE與FALSE的向量。而matleave的中括號中若有TRUE或FALSE的向量，就會篩取出該位置為TRUE的資料。該操作的目的是以0取代NA的資料格，以避免彙整運算或繪圖時產生錯誤。
+
+有一些檢測是否data.frame或vector中還有沒有NA的方法。
+* 方法一：最簡單的是用`anyNA(matleave)`，如果還有NA的話，就會傳回TRUE；否則就會傳回FALSE。
+* 方法二：跑跑看`sum(is.na(matleave))`的結果會不會等於0。如果還有`NA`的話`is.na(matleave)`內的結果就還會包含`TRUE`。`TRUE`如果被當成數字加總是1，`FALSE`為0。所以如果全部加總起來不是0，那就代表還有NA。
+
+
+
+### 步驟四：篩出所需要的資料列
+```{r}
+m5 <- matleave[matleave$matleave_13 == 5, ]
+m55<- m5[m5$matleave_95 == 5,]
+```
+我先篩取出`matleave_13`年資料為5的欄位，再從中篩取出`matleave_95`年資料為5的資料。在這過程要特別留意，`matleave[matleave$'matleave_13' == 5, ]`逗號前面為一個和`matleave`等大小、形狀相同的T/F向量。
+建議若初學之時感到疑惑，在兩行程式碼前後可用`dim()`、`str()`、`nrow()`等函式觀察兩個階段分別剩下多少筆資料，或分別印出`matleave$matleave_13`、`matleave$matleave_13==5`、`length(matleave$matleave_13==5)`來觀察。
+
+
+
+
+### 步驟五：繪圖
+
+```{r}
+par(mfrow=c(4,6), mai= c(0.2, 0.2, 0.2, 0.2))
+for (i in c(1:nrow(m55))){
+	barplot(unlist(m55[i,-1]),
+			border=NA, space=0,xaxt="n", yaxt="n", ylim = c(0,5))
+	title(m55[i,1], line = -4, cex.main=3)
+}
+```
+
+基本繪圖很簡單，就只需要plot(x)或plot(x, y)，x與y之處分別給他向量，就可以繪製成散布圖（scatter）。但沒有調整過的圖通常很醜，所以，通常我會假想一個預期希望看見的樣子，然後朝那個目標逐一測試繪圖的參數（Arguments），過程概略如下。
+先plot一列資料看看。
+
+```{r eval=FALSE, include=FALSE}
+barplot(m55[2, ])       # raise error
+```
+
+錯誤訊息說height必須要是一個vector，用?barplot查詢一下他的用法為barplot(height, ...)，第一個參數必須要為height，顯然是個數值資料。因此自我檢查後，想起第一個變項欄為iso3國碼，因此我除了篩出第二列出來繪圖外，另外把第一欄給刪除。
+```{r eval=FALSE, include=FALSE}
+barplot(m55[2, -1])     # raise error
+```
+
+結果仍然是同樣的錯誤，顯然錯誤仍沒解決。因此，「經驗老道（意味著初學者可能沒辦法自己想到）」的我想到，搞不好這個資料型態不是vector或matrix，所以畫不出來。照道理來說height應該要是個numeric vector。因此用class()函式來測試一下資料的型態。
+```{r}
+class(matleave[2, -1])
+```
+
+果不其然，雖然取的是一橫列資料，但他不是一個vector，他相當於是一個只有一筆資料的data.frame，雖然我們「感覺上」那是一列資料，很像vector，但他不是就不是，想太多！我確定這樣篩出來是我要繪製的資料項目沒錯，但我需要它是一個vector而不是data.frame，此時就要用變數型態的轉換，一個無論多大的data.frame想要拆成一長條的vector，就是用unlist()來轉，便會產生vector。此時我便可利用barplot()將其繪製為長條圖如下。
+```{r}
+class(unlist(matleave[2, -1]))
+barplot(unlist(m55[2, -1]))
+```
+
+接下來我會一一測試barplot()的參數把他畫成我要的樣子，他有哪些參數可查詢?barplot。最後我所得到的長條圖如下。ylim是為了確保之後要繪製等級4至1時，每個小圖仍然是等高的。space指的是bar之間的間隙、border顧名思義、並利用xaxt="n"將x軸與y軸座標系隱藏起來。
+```{r}
+barplot(unlist(m55[2, -1]))
+barplot(unlist(m55[2, -1]), ylim=c(0, 5))
+barplot(unlist(m55[2, -1]), ylim=c(0, 5), space=0)
+barplot(unlist(m55[2, -1]), ylim=c(0, 5), space=0, border=NA)
+barplot(unlist(m55[2, -1]), ylim=c(0, 5), space=0, border=NA, xaxt="n", yaxt="n")
+```
+但此時我不只要畫一張圖，數一數一共要畫18張子圖，先畫六張的程式碼如下。底下可以看見每一行非常相似且一致的特徵，僅有m55內的「資料列索引」由1被列出至6。
+```{r}
+barplot(unlist(m55[1, -1]), ylim=c(0, 5), space=0, border=NA, xaxt="n", yaxt="n")
+barplot(unlist(m55[2, -1]), ylim=c(0, 5), space=0, border=NA, xaxt="n", yaxt="n")
+barplot(unlist(m55[3, -1]), ylim=c(0, 5), space=0, border=NA, xaxt="n", yaxt="n")
+barplot(unlist(m55[4, -1]), ylim=c(0, 5), space=0, border=NA, xaxt="n", yaxt="n")
+barplot(unlist(m55[5, -1]), ylim=c(0, 5), space=0, border=NA, xaxt="n", yaxt="n")
+barplot(unlist(m55[6, -1]), ylim=c(0, 5), space=0, border=NA, xaxt="n", yaxt="n")
+```
+這種完全重複、只有索引相異的指令，最好的方法是用迴圈（for-loop）的方式將相同的程式碼，用一個新的變數來控制要畫哪一列，從1至6之間做六次。
+```{r}
+for(i in 1:6){
+  barplot(unlist(m55[i, -1]), ylim=c(0, 5), space=0, border=NA, xaxt="n", yaxt="n")
+}
+```
+所以，確定可以用for迴圈幫我畫出六張圖，我就把1:6改成1:nrow(m55)，nrow(m55)為m55的資料筆數。
+但是像上面這樣做只會讓程式碼重新畫十八張圖。因此要上網查詢看看如何繪製子圖。你可以google「subplot in R」或「multiple plot in R」應該都可以找到相同的結果。有一個網頁是[R Multiple Plot Using par Function](https://www.datamentor.io/r-programming/subplot)，他告訴你說用`par()`這個函式可以控制把數個子圖畫在同一張圖上。你可以查詢看看?par的參數，並且找到mai、mfcol和mfrow等參數的說明如下，並據此繪製成下圖。
+
+> **`mai`**: A numerical vector of the form c(bottom, left, top, right) which gives the margin size specified in inches.
+> **`mfcol`**, **`mfrow`**: A vector of the form c(nr, nc). Subsequent figures will be drawn in an nr-by-nc array on the device by columns (mfcol), or rows (mfrow), respectively.
+> 
+```{r}
+par(mfrow=c(3,2), mai= c(0.2, 0.2, 0.2, 0.2))
+for(i in 1:nrow(m55)){
+  barplot(unlist(m55[i, -1]), ylim=c(0, 5), space=0, border=NA, xaxt="n", yaxt="n")
+}
+```
+
+從上圖中可以看見我幾乎快完成了。只差把國名，也就是iso3，打在該國的方塊上。在barplot上面打標題可以google「barplot title R」他會教你怎麼上title，但你也可以查詢「plot annotation R」也就是在圖上面繪製文字（和barplot分開繪製，會比較好控制字型，程式語言把這種上文字稱為annotation）。此時，若直接打title(m55[i, 1])已經能夠繪製文字，但不是我要的大小，我會進一步查詢?title怎麼控制文字大小和文字的「基線」，也就是把哪裡當成文字的底線。經查詢後，控制文字大小用cex.main、控制基線用line。然後我就自己測試看看大小和基線，直到我滿意如下圖。
+```{r}
+par(mfrow=c(4,6), mai= c(0.2, 0.2, 0.2, 0.2))
+for (i in 1:nrow(m55)){
+    barplot(unlist(m55[i,-1]), ylim=c(0,5), space=0, border=NA, xaxt="n",yaxt="n")
+    title(m55[i,1], line = -4, cex.main=3)
+}
+```
+
+
+
+
+
+
+

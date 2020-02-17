@@ -2,10 +2,10 @@
 # Vector
 
 ## Notes {-}
-在這一章節與下一章節**data.frame**，你會學到vector、factor、matrix、list與data.frame這些「資料型態」
-* `vector`就它當是google或Excel試算表的一欄，就是一個變項或稱變數（variable）。
-* `data.frame`要特別費心去看，因為通常我們看到的一個google sheet或一個EXCEL sheet就相當一個`data.frame`。`data.frame`其實相當於是「list of vector」的組成。
-* `factor`和`matrix`就先自己看看，還沒碰到統計或者大量的數值資料時，暫時不會用到這兩種變數型態。`matrix`比較常在網絡資料或者文字資料等需要操作大型矩陣的時候會用。
+在這一章節與下一章節**data.frame**，你會學到**vector**、**factor**、**matrix**、**list**與**data.frame**這些「資料型態」
+* **vector**就它當是google或Excel試算表的一欄，就是一個變項或稱變數（variable）。
+* **data.frame**要特別費心去看，因為通常我們看到的一個google sheet或一個EXCEL sheet就相當一個**data.frame**，其相當於是「**list** of **vector**」的組成。
+* **factor**和**matrix**就先自己看看，還沒碰到統計或者大量的數值資料時，暫時不會用到這兩種變數型態。**matrix**比較常在網絡資料或者文字資料等需要操作大型矩陣的時候會用。
 
 有些資料型態非常雷同（例如**matrix**或**data.frame**都是將資料儲存為欄列型態的二維資料），但學習過程你要特別注意，不同的資料型態之間有什麼差異？
 * **matrix**和**data.frame**有什麼差？
@@ -13,7 +13,7 @@
 * **data.frame**和**list**有什麼差？
 
 每一個資料型態有什麼操作
-* 產生（creating）：怎麼新建一個這個資料型態？
+* 建立（creating）：怎麼新建一個這個資料型態？
 * 選取（selecting columns）：我可不可以只要這幾項？
 * 合併（merging or concatenating）：兩個這種資料型態可不可以疊在一起？
 * 刪除（deleting, truncating）：怎麼把某一個或某幾個刪掉（要先選）？
@@ -59,9 +59,9 @@ plot(density(x))
 
 
 
-### 查看Vector的內容
+### 查看vector的內容
 
-預覽、印出Vector的內容。在R裡面不用特別用`print()`來印出一個變數的內容。他像是matlab一樣，只要直接打出該變數的名稱，就代表要把其內容列印出來。
+預覽、印出vector的內容。在R裡面不用特別用`print()`來印出一個變數的內容。他像是matlab一樣，只要直接打出該變數的名稱，就代表要把其內容列印出來。
 
 ```{r}
 county
@@ -73,8 +73,9 @@ length(county)
 
 **用View()檢視資料**。你可以用`View(county)`將`county`的內容呈現在RStudio的預覽視窗上，是RStudio的使用者很常用的作法。
 
-### 取出Vector部分內容: Subsetting, filtering
-It is important to know how to neglect first n or last n elements. For example, a[1:(length(a)-2)] will neglect the last two elements. Thinking why I need parentheses for `length(a)-2` here.
+### 取出vector部分內容: Slicing
+在操作資料時，我們經常會要取出前幾筆資料或者後幾筆資料出來觀察，或者去頭去尾僅留下中間值來觀察。我們可以把這動作稱為slicing。如果要第一個到第三個，那就只要直接用`c(1, 2, 3)`或`1:3`直接指定要哪幾個就好。但如果要的是倒數三個，那就要知道，這個vector到底有多長，才知道倒數是從哪一個到哪一個。可以用`length(YOUR_VECTOR))`來計算這個vector到底有多長。
+
 ```{r}
 county
 county[c(5, 3, 1)] # how about country[c(1, 3, 5)]
@@ -86,9 +87,10 @@ a[length(a):3]
 
 
 
-### Deleting
+### 刪除vector中的元素：Deleting
+和前面取出某些單元的方式類似，只要明示要取哪幾個，然後加上一個負號在前面（比方說`-c(1, 2, 3)`），就可以把這幾個刪除。但要注意的是，若要把原本的vector拿去幾個元素，必須要assign回原本的vector將其覆蓋掉，不然不會發生改變。以下這些程式碼都不會更動到原本的vector `b` 。
 
-Without assignment, deletion won't change original vectors
+
 ```{r}
 b <- 11:20
 b[-(3:5)]
@@ -96,7 +98,7 @@ b[-c(1, 3, 5)]
 b
 ```
 
-Correct deleting operations with assignment to replace original vector
+**有更動原本vector b的做法**：若要更動原本vector `b`的內容，必須要assign以覆蓋原本的`b`。
 ```{r}
 b <- b[-(3:5)]
 b
@@ -107,9 +109,9 @@ a
 
 ```
 
-### Concatinating
+### 添加合併vectors：concatinating, binding, merging, appending
 
-Concatinating is quite useful for web crawling when you crawl article links page by page. You may be not sure the number of page you need to crawl. So you need to append entire new vector to old vector. It is concatinating. ("Appending" often means adding one new element at the end of data.)
+如果我有兩個vectors分別為`a`和`b`想把它合併，那就在外面加個`c()`把它合併就好，例如`c(a, b)`。`c()`不是一個變數`c`，他是一個vector的建構函式，可以初始化一個vector。通常這種合併資料經常出現在資料操作中，例如我有一個vector叫做`population`，我想要某幾個段落的資料，我就可以寫成`population[c(1:21, 23:28, 45:57)]`。我一共合併了三段資料，其中`1:21`和`23:28`和`45:57`是三個vectors，我用函數`c()`合併了他們。
 
 ```{r}
 a <- 1:10
@@ -124,7 +126,7 @@ a
 
 ## Vector的運算
 
-### Arithmetic operations
+### 數值運算：Arithmetic operations
 
 ```{r}
 a <- 11:19
@@ -145,7 +147,7 @@ a <- a %/% 2 	# Quotient
 
 
 
-### Logic comparisons
+### 邏輯運算：Logic comparisons
 ```{r}
 a %% 2 == 0 	# deteting odd/even number
 a %% 2 != 0
@@ -162,32 +164,35 @@ all(a>11) # are all elements larger than 1
 ```
 
 
-### Subsetting by logic comparisons
-two methods to filter data from vectors, by index vector or a logical vector with equal length.
+### 用邏輯運算來篩選資料：Subsetting by logic comparisons
+有兩種方法可以篩選資料，其中一種是告訴vector說，符合條件的是哪幾個，另一種方法是給一個和該vector等長的`TRUE/FALSE`vector，只要是`TRUE`的便留下來，如果是`FALSE`就捨去。
 
-```{r}
-a <- seq(11, 55, 11)
-a[c(T, F, T, F, T)]
-a[a%%2==1]
-a%%2
-a%%2==1
-a <- c("你好","你好棒棒","你好棒","你真的好棒")
-a[nchar(a)>3]
-
-# which will return "index-of"
+**第一種方法**：`which()`會把vector a中符合條件的那幾個的index給傳回來。
+```{r using index to filter}
 a <- seq(11, 55, 11)
 a[which(a%%2==1)]
 which(a%%2==1)
 ```
 
+**第二種方法**：透過邏輯比較後，會產生一個跟vector a相同長度的`TRUE/FALSE` vector。
+```{r filtering by T/F}
+a[c(T, F, T, F, T)]
+a[a%%2==1]
+a%%2                
+a%%2==1
+a <- c("你好","你好棒棒","你好棒","你真的好棒")
+a[nchar(a)>3]
+```
 
-### Sorting and ordering
+
+
+### 排序：Sorting and ordering
 
 * `sort(x)`的結果必須用`<-`覆蓋原本的`x`，此時的`x`才算被排序的結果。
 * `order(x)`函式會傳回`x`數值由小到大的**索引**。這個例子的結果是`5, 4, 3, 6, 1, 2`，也就是`5`位置的那個數最小、`4`那個位置的數次小、接下來`3, 6, 1, 2`。
 * `x[order(x)]`把`order(x)`結果（也就是`c(5, 4, 3, 6, 1, 2)`）傳給原本的`x`便會使得原本的`x`重新排序。通常`order()`的用途是，我們可以將兩個等長的variables例如var1和var2，依據var2來重新排序var1，例如var1[order(var2)]。
 
-```{r}
+```{r Sorting and ordering}
 x <- c(33, 55, 22, 13, 4, 24)
 sort(x)
 x <- sort(x) # assign to replace original x
@@ -196,8 +201,8 @@ x[order(x)]
 ```
 
 
-### Built-in math functions
-```{r}
+### 內建的數學函式
+```{r Built-in math functions}
 a <- 11:19
 min(a); max(a); mean(a); median(a); sd(a)
 log2(a)
@@ -206,10 +211,10 @@ log1p(a)
 ```
 
 
-## Data types
-### Checking data type
+## 資料型態：Data types
+### 檢查資料型態：Checking data type
 
-```{r}
+```{r Checking data type}
 mode(county)				# character
 mode(income)					# numeric
 mode(income > mean(income))	# logical
@@ -220,13 +225,13 @@ mode(testing)				# character
 ```
 
 
-### Converting data type
+### 轉換資料型態：Converting data type
 
 * numeric vector可以用`as.character(x)`轉成`charcter`；logical vector可以用`as.numeric(x)`轉為`numeric`。概念上可以說是`character > numeric > logical`。
 * 如果硬是在logical vector後附加一個numeric element的話，那就會整個vector被轉為numeric vector；相仿地，如果numeric vector後附加一個character element的話那整個vector就會被轉為character vector。
 * 可以用`sum()`函式來計算logical vector有幾個`TRUE`值。例如`sum(a%%2==1)`就是計算`a`中有幾個奇數。`TRUE`可視為`1`、`FALSE`可視為`0`，所以加總起來就是`TRUE`有幾個。
 
-```{r}
+```{r Converting data type}
 income.c <- as.character(income)
 population.c <- as.numeric(population)
 
@@ -237,16 +242,3 @@ a <- seq(11, 99, 11)
 sum(a%%2==1)
 
 ```
-
-
-## Character operations
-### Character operations
-
-```{r}
-a <- seq(11, 55, 11)
-paste("A", a)		# concatenate
-paste0("A", a)		# concatenate
-
-```
-
-

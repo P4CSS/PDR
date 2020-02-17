@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Playing Data with R</title>
+  <title>Chapter 7 讀取CSV：以台北市竊盜案分佈為例 | Playing Data with R</title>
   <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
   <meta name="generator" content="bookdown 0.17 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Playing Data with R" />
+  <meta property="og:title" content="Chapter 7 讀取CSV：以台北市竊盜案分佈為例 | Playing Data with R" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="P4CSS/PDR" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Playing Data with R" />
+  <meta name="twitter:title" content="Chapter 7 讀取CSV：以台北市竊盜案分佈為例 | Playing Data with R" />
   
   <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
+<link rel="prev" href="-excel-.html"/>
 
-<link rel="next" href="data-journalism.html"/>
 <script src="libs/header-attrs-2.1/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -274,43 +274,164 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Playing Data with R</h1>
-<p class="author"><em>JILUNG HSIEH</em></p>
-<p class="date"><em>2020-02-17</em></p>
+<div id="讀取csv以台北市竊盜案分佈為例" class="section level1" number="7">
+<h1><span class="header-section-number">Chapter 7</span> 讀取CSV：以台北市竊盜案分佈為例</h1>
+<ul class="task-list">
+<li><input type="checkbox" disabled="" checked="" />
+copy from google docs</li>
+<li><input type="checkbox" disabled="" />
+copy google docs to paper to retrieve figs</li>
+<li><input type="checkbox" disabled="" />
+save figs to folder</li>
+<li><input type="checkbox" disabled="" />
+link to figs</li>
+<li><input type="checkbox" disabled="" />
+check concsistency between rmd and google docs</li>
+</ul>
+<p>除了延續前節篩取資料列和選取變項欄外，本節的重點在於利用<code>count()</code>或<code>tapply()</code>等函式進行計數。一般來說，觀察得到的資料是觀察紀錄（例如在路口蹲點計算車流或者經過的行人類型）。但能夠被計算或比較的是觀察紀錄後的計量，也就是具目的性地抽取數個變項，然後看看各個變項組合有多少筆適才的觀察紀錄。最後，為了一般讀者閱讀，會經常把其中兩個變項抽出來，然後把一個變項當成欄，一個變項當成列，然後交叉呈現兩個變項下的資料計數。</p>
+<div id="分析步驟" class="section level2" number="7.1">
+<h2><span class="header-section-number">7.1</span> 分析步驟</h2>
+<div id="步驟一摘要與提要" class="section level3" number="7.1.1">
+<h3><span class="header-section-number">7.1.1</span> 步驟一：摘要與提要</h3>
+<p>讀取CSV檔</p>
+<div class="sourceCode" id="cb254"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb254-1"><a href="-csv-.html#cb254-1"></a><span class="kw">library</span>(tidyverse)</span></code></pre></div>
+<pre><code>## Warning: package &#39;tidyverse&#39; was built under R version 3.5.2</code></pre>
+<pre><code>## ── Attaching packages ────────────────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
+<pre><code>## ✓ ggplot2 3.2.1     ✓ purrr   0.3.3
+## ✓ tibble  2.1.3     ✓ stringr 1.4.0
+## ✓ tidyr   1.0.2     ✓ forcats 0.4.0
+## ✓ readr   1.3.1</code></pre>
+<pre><code>## Warning: package &#39;ggplot2&#39; was built under R version 3.5.2</code></pre>
+<pre><code>## Warning: package &#39;tibble&#39; was built under R version 3.5.2</code></pre>
+<pre><code>## Warning: package &#39;purrr&#39; was built under R version 3.5.2</code></pre>
+<pre><code>## Warning: package &#39;stringr&#39; was built under R version 3.5.2</code></pre>
+<pre><code>## Warning: package &#39;forcats&#39; was built under R version 3.5.2</code></pre>
+<pre><code>## ── Conflicts ───────────────────────────────────────────────────── tidyverse_conflicts() ──
+## x dplyr::filter()  masks stats::filter()
+## x purrr::flatten() masks jsonlite::flatten()
+## x dplyr::lag()     masks stats::lag()</code></pre>
+<div class="sourceCode" id="cb264"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb264-1"><a href="-csv-.html#cb264-1"></a><span class="kw">options</span>(<span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
 </div>
-<div id="about" class="section level1 unnumbered" number="">
-<h1>About</h1>
-
-<div id="自述" class="section level2 unnumbered" number="">
-<h2>自述</h2>
-<p>2016年有幸可以到臺灣大學新聞所帶領一群未來的記者學習資料分析的技巧。說是資料分析，不如說是程式設計。當時紐約時報、國際上各大報紙大量地產製資料新聞，嘗試用資料搭配視覺化來敘事，或者透過資料探勘方法，挖掘數字、資料背後的異常現象、趨勢、分佈等等。</p>
-<p>為了兼顧每一位學生的學習情形，特地採用小班教學，但卻有不少外系的學生也一起到課堂上來學習，因而以每個學期開課、每堂課最多三十人的模式授課。這樣頻繁授課的好處是，可以反覆地、快速地嘗試各種不同的授課方式，並且在次學期授課中進行調整。而這本書則是在授課過程零星所記錄下來的經驗和知識。</p>
-<p>2016年開始在臺大教書的那個暑假，我其實擅長的程式語言是Python，且有二至三年開授「社會科學程式設計:ProgrammingforSocialScience」的經驗。但到任前單位主管希望我能夠以R為主要授課語言，單位主管和紐約時報的圖表編輯部門有數年的互動，她告訴我紐約時報圖表記者們都用R語言。而在2016年的當時，北臺灣業界和研究單位所開授的網路爬蟲、資料分析、機器學習等課程，都是以R為主要語言。顯然當時以Python為主要語言的「深度學習」族群尚未在臺灣發展起來(在2018年的現在，也就是我寫下這句話之時，其實臺灣熱門的是Python程式語言)。</p>
-<p>那年暑假，我用了Datacamp來產生我對R語言的基礎認識、聽了二至三門Coursera上的R語言課程來了解R語言的授課方式、參考了三至四份以R為語言的國外課程教材、甚至自費參與由臺灣業界一群熱心的工程師所開發的網路爬蟲課程、與當時臺灣資料科學年會所開發的「手把手教你資料分析」課程觀摩他人上課的節奏和使用範例，我非常感謝有這群先行者的努力和無私的分享，讓我在後續的課程安排上駕輕就熟。</p>
-<p>在2016年國外所開設以R來進行資料分析的課程也不算多，但在2018年的今日，Stanford的PoliticalScience與Chicago的MasterofComputationalSocialScience均開設了質量非常高的R在社會科學應用上的課程，Stanford的PoliticalScience甚至將其拆解為150A、150B、150C三門課程來授課。</p>
-<p>基於這樣的出發點，所以這本書的核心對象就是從沒有寫過程式的大學生。</p>
+<div id="步驟二載入台北市竊盜案資料" class="section level3" number="7.1.2">
+<h3><span class="header-section-number">7.1.2</span> 步驟二：載入台北市竊盜案資料</h3>
+<p><code>df &lt;- read.csv(url, fileEncoding = "big5")</code>這行的意思是把url用<code>read.csv()</code>這個函式讀取。讀取的同時，由於一般EXCEL的中文編碼為BIG5，所以該文件八成是該台北市政單位還用EXCEL在編資料，所以要跟程式碼講說，這個網址所指到的檔案編碼為BIG5。請自行嘗試看看如果沒有加入<code>fileEncoding</code>會有什麼錯誤訊息。</p>
+<div class="sourceCode" id="cb265"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb265-1"><a href="-csv-.html#cb265-1"></a>url &lt;-<span class="st"> &quot;https://data.taipei/api/getDatasetInfo/downloadResource?id=68785231-d6c5-47a1-b001-77eec70bec02&amp;rid=34a4a431-f04d-474a-8e72-8d3f586db3df&quot;</span></span>
+<span id="cb265-2"><a href="-csv-.html#cb265-2"></a>df &lt;-<span class="st"> </span><span class="kw">read.csv</span>(url, <span class="dt">fileEncoding =</span> <span class="st">&quot;big5&quot;</span>)</span></code></pre></div>
+<p>部分電腦可能為無法直接讀取，此時可以先自行把檔案下載下來後再讀取，唯獨記得要把該資料檔拖至本專案的資料夾內。例如以下面的例子來說，我把<code>tptheft.csv</code>拖至現在專案中的<code>data</code>資料夾，因此以下路徑正確而可以讀取。從不同的瀏覽器下載下來可能會產生不一樣的csv檔，如果無法開啟可以多嘗試不同的瀏覽器看看。</p>
+<div class="sourceCode" id="cb266"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb266-1"><a href="-csv-.html#cb266-1"></a>df &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/tptheft.csv&quot;</span>, <span class="dt">fileEncoding =</span> <span class="st">&quot;big5&quot;</span>)</span></code></pre></div>
+<p><strong>注意</strong>：可用<code>View()</code>概略瀏覽該data.frame的變項值與變項。</p>
 </div>
-<div id="學程式這回事" class="section level2 unnumbered" number="">
-<h2>學程式這回事</h2>
-<div id="何謂演算法" class="section level3 unnumbered" number="">
-<h3>何謂演算法？</h3>
-<p>演算法（Algorithm）為處理事情、解決問題的邏輯，多取自日常生活的問題解決步驟。例如Google用以排名搜尋結果的「PageRanking」即參考自人與人之間，如何透過每次的訊息交換，建立起人的聲望。而推薦機制的核心概念「協同式推薦」，則仿自市集群眾購物行為的共同喜好、熱門物品等機制。
-而程式語言（ProgrammingLanguage）則是演算法的實作。定義一套機器能夠編譯的語法，將演算法實作出來。脫離程式語法的演算法也可以被英文邏輯性地加以表徵，被稱之為「Pseudo-code」。一段典型的Pseudo-code如下，描述了ATM提款機如何提款與存款的決策步驟。</p>
-<pre><code>Ifoption=depositthen
-Output&#39;Enteramounttodeposit&#39;
-Inputamount
-balance=balance+amount
-Ifoption=withdrawalthen
-Output&#39;Enteramounttowithdraw&#39;
-Inputamount
-balance=balance-amount
-Output&#39;Balanceis&#39;balance</code></pre>
-<p>因此，程式語言的學習，則類似將日常生活的處事方法，用正確的邏輯方式來表達，並用一種指定的語言來描述。準此，程式語言的學習是「語言與邏輯」。而回想我們如何學會英文或者有天突然覺得自己將英文的運用推到另一個層次之上時，往往有一番自己的方法和領會，多半來自於個人目標與適合個人的學習方法，例如，考TOEIC、TOFEL、GRE，看美國影集、看英文原版小說，或者為了打電玩。</p>
+<div id="步驟三產生新的變項" class="section level3" number="7.1.3">
+<h3><span class="header-section-number">7.1.3</span> 步驟三：產生新的變項</h3>
+<p><code>發生時段</code>我打算取出前面的數字來代表時間就好，<code>發生地點</code>我打算只取出行政區名，其他地址不要。邏輯上，我要把那串字取出第x個字到第y個字，所以要用<code>substr()</code>這個函式，或者未來會教到的<code>stringr::str_sub()</code>函式。請用<code>?substr</code>查詢其用法和意義「getting sub string since x to y」。</p>
+<div class="sourceCode" id="cb267"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb267-1"><a href="-csv-.html#cb267-1"></a>df<span class="op">$</span>time &lt;-<span class="st"> </span><span class="kw">substr</span>(df<span class="op">$</span>發生時段, <span class="dv">1</span>, <span class="dv">2</span>)</span>
+<span id="cb267-2"><a href="-csv-.html#cb267-2"></a>df<span class="op">$</span>region &lt;-<span class="st"> </span><span class="kw">substr</span>(df<span class="op">$</span>發生.現.地點, <span class="dv">4</span>, <span class="dv">5</span>)</span></code></pre></div>
+<p>另外我有發現前面幾年的資料特別少，所以我想要取出現在是幾年。我用<code>str()</code>觀察<code>df</code>後發現「發生日期」為一個整數，那代表我可以對其做加減乘除做運算。該變項的數值最多有7位，部分為6位，因為資料是從99年跨至100至104年。我若要取出這是幾年的資料，經觀察後我打算將該整數除以10000取商，剛好可以獲得年份的資料。除法取商的語法為`%/%``。</p>
+<div class="sourceCode" id="cb268"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb268-1"><a href="-csv-.html#cb268-1"></a>df<span class="op">$</span>year &lt;-<span class="st"> </span>df<span class="op">$</span>發生.現.日期 <span class="op">%/%</span><span class="st"> </span><span class="dv">10000</span></span></code></pre></div>
 </div>
-<div id="掌握課外學習資源" class="section level3 unnumbered" number="">
-<h3>掌握課外學習資源</h3>
-<p>現在網路上自學資源非常多，尤其是各家線上開放課程，或者是code.org、Datacamp等線上互動學習平台，所以我在授課的過程，我多半是在課堂上強調程式語言中的關鍵技術、使用方法、使用時機和比較彼此間的差異，我甚少把一個概念和各種可用的函式在課堂上講完全，反而建議學生可以透過買書、上線上的課程來相互補充。我那時衍生了一個口頭禪是「聽一次聽不懂」</p>
+<div id="步驟四整理清理資料" class="section level3" number="7.1.4">
+<h3><span class="header-section-number">7.1.4</span> 步驟四：整理、清理資料</h3>
+<p>該資料可發現，有幾年的資料在特別早之前，似乎直到104年才逐漸穩定，但不太確定。所以我首先要刪除那些資料太少的年份。所以我打算用<code>table()</code>這個函式看看究竟每個年份出現幾次。</p>
+<div class="sourceCode" id="cb269"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb269-1"><a href="-csv-.html#cb269-1"></a><span class="kw">table</span>(df<span class="op">$</span>time)</span></code></pre></div>
+<pre><code>## 
+##  00  02  04  06  08  10  12  14  16  18  20  22 
+## 295 191 151 184 270 327 339 315 236 275 272 198</code></pre>
+<div class="sourceCode" id="cb271"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb271-1"><a href="-csv-.html#cb271-1"></a><span class="kw">table</span>(df<span class="op">$</span>region)</span></code></pre></div>
+<pre><code>## 
+##   1~   15   16   25  2段   31   40   61 七堵 三峽 三民 三芝 三重 中和 中壢 中山 
+##    1    2    1    1    1    2    1    1    2    3    1    1   35   18    8  366 
+## 中正 五股 信義 內埔 內湖 八德 北區 北屯 北投 南屯 南港 土城 士林 大同 大安 大溪 
+##  212    3  180    1  252    2    2    2  279    2  158    9  307  135  268    6 
+## 安樂 宜蘭 左營 平鎮 後龍 文山 新埔 新店 新莊 新豐 暖暖 東區 松山 板橋 林口 桃園 
+##    2    1    2    2    1  182    1   17   10    5    2    3  187   20    2    5 
+## 楊梅 樹林 橫山 水上 永和 汐止 泰山 淡水 深坑 湖口 湖西 田尾 萬華 竹山 竹東 芎林 
+##    5    4    1    1   11   12    2   18    2    1    1    1  264    1    1    1 
+## 芳苑 蘆洲 虎尾  街9 西區 觀音 過洋 頭份 頭屋 鹿港 龍潭 龜山 
+##    1    4    1    1    1    2    1    1    1    1    3    6</code></pre>
+<div class="sourceCode" id="cb273"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb273-1"><a href="-csv-.html#cb273-1"></a><span class="kw">table</span>(df<span class="op">$</span>year)</span></code></pre></div>
+<pre><code>## 
+## 104 105 106 107 108 
+## 777 742 591 531 412</code></pre>
+<p>從上述彙整資料看來，資料把不是台北市的區域都給算進來了，所以要篩選台北市的區域，經過篩選後剩下2608筆資料。因為這些需要的資料都是文字型態的資料，且有數個，所以我們可以使用<code>%in%</code>這個運算符號，他指的是該變項的值是不是後面這個vector中的其中一個值。</p>
+<div class="sourceCode" id="cb275"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb275-1"><a href="-csv-.html#cb275-1"></a>df &lt;-<span class="st"> </span>df[df<span class="op">$</span>region <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;中山&quot;</span>, <span class="st">&quot;中正&quot;</span>, <span class="st">&quot;信義&quot;</span>, <span class="st">&quot;內湖&quot;</span>,</span>
+<span id="cb275-2"><a href="-csv-.html#cb275-2"></a>                          <span class="st">&quot;北投&quot;</span>, <span class="st">&quot;南港&quot;</span>, <span class="st">&quot;大同&quot;</span>, <span class="st">&quot;大安&quot;</span>, </span>
+<span id="cb275-3"><a href="-csv-.html#cb275-3"></a>                          <span class="st">&quot;士林&quot;</span>, <span class="st">&quot;松山&quot;</span>, <span class="st">&quot;萬華&quot;</span>, <span class="st">&quot;南港&quot;</span>), ]</span></code></pre></div>
+<p>上述案例只能根據一個資料維度或根據一個變項來做計數彙整。然而，我們希望知道，不同的時間和不同的地點，是否竊盜比例會有所不同，此時我們需要同時考慮兩個變項。</p>
+<div class="sourceCode" id="cb276"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb276-1"><a href="-csv-.html#cb276-1"></a>res &lt;-<span class="st"> </span><span class="kw">table</span>(df<span class="op">$</span>region, df<span class="op">$</span>time)</span></code></pre></div>
+</div>
+<div id="步驟五視覺化" class="section level3" number="7.1.5">
+<h3><span class="header-section-number">7.1.5</span> 步驟五：視覺化</h3>
+<p><code>mosaicplot()</code>非常擅長視覺化兩個離散變項，並透過自動化百分比的設置，可以讓資料探索者得知，哪些變項的大小分佈跟其他不同。</p>
+<div class="sourceCode" id="cb277"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb277-1"><a href="-csv-.html#cb277-1"></a><span class="kw">mosaicplot</span>(res)</span></code></pre></div>
+<p><img src="PDR_files/figure-html/unnamed-chunk-47-1.png" width="672" /></p>
+<div class="sourceCode" id="cb278"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb278-1"><a href="-csv-.html#cb278-1"></a><span class="kw">mosaicplot</span>(res, <span class="dt">main=</span><span class="st">&quot;mosaic plot&quot;</span>)</span></code></pre></div>
+<p><img src="PDR_files/figure-html/unnamed-chunk-47-2.png" width="672" /></p>
+<p>但是，類似上述繪圖無法顯示中文要怎麼辦？未來R的繪圖尤其是Mac會經常遇到無法顯示中文的問題，Windows未來在用ggplot2套件進行繪圖時也會遇到相同的問題。因此，我們需要告訴電腦要用什麼字體。例如Mac上可以用以下兩種字體。</p>
+<div class="sourceCode" id="cb279"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb279-1"><a href="-csv-.html#cb279-1"></a><span class="kw">par</span>(<span class="dt">family=</span>(<span class="st">&#39;Heiti TC Light&#39;</span>))</span>
+<span id="cb279-2"><a href="-csv-.html#cb279-2"></a><span class="co"># par(family=(&#39;STKaiti&#39;))</span></span>
+<span id="cb279-3"><a href="-csv-.html#cb279-3"></a><span class="kw">mosaicplot</span>(res, <span class="dt">main=</span><span class="st">&quot;mosaic plot&quot;</span>)</span></code></pre></div>
+<p><img src="PDR_files/figure-html/unnamed-chunk-48-1.png" width="672" /></p>
+<p>用自訂顏色來觀察會更清楚，一共有十二個區，就給予十二種顏色。</p>
+<div class="sourceCode" id="cb280"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb280-1"><a href="-csv-.html#cb280-1"></a>colors &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;#D0104C&#39;</span>, <span class="st">&#39;#DB4D6D&#39;</span>, <span class="st">&#39;#E83015&#39;</span>,  <span class="st">&#39;#F75C2F&#39;</span>,</span>
+<span id="cb280-2"><a href="-csv-.html#cb280-2"></a>            <span class="st">&#39;#E79460&#39;</span>, <span class="st">&#39;#E98B2A&#39;</span>, <span class="st">&#39;#9B6E23&#39;</span>, <span class="st">&#39;#F7C242&#39;</span>,</span>
+<span id="cb280-3"><a href="-csv-.html#cb280-3"></a>            <span class="st">&#39;#BEC23F&#39;</span>, <span class="st">&#39;#90B44B&#39;</span>, <span class="st">&#39;#66BAB7&#39;</span>, <span class="st">&#39;#1E88A8&#39;</span>)</span>
+<span id="cb280-4"><a href="-csv-.html#cb280-4"></a><span class="kw">par</span>(<span class="dt">family=</span>(<span class="st">&#39;STKaiti&#39;</span>))</span>
+<span id="cb280-5"><a href="-csv-.html#cb280-5"></a><span class="kw">mosaicplot</span>(res, <span class="dt">color=</span>colors, <span class="dt">border=</span><span class="dv">0</span>, <span class="dt">off =</span> <span class="dv">3</span>,</span>
+<span id="cb280-6"><a href="-csv-.html#cb280-6"></a>           <span class="dt">main=</span><span class="st">&quot;Theft rate of Taipei city (region by hour)&quot;</span>)</span></code></pre></div>
+<p><img src="PDR_files/figure-html/unnamed-chunk-49-1.png" width="672" /></p>
+</div>
+</div>
+<div id="綜合資料彙整data-summerazation" class="section level2" number="7.2">
+<h2><span class="header-section-number">7.2</span> 綜合：資料彙整（Data Summerazation）</h2>
+<p>在R中可以依照某個類別變數來計算次數、平均的函式有很多個。</p>
+<div id="方法一tapply" class="section level3" number="7.2.1">
+<h3><span class="header-section-number">7.2.1</span> 方法一：<code>tapply()</code></h3>
+<p><code>tapply()</code>是原始base套件中的函式，其家族還有<code>sapply()</code>、<code>lapply()</code>、<code>apply()</code>等函式。但在快速的資料探索性分析中，反而會比較常用<code>table()</code>，而善於操作變項的統計書籍則常用<code>aggreage()</code>，後期開發的dplyr套件則有<code>count()</code>。在未來的練習中，最常用的是<code>count()</code>。</p>
+</div>
+<div id="方法二table" class="section level3" number="7.2.2">
+<h3><span class="header-section-number">7.2.2</span> 方法二：<code>table()</code></h3>
+<p>以下為<code>table()</code>的用法，他也可以用於單一變項的計數，且他產生的結果並非一個data.frame而是一個資料型態稱為「table」，查詢看看<code>?table</code>以獲得更詳盡的說明。</p>
+<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb281-1"><a href="-csv-.html#cb281-1"></a>res &lt;-<span class="st"> </span><span class="kw">table</span>(df<span class="op">$</span>time, df<span class="op">$</span>region)</span>
+<span id="cb281-2"><a href="-csv-.html#cb281-2"></a><span class="kw">class</span>(res)</span></code></pre></div>
+<pre><code>## [1] &quot;table&quot;</code></pre>
+</div>
+<div id="方法三count" class="section level3" number="7.2.3">
+<h3><span class="header-section-number">7.2.3</span> 方法三：<code>count()</code></h3>
+<p>以下為<code>count()</code>的用法。注意，將df根據time與region兩個類別變項計數後，會多一個n的變項，指出某個時間、某個區域有多少起竊盜案件。這樣的型態是統計學最常看見的型態，也就是variable-based的型態。但如果我們希望它變成一個「二維」的表格，亦即欄和列分別代表兩個不同的變項，那就需要用tidyr的函式<code>spread()</code>將你所要展開到欄的那個變項，和計數後的數字n作為參數，展開為一個二維的表格如下（你也可以選擇展開time）。
+關於<code>tidyr::spread()</code>這樣的表示法，在::前為套件名稱，當程式尚未用<code>library(tidyr)</code>載入該套件，或者你只打算用<code>spread()</code>這麼一次，可以用這種表示法，指出這個<code>spread()</code>為<code>tidyr</code>這個套件中的函式。據此，R會自動載入該套件並執行該函式。</p>
+<div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb283-1"><a href="-csv-.html#cb283-1"></a>res5 &lt;-<span class="st"> </span><span class="kw">count</span>(df, time, region)</span>
+<span id="cb283-2"><a href="-csv-.html#cb283-2"></a>?count</span>
+<span id="cb283-3"><a href="-csv-.html#cb283-3"></a><span class="kw">head</span>(res5)</span></code></pre></div>
+<pre><code>## # A tibble: 6 x 3
+##   time  region     n
+##   &lt;chr&gt; &lt;chr&gt;  &lt;int&gt;
+## 1 00    中山      60
+## 2 00    中正      15
+## 3 00    信義      24
+## 4 00    內湖      20
+## 5 00    北投      21
+## 6 00    南港      16</code></pre>
+<div class="sourceCode" id="cb285"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb285-1"><a href="-csv-.html#cb285-1"></a>res6 &lt;-<span class="st"> </span>tidyr<span class="op">::</span><span class="kw">spread</span>(res5, region, n, <span class="dt">fill =</span> <span class="dv">0</span>)</span>
+<span id="cb285-2"><a href="-csv-.html#cb285-2"></a>res6</span></code></pre></div>
+<pre><code>## # A tibble: 12 x 12
+##    time   中山  中正  信義  內湖  北投  南港  士林  大同  大安  松山  萬華
+##    &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1 00       60    15    24    20    21    16    24    14    23     4    14
+##  2 02       22    17     9    13    13    12    25     7    12    10    21
+##  3 04       20     6    11    12    15     6    12    12    12     5    19
+##  4 06       18    17    13    16    22    12    15     9    18    11    19
+##  5 08       33    22    18    22    17    14    19    17    28    16    28
+##  6 10       35    19    14    32    30    16    30    11    29    32    33
+##  7 12       27    23    16    22    30    13    42    10    43    23    24
+##  8 14       35    17    15    34    31    18    34    19    29    19    21
+##  9 16       19    15     6    23    31     8    26    11    21    18    21
+## 10 18       33    31    21    17    40    16    23    10    21    14    18
+## 11 20       34    12    19    25    15    19    36     9    20    23    32
+## 12 22       30    18    14    16    14     8    21     6    12    12    14</code></pre>
+</div>
+<div id="練習" class="section level3" number="7.2.4">
+<h3><span class="header-section-number">7.2.4</span> 練習</h3>
+<p>用<code>tapply()</code>、<code>table()</code>和<code>count()</code>與<code>spread()</code>後所跑出來的表格看似都是欄和列分別有兩個變項，請用<code>class()</code>測試看看，用不同的方法所產生的資料型態有何差異。</p>
 
 </div>
 </div>
@@ -320,8 +441,8 @@ Output&#39;Balanceis&#39;balance</code></pre>
           </div>
         </div>
       </div>
+<a href="-excel-.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 
-<a href="data-journalism.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

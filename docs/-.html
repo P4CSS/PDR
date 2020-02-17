@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 6 獲取資料：讀檔與爬蟲 | Playing Data with R</title>
+  <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="generator" content="bookdown 0.17 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 6 獲取資料：讀檔與爬蟲 | Playing Data with R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="github-repo" content="P4CSS/PDR" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 6 獲取資料：讀檔與爬蟲 | Playing Data with R" />
+  
+  <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  
+
+<meta name="author" content="JILUNG HSIEH" />
+
+
+<meta name="date" content="2020-02-17" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="date-and-time.html"/>
+
+<script src="libs/header-attrs-2.1/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>About</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#自述"><i class="fa fa-check"></i>自述</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#學程式這回事"><i class="fa fa-check"></i>學程式這回事</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#何謂演算法"><i class="fa fa-check"></i>何謂演算法？</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#掌握課外學習資源"><i class="fa fa-check"></i>掌握課外學習資源</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="data-journalism.html"><a href="data-journalism.html"><i class="fa fa-check"></i><b>1</b> Data Journalism</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="data-journalism.html"><a href="data-journalism.html#what-is-什麼是資料新聞"><i class="fa fa-check"></i><b>1.1</b> What-is 什麼是資料新聞？</a></li>
+<li class="chapter" data-level="1.2" data-path="data-journalism.html"><a href="data-journalism.html#何謂資料"><i class="fa fa-check"></i><b>1.2</b> 何謂資料？</a></li>
+<li class="chapter" data-level="1.3" data-path="data-journalism.html"><a href="data-journalism.html#資料的詮釋"><i class="fa fa-check"></i><b>1.3</b> 資料的詮釋</a></li>
+<li class="chapter" data-level="1.4" data-path="data-journalism.html"><a href="data-journalism.html#where-is-data-資料在哪裡"><i class="fa fa-check"></i><b>1.4</b> Where-is data? 資料在哪裡？</a></li>
+<li class="chapter" data-level="1.5" data-path="data-journalism.html"><a href="data-journalism.html#what-does-data-look-like"><i class="fa fa-check"></i><b>1.5</b> What does data look like?</a></li>
+</ul></li>
+<li class="part"><span><b>I Part I R語言基礎</b></span></li>
+<li class="chapter" data-level="2" data-path="r-.html"><a href="r-.html"><i class="fa fa-check"></i><b>2</b> R語言基礎速遊</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="r-.html"><a href="r-.html#rstudio-基本操作"><i class="fa fa-check"></i><b>2.1</b> RStudio 基本操作</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="r-.html"><a href="r-.html#執行r-markdown"><i class="fa fa-check"></i><b>2.1.1</b> 執行R Markdown</a></li>
+<li class="chapter" data-level="2.1.2" data-path="r-.html"><a href="r-.html#安裝第三方套件"><i class="fa fa-check"></i><b>2.1.2</b> 安裝第三方套件</a></li>
+<li class="chapter" data-level="2.1.3" data-path="r-.html"><a href="r-.html#載入第三方套件"><i class="fa fa-check"></i><b>2.1.3</b> 載入第三方套件</a></li>
+<li class="chapter" data-level="2.1.4" data-path="r-.html"><a href="r-.html#註解"><i class="fa fa-check"></i><b>2.1.4</b> 註解</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="r-.html"><a href="r-.html#用r載入資料"><i class="fa fa-check"></i><b>2.2</b> 用R載入資料</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="r-.html"><a href="r-.html#範例一載入dcard資料"><i class="fa fa-check"></i><b>2.2.1</b> 範例一：載入Dcard資料</a></li>
+<li class="chapter" data-level="2.2.2" data-path="r-.html"><a href="r-.html#範例二讀取台北市竊盜案件發生地區與時間"><i class="fa fa-check"></i><b>2.2.2</b> 範例二：讀取台北市竊盜案件發生地區與時間</a></li>
+<li class="chapter" data-level="2.2.3" data-path="r-.html"><a href="r-.html#範例三用api載入內政部資料"><i class="fa fa-check"></i><b>2.2.3</b> 範例三：用API載入內政部資料</a></li>
+<li class="chapter" data-level="2.2.4" data-path="r-.html"><a href="r-.html#範例四獲取104資料"><i class="fa fa-check"></i><b>2.2.4</b> 範例四：獲取104資料</a></li>
+<li class="chapter" data-level="2.2.5" data-path="r-.html"><a href="r-.html#範例五獲取ubike資料"><i class="fa fa-check"></i><b>2.2.5</b> 範例五：獲取ubike資料</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="r-.html"><a href="r-.html#儲存現有變數"><i class="fa fa-check"></i><b>2.3</b> 儲存現有變數</a></li>
+<li class="chapter" data-level="2.4" data-path="r-.html"><a href="r-.html#查詢函式的定義"><i class="fa fa-check"></i><b>2.4</b> 查詢函式的定義</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="vector.html"><a href="vector.html"><i class="fa fa-check"></i><b>3</b> Vector</a>
+<ul>
+<li class="chapter" data-level="" data-path="vector.html"><a href="vector.html#notes"><i class="fa fa-check"></i>Notes</a></li>
+<li class="chapter" data-level="3.1" data-path="vector.html"><a href="vector.html#vector的基本操作"><i class="fa fa-check"></i><b>3.1</b> Vector的基本操作</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="vector.html"><a href="vector.html#建立vector"><i class="fa fa-check"></i><b>3.1.1</b> 建立Vector</a></li>
+<li class="chapter" data-level="3.1.2" data-path="vector.html"><a href="vector.html#查看vector的內容"><i class="fa fa-check"></i><b>3.1.2</b> 查看vector的內容</a></li>
+<li class="chapter" data-level="3.1.3" data-path="vector.html"><a href="vector.html#取出vector部分內容-slicing"><i class="fa fa-check"></i><b>3.1.3</b> 取出vector部分內容: Slicing</a></li>
+<li class="chapter" data-level="3.1.4" data-path="vector.html"><a href="vector.html#刪除vector中的元素deleting"><i class="fa fa-check"></i><b>3.1.4</b> 刪除vector中的元素：Deleting</a></li>
+<li class="chapter" data-level="3.1.5" data-path="vector.html"><a href="vector.html#添加合併vectorsconcatinating-binding-merging-appending"><i class="fa fa-check"></i><b>3.1.5</b> 添加合併vectors：concatinating, binding, merging, appending</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="vector.html"><a href="vector.html#vector的運算"><i class="fa fa-check"></i><b>3.2</b> Vector的運算</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="vector.html"><a href="vector.html#數值運算arithmetic-operations"><i class="fa fa-check"></i><b>3.2.1</b> 數值運算：Arithmetic operations</a></li>
+<li class="chapter" data-level="3.2.2" data-path="vector.html"><a href="vector.html#邏輯運算logic-comparisons"><i class="fa fa-check"></i><b>3.2.2</b> 邏輯運算：Logic comparisons</a></li>
+<li class="chapter" data-level="3.2.3" data-path="vector.html"><a href="vector.html#用邏輯運算來篩選資料subsetting-by-logic-comparisons"><i class="fa fa-check"></i><b>3.2.3</b> 用邏輯運算來篩選資料：Subsetting by logic comparisons</a></li>
+<li class="chapter" data-level="3.2.4" data-path="vector.html"><a href="vector.html#排序sorting-and-ordering"><i class="fa fa-check"></i><b>3.2.4</b> 排序：Sorting and ordering</a></li>
+<li class="chapter" data-level="3.2.5" data-path="vector.html"><a href="vector.html#內建的數學函式"><i class="fa fa-check"></i><b>3.2.5</b> 內建的數學函式</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="vector.html"><a href="vector.html#資料型態data-types"><i class="fa fa-check"></i><b>3.3</b> 資料型態：Data types</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="vector.html"><a href="vector.html#檢查資料型態checking-data-type"><i class="fa fa-check"></i><b>3.3.1</b> 檢查資料型態：Checking data type</a></li>
+<li class="chapter" data-level="3.3.2" data-path="vector.html"><a href="vector.html#轉換資料型態converting-data-type"><i class="fa fa-check"></i><b>3.3.2</b> 轉換資料型態：Converting data type</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="dataframe.html"><a href="dataframe.html"><i class="fa fa-check"></i><b>4</b> Dataframe</a>
+<ul>
+<li class="chapter" data-level="" data-path="dataframe.html"><a href="dataframe.html#notes-1"><i class="fa fa-check"></i>Notes</a></li>
+<li class="chapter" data-level="4.1" data-path="dataframe.html"><a href="dataframe.html#建立data.frame"><i class="fa fa-check"></i><b>4.1</b> 建立data.frame</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="dataframe.html"><a href="dataframe.html#範例一手動輸入台北市行政區人口與面積"><i class="fa fa-check"></i><b>4.1.1</b> 範例一：手動輸入台北市行政區人口與面積</a></li>
+<li class="chapter" data-level="4.1.2" data-path="dataframe.html"><a href="dataframe.html#範例二手動輸入台灣的進出口對象與數量"><i class="fa fa-check"></i><b>4.1.2</b> 範例二：手動輸入台灣的進出口對象與數量</a></li>
+<li class="chapter" data-level="4.1.3" data-path="dataframe.html"><a href="dataframe.html#more"><i class="fa fa-check"></i><b>4.1.3</b> More</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="dataframe.html"><a href="dataframe.html#觀察data.frame"><i class="fa fa-check"></i><b>4.2</b> 觀察data.frame</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="dataframe.html"><a href="dataframe.html#觀察資料維度"><i class="fa fa-check"></i><b>4.2.1</b> 觀察資料維度</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="dataframe.html"><a href="dataframe.html#操作data-frame"><i class="fa fa-check"></i><b>4.3</b> 操作data frame</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="dataframe.html"><a href="dataframe.html#取出data-frame中的一個變數"><i class="fa fa-check"></i><b>4.3.1</b> 取出data frame中的一個變數</a></li>
+<li class="chapter" data-level="4.3.2" data-path="dataframe.html"><a href="dataframe.html#mutate-透過運算產生新變數"><i class="fa fa-check"></i><b>4.3.2</b> mutate 透過運算產生新變數</a></li>
+<li class="chapter" data-level="4.3.3" data-path="dataframe.html"><a href="dataframe.html#filter-select-篩選資料選取變數"><i class="fa fa-check"></i><b>4.3.3</b> filter, select 篩選資料、選取變數</a></li>
+<li class="chapter" data-level="4.3.4" data-path="dataframe.html"><a href="dataframe.html#sorting-排序按照某個變數排序"><i class="fa fa-check"></i><b>4.3.4</b> sorting 排序：按照某個變數排序</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="dataframe.html"><a href="dataframe.html#more-1"><i class="fa fa-check"></i><b>4.4</b> MORE</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="dataframe.html"><a href="dataframe.html#plotting"><i class="fa fa-check"></i><b>4.4.1</b> Plotting</a></li>
+<li class="chapter" data-level="4.4.2" data-path="dataframe.html"><a href="dataframe.html#using-dplyr"><i class="fa fa-check"></i><b>4.4.2</b> Using dplyr</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="dataframe.html"><a href="dataframe.html#character-operations"><i class="fa fa-check"></i><b>4.5</b> Character operations</a>
+<ul>
+<li class="chapter" data-level="4.5.1" data-path="dataframe.html"><a href="dataframe.html#character-operations-1"><i class="fa fa-check"></i><b>4.5.1</b> Character operations</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="date-and-time.html"><a href="date-and-time.html"><i class="fa fa-check"></i><b>5</b> Date and Time</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="date-and-time.html"><a href="date-and-time.html#時間物件數值表示文字表示間的關係"><i class="fa fa-check"></i><b>5.1</b> 時間物件、數值表示、文字表示間的關係</a></li>
+</ul></li>
+<li class="part"><span><b>II Part II 獲取資料</b></span></li>
+<li class="chapter" data-level="6" data-path="-.html"><a href="-.html"><i class="fa fa-check"></i><b>6</b> 獲取資料：讀檔與爬蟲</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="-.html"><a href="-.html#讀取excel以世界各國產假支薪政策為例"><i class="fa fa-check"></i><b>6.1</b> 讀取Excel：以世界各國產假支薪政策為例</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="-.html"><a href="-.html#程式寫作使用base套件"><i class="fa fa-check"></i><b>6.1.1</b> 程式寫作：使用base套件</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="-.html"><a href="-.html#讀取csv以台北市竊盜案分佈為例"><i class="fa fa-check"></i><b>6.2</b> 讀取CSV：以台北市竊盜案分佈為例</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="-.html"><a href="-.html#步驟二載入台北市竊盜案資料"><i class="fa fa-check"></i><b>6.2.1</b> 步驟二：載入台北市竊盜案資料</a></li>
+<li class="chapter" data-level="6.2.2" data-path="-.html"><a href="-.html#步驟三產生新的變項"><i class="fa fa-check"></i><b>6.2.2</b> 步驟三：產生新的變項</a></li>
+<li class="chapter" data-level="6.2.3" data-path="-.html"><a href="-.html#步驟四整理清理資料"><i class="fa fa-check"></i><b>6.2.3</b> 步驟四：整理、清理資料</a></li>
+<li class="chapter" data-level="6.2.4" data-path="-.html"><a href="-.html#步驟六視覺化"><i class="fa fa-check"></i><b>6.2.4</b> 步驟六：視覺化</a></li>
+<li class="chapter" data-level="6.2.5" data-path="-.html"><a href="-.html#綜合資料彙整data-summerazation"><i class="fa fa-check"></i><b>6.2.5</b> 綜合：資料彙整（Data Summerazation）</a></li>
+</ul></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Playing Data with R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="獲取資料讀檔與爬蟲" class="section level1" number="6">
+<h1><span class="header-section-number">Chapter 6</span> 獲取資料：讀檔與爬蟲</h1>
+<p>章節規劃：
+* Basic skills of reading files
+* Read excel
+* Read csv
+*</p>
+
+<div id="讀取excel以世界各國產假支薪政策為例" class="section level2" number="6.1">
+<h2><span class="header-section-number">6.1</span> 讀取Excel：以世界各國產假支薪政策為例</h2>
+<p>這份資料適合完全沒有碰過R的人學習，更適用於了解R的基本資料型態的人（如vector、data.frame等）。在這份教學中你將依序透過操作學到：
+1. 如何讀入Excel檔（.xlsx, .xls）？
+2. 運用R base套件篩選資料列與欄。如何從data.frame選出所需要的變項欄？如何篩出所要的資料列？
+3. 如何進行基礎的NA值處理？<code>is.na()</code>
+4. 如何繪製長條圖？如何繪製數個子圖？如何利用for-loop重複執行類似的程式碼？
+5. 利用<code>barplot()</code>來繪製長條圖。</p>
+<p>在這個案例中尤其要注意的是如何運用R的base套件選取所需的變項欄與篩取合乎條件的資料列，這是基本功，也是拿到資料、成功讀檔、確認變項變數型態後的下一件事，以及進入資料彙整（Summarization）前所需要思考的前置步驟。因為NA值的處理通常依照案例需求有不同的作法，繪圖更是需要根據案例、視資料類型、視覺化工具等進行調整。所以，我自己通常R寫久了以後，不見得會記得要怎麼繪圖（我會對我用過的函式留下一點點印象，然後用<strong>ctrl-shift-f</strong>查詢看看是否我在哪一個檔案曾經用過該函式。</p>
+<p><strong>案例說明：產假支薪（Paid Maternal Leave）</strong>。本案例將利用R來重製華盛頓郵報在2016/08/13的一篇談論美國婦女產假支薪情形的報導。這個案例中將會應用到data.frame和基本的繪圖與資料摘要方法。<a href="https://www.washingtonpost.com/news/worldviews/wp/2016/08/13/the-world-is-getting-better-at-paid-maternity-leave-the-u-s-is-not/?utm_term=.060efaf71b59">Melissa Etehad &amp; Jeremy C.F. Lin (August 13, 2016) The world is getting better at paid maternity leave. The U.S. is not. The Washington Post</a></p>
+<p>我希望仿照The Washington Post的報導，先以最後一年為基準分5, 4, 3, 2, 1（福利由高到沒有）數層來繪製。首先先繪製最後一年（matleave_13）為5的。然後再分左右兩半，左邊原為一開始有紀錄就是5的（包含最早matleave_95沒資料的如SRB和MNE），右邊原為一開始有紀錄就不是5的。但為了方便起見，我把問題簡化為「左半側為matleave_95為5的，右半側為matleave_95不是5的」如下圖，所以照我方法繪製出來的圖會有一點差異，MNE和SRB就被歸到右邊（灰色）第一年不是5的資料群。
+而以下的範例程式，就以繪製出有紀錄的最後一年（matleave_13）為5，有資料的第一年（matleave_95）亦為5的區塊，也就是左半邊藍色的區塊。</p>
+<div id="程式寫作使用base套件" class="section level3" number="6.1.1">
+<h3><span class="header-section-number">6.1.1</span> 程式寫作：使用base套件</h3>
+<div id="步驟一用readxl套件讀取excel檔" class="section level4" number="6.1.1.1">
+<h4><span class="header-section-number">6.1.1.1</span> 步驟一：用readxl套件讀取Excel檔</h4>
+<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb221-1"><a href="-.html#cb221-1"></a><span class="co"># install.packages(&quot;readxl&quot;)</span></span>
+<span id="cb221-2"><a href="-.html#cb221-2"></a><span class="kw">library</span>(readxl)</span></code></pre></div>
+<pre><code>## Warning: package &#39;readxl&#39; was built under R version 3.5.2</code></pre>
+<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb223-1"><a href="-.html#cb223-1"></a><span class="kw">options</span>(<span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb223-2"><a href="-.html#cb223-2"></a></span>
+<span id="cb223-3"><a href="-.html#cb223-3"></a>rawdata &lt;-<span class="st"> </span><span class="kw">read_excel</span>(<span class="st">&quot;data/WORLD-MACHE_Gender_6.8.15.xls&quot;</span>, <span class="st">&quot;Sheet1&quot;</span>, <span class="dt">col_names=</span>T)</span></code></pre></div>
+<ul>
+<li>R的base套件中沒有內建讀取Excel檔的工具，所以需要安裝並載入讀取Excel檔的第三方套件<code>readxl</code>才有辦法讀取Excel檔。</li>
+<li>為了避免讀取到文字型態chr的資料被程式自動轉為factor，使用<code>options(stringsAsFactors = FALSE)</code>自動將所有帶參數<code>stringsAsFactors</code>的參數值設為<code>FALSE</code>。</li>
+<li>利用<code>?read_excel</code>查詢一下可以怎麼用該函式如下。help上提到，該函式的功能為讀取.xls與xlsx檔，正確來說，是將.xls檔和.xlsx檔讀取後轉存為R的資料型態如data.frame或list。</li>
+<li><code>read_excel()</code>函式有以下幾個參數可以設定：
+<ul>
+<li><code>path</code>指的是檔案路徑、</li>
+<li><code>sheet</code>指的是哪一個資料表，可以給資料表名稱（如上例）或者指定第幾個資料表；</li>
+<li><code>skip</code>則可以忽略掉一些Excel開頭可能包含的幾列不需要的詮釋資料，其他可以詳閱查詢help的說明。
+
+<div class="example">
+<span id="exm:unnamed-chunk-24" class="example"><strong>Example 6.1  </strong></span>read_excel(path, sheet = NULL, range = NULL, col_names = TRUE, col_types = NULL, na = "", trim_ws = TRUE, skip = 0, n_max = Inf, guess_max = min(1000, n_max))
+</div></li>
+</ul></li>
+</ul>
+<p><strong>觀察資料</strong>：通常讀取好資料後，我會習慣性地用<code>View()</code>指令來觀察該data.frame。然後我會運用一些函式來協助我觀察一下該data.frame的特性。<code>class()</code>可以獲取資料型態、<code>dim()</code>可以獲知有幾列幾行（先列後行）、<code>names()</code>可以知道有哪些變項。但我最常用的是dplyr套件的<code>glimpse()</code>或<code>str()</code>，它告訴我這個其為一個data.frame，且有197個observation，也就是列，和156個變項。且<code>str()</code>會列出每個變數的變數名稱、變數型態（例如下方的iso2變數型態為chr（character，文字型態），而<code>wb_econ</code>的變數型態為num（numeric，數值型態），每個變數他會列出前幾筆資料。</p>
+<div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb224-1"><a href="-.html#cb224-1"></a><span class="kw">class</span>(rawdata)</span></code></pre></div>
+<pre><code>## [1] &quot;tbl_df&quot;     &quot;tbl&quot;        &quot;data.frame&quot;</code></pre>
+<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb226-1"><a href="-.html#cb226-1"></a><span class="kw">dim</span>(rawdata)</span></code></pre></div>
+<pre><code>## [1] 197 156</code></pre>
+<div class="sourceCode" id="cb228"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb228-1"><a href="-.html#cb228-1"></a><span class="kw">names</span>(rawdata)</span></code></pre></div>
+<pre><code>##   [1] &quot;country&quot;           &quot;iso2&quot;              &quot;iso3&quot;             
+##   [4] &quot;region&quot;            &quot;wb_econ&quot;           &quot;matleave_95&quot;      
+##   [7] &quot;matleave_96&quot;       &quot;matleave_97&quot;       &quot;matleave_98&quot;      
+##  [10] &quot;matleave_99&quot;       &quot;matleave_00&quot;       &quot;matleave_01&quot;      
+##  [13] &quot;matleave_02&quot;       &quot;matleave_03&quot;       &quot;matleave_04&quot;      
+##  [16] &quot;matleave_05&quot;       &quot;matleave_06&quot;       &quot;matleave_07&quot;      
+##  [19] &quot;matleave_08&quot;       &quot;matleave_09&quot;       &quot;matleave_10&quot;      
+##  [22] &quot;matleave_11&quot;       &quot;matleave_12&quot;       &quot;matleave_13&quot;      
+##  [25] &quot;matleave_wrr_95&quot;   &quot;matleave_wrr_96&quot;   &quot;matleave_wrr_97&quot;  
+##  [28] &quot;matleave_wrr_98&quot;   &quot;matleave_wrr_99&quot;   &quot;matleave_wrr_00&quot;  
+##  [31] &quot;matleave_wrr_01&quot;   &quot;matleave_wrr_02&quot;   &quot;matleave_wrr_03&quot;  
+##  [34] &quot;matleave_wrr_04&quot;   &quot;matleave_wrr_05&quot;   &quot;matleave_wrr_06&quot;  
+##  [37] &quot;matleave_wrr_07&quot;   &quot;matleave_wrr_08&quot;   &quot;matleave_wrr_09&quot;  
+##  [40] &quot;matleave_wrr_10&quot;   &quot;matleave_wrr_11&quot;   &quot;matleave_wrr_12&quot;  
+##  [43] &quot;matleave_wrr_13&quot;   &quot;bf_dur_95&quot;         &quot;bf_dur_96&quot;        
+##  [46] &quot;bf_dur_97&quot;         &quot;bf_dur_98&quot;         &quot;bf_dur_99&quot;        
+##  [49] &quot;bf_dur_00&quot;         &quot;bf_dur_01&quot;         &quot;bf_dur_02&quot;        
+##  [52] &quot;bf_dur_03&quot;         &quot;bf_dur_04&quot;         &quot;bf_dur_05&quot;        
+##  [55] &quot;bf_dur_06&quot;         &quot;bf_dur_07&quot;         &quot;bf_dur_08&quot;        
+##  [58] &quot;bf_dur_09&quot;         &quot;bf_dur_10&quot;         &quot;bf_dur_11&quot;        
+##  [61] &quot;bf_dur_12&quot;         &quot;bf_dur_13&quot;         &quot;mat_bfeed_6mon_95&quot;
+##  [64] &quot;mat_bfeed_6mon_96&quot; &quot;mat_bfeed_6mon_97&quot; &quot;mat_bfeed_6mon_98&quot;
+##  [67] &quot;mat_bfeed_6mon_99&quot; &quot;mat_bfeed_6mon_00&quot; &quot;mat_bfeed_6mon_01&quot;
+##  [70] &quot;mat_bfeed_6mon_02&quot; &quot;mat_bfeed_6mon_03&quot; &quot;mat_bfeed_6mon_04&quot;
+##  [73] &quot;mat_bfeed_6mon_05&quot; &quot;mat_bfeed_6mon_06&quot; &quot;mat_bfeed_6mon_07&quot;
+##  [76] &quot;mat_bfeed_6mon_08&quot; &quot;mat_bfeed_6mon_09&quot; &quot;mat_bfeed_6mon_10&quot;
+##  [79] &quot;mat_bfeed_6mon_11&quot; &quot;mat_bfeed_6mon_12&quot; &quot;mat_bfeed_6mon_13&quot;
+##  [82] &quot;minage_fem_leg_95&quot; &quot;minage_fem_leg_96&quot; &quot;minage_fem_leg_97&quot;
+##  [85] &quot;minage_fem_leg_98&quot; &quot;minage_fem_leg_99&quot; &quot;minage_fem_leg_00&quot;
+##  [88] &quot;minage_fem_leg_01&quot; &quot;minage_fem_leg_02&quot; &quot;minage_fem_leg_03&quot;
+##  [91] &quot;minage_fem_leg_04&quot; &quot;minage_fem_leg_05&quot; &quot;minage_fem_leg_06&quot;
+##  [94] &quot;minage_fem_leg_07&quot; &quot;minage_fem_leg_08&quot; &quot;minage_fem_leg_09&quot;
+##  [97] &quot;minage_fem_leg_10&quot; &quot;minage_fem_leg_11&quot; &quot;minage_fem_leg_12&quot;
+## [100] &quot;legal_diff_leg_95&quot; &quot;legal_diff_leg_96&quot; &quot;legal_diff_leg_97&quot;
+## [103] &quot;legal_diff_leg_98&quot; &quot;legal_diff_leg_99&quot; &quot;legal_diff_leg_00&quot;
+## [106] &quot;legal_diff_leg_01&quot; &quot;legal_diff_leg_02&quot; &quot;legal_diff_leg_03&quot;
+## [109] &quot;legal_diff_leg_04&quot; &quot;legal_diff_leg_05&quot; &quot;legal_diff_leg_06&quot;
+## [112] &quot;legal_diff_leg_07&quot; &quot;legal_diff_leg_08&quot; &quot;legal_diff_leg_09&quot;
+## [115] &quot;legal_diff_leg_10&quot; &quot;legal_diff_leg_11&quot; &quot;legal_diff_leg_12&quot;
+## [118] &quot;minage_fem_pc_95&quot;  &quot;minage_fem_pc_96&quot;  &quot;minage_fem_pc_97&quot; 
+## [121] &quot;minage_fem_pc_98&quot;  &quot;minage_fem_pc_99&quot;  &quot;minage_fem_pc_00&quot; 
+## [124] &quot;minage_fem_pc_01&quot;  &quot;minage_fem_pc_02&quot;  &quot;minage_fem_pc_03&quot; 
+## [127] &quot;minage_fem_pc_04&quot;  &quot;minage_fem_pc_05&quot;  &quot;minage_fem_pc_06&quot; 
+## [130] &quot;minage_fem_pc_07&quot;  &quot;minage_fem_pc_08&quot;  &quot;minage_fem_pc_09&quot; 
+## [133] &quot;minage_fem_pc_10&quot;  &quot;minage_fem_pc_11&quot;  &quot;minage_fem_pc_12&quot; 
+## [136] &quot;legal_diff_pc_95&quot;  &quot;legal_diff_pc_96&quot;  &quot;legal_diff_pc_97&quot; 
+## [139] &quot;legal_diff_pc_98&quot;  &quot;legal_diff_pc_99&quot;  &quot;legal_diff_pc_00&quot; 
+## [142] &quot;legal_diff_pc_01&quot;  &quot;legal_diff_pc_02&quot;  &quot;legal_diff_pc_03&quot; 
+## [145] &quot;legal_diff_pc_04&quot;  &quot;legal_diff_pc_05&quot;  &quot;legal_diff_pc_06&quot; 
+## [148] &quot;legal_diff_pc_07&quot;  &quot;legal_diff_pc_08&quot;  &quot;legal_diff_pc_09&quot; 
+## [151] &quot;legal_diff_pc_10&quot;  &quot;legal_diff_pc_11&quot;  &quot;legal_diff_pc_12&quot; 
+## [154] &quot;minwage_ppp_2013&quot;  &quot;mw_overtime&quot;       &quot;oecd&quot;</code></pre>
+<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb230-1"><a href="-.html#cb230-1"></a><span class="kw">str</span>(rawdata)</span></code></pre></div>
+<pre><code>## Classes &#39;tbl_df&#39;, &#39;tbl&#39; and &#39;data.frame&#39;:    197 obs. of  156 variables:
+##  $ country          : chr  &quot;Afghanistan&quot; &quot;Albania&quot; &quot;Algeria&quot; &quot;Andorra&quot; ...
+##  $ iso2             : chr  &quot;AF&quot; &quot;AL&quot; &quot;DZ&quot; &quot;AD&quot; ...
+##  $ iso3             : chr  &quot;AFG&quot; &quot;ALB&quot; &quot;DZA&quot; &quot;AND&quot; ...
+##  $ region           : chr  &quot;South Asia&quot; &quot;Europe &amp; Central Asia&quot; &quot;Middle East &amp; North Africa&quot; &quot;Europe &amp; Central Asia&quot; ...
+##  $ wb_econ          : num  1 2 2 4 2 4 2 2 4 4 ...
+##  $ matleave_95      : num  2 5 3 2 2 2 2 3 1 5 ...
+##  $ matleave_96      : num  2 5 3 2 2 2 2 3 1 5 ...
+##  $ matleave_97      : num  2 5 3 2 2 2 2 3 1 5 ...
+##  $ matleave_98      : num  2 5 3 2 2 2 2 3 1 5 ...
+##  $ matleave_99      : num  2 5 3 2 2 2 2 3 1 5 ...
+##  $ matleave_00      : num  2 5 3 3 2 2 2 3 1 5 ...
+##  $ matleave_01      : num  2 5 3 3 2 2 2 3 1 5 ...
+##  $ matleave_02      : num  2 5 3 3 2 2 2 3 1 5 ...
+##  $ matleave_03      : num  2 5 3 3 2 2 2 3 1 5 ...
+##  $ matleave_04      : num  2 5 3 3 2 2 2 5 1 5 ...
+##  $ matleave_05      : num  2 5 3 3 2 2 2 5 1 5 ...
+##  $ matleave_06      : num  2 5 3 3 2 2 2 5 1 5 ...
+##  $ matleave_07      : num  2 5 3 3 2 2 2 5 1 5 ...
+##  $ matleave_08      : num  2 5 3 3 2 2 2 5 1 5 ...
+##  $ matleave_09      : num  2 5 3 3 2 2 2 5 1 5 ...
+##  $ matleave_10      : num  2 5 3 3 2 2 2 5 NA 5 ...
+##  $ matleave_11      : num  2 5 3 3 2 2 2 5 3 5 ...
+##  $ matleave_12      : num  2 5 3 3 2 2 2 5 3 5 ...
+##  $ matleave_13      : num  2 5 3 3 2 2 2 5 3 5 ...
+##  $ matleave_wrr_95  : num  5 4 5 5 5 3 5 5 1 5 ...
+##  $ matleave_wrr_96  : num  5 4 5 5 5 3 5 5 1 5 ...
+##  $ matleave_wrr_97  : num  5 4 5 5 5 3 5 5 1 5 ...
+##  $ matleave_wrr_98  : num  5 4 5 5 5 5 5 5 1 5 ...
+##  $ matleave_wrr_99  : num  5 4 5 5 5 5 5 5 1 5 ...
+##  $ matleave_wrr_00  : num  5 4 5 5 5 5 5 5 1 5 ...
+##  $ matleave_wrr_01  : num  5 4 5 5 5 5 5 5 1 5 ...
+##  $ matleave_wrr_02  : num  5 4 5 5 5 5 5 5 1 5 ...
+##  $ matleave_wrr_03  : num  5 4 5 5 5 5 5 5 1 5 ...
+##  $ matleave_wrr_04  : num  5 4 5 5 5 5 5 5 1 5 ...
+##  $ matleave_wrr_05  : num  5 4 5 5 5 5 5 5 1 5 ...
+##  $ matleave_wrr_06  : num  5 4 5 5 5 5 5 5 1 5 ...
+##  $ matleave_wrr_07  : num  5 4 5 5 5 5 5 5 1 5 ...
+##  $ matleave_wrr_08  : num  5 4 5 5 5 5 5 5 1 5 ...
+##  $ matleave_wrr_09  : num  5 4 5 5 5 5 5 5 1 5 ...
+##  $ matleave_wrr_10  : num  5 4 5 5 5 5 5 5 NA 5 ...
+##  $ matleave_wrr_11  : num  5 4 5 5 5 5 5 5 2 5 ...
+##  $ matleave_wrr_12  : num  5 4 5 5 5 5 5 5 2 5 ...
+##  $ matleave_wrr_13  : num  5 4 5 5 5 5 5 5 2 5 ...
+##  $ bf_dur_95        : num  5 1 1 NA 5 1 5 5 1 5 ...
+##  $ bf_dur_96        : num  5 5 1 NA 5 1 5 5 1 5 ...
+##  $ bf_dur_97        : num  5 5 1 NA 5 1 5 5 1 5 ...
+##  $ bf_dur_98        : num  5 5 1 NA 5 1 5 5 1 5 ...
+##  $ bf_dur_99        : num  5 5 1 NA 5 1 5 5 1 5 ...
+##  $ bf_dur_00        : num  5 5 1 NA 5 1 5 5 1 5 ...
+##  $ bf_dur_01        : num  5 5 1 NA 5 1 5 5 1 5 ...
+##  $ bf_dur_02        : num  5 5 NA NA 5 1 5 5 1 5 ...
+##  $ bf_dur_03        : num  5 5 NA 5 5 1 5 5 1 5 ...
+##  $ bf_dur_04        : num  5 5 1 5 5 1 5 5 1 5 ...
+##  $ bf_dur_05        : num  5 5 1 5 5 1 5 5 1 5 ...
+##  $ bf_dur_06        : num  5 5 1 5 5 1 5 5 1 5 ...
+##  $ bf_dur_07        : num  5 5 1 5 5 1 5 5 1 5 ...
+##  $ bf_dur_08        : num  5 5 1 5 5 1 5 5 1 5 ...
+##  $ bf_dur_09        : num  5 5 1 5 5 1 5 5 1 5 ...
+##  $ bf_dur_10        : num  5 5 1 5 5 1 5 5 1 5 ...
+##  $ bf_dur_11        : num  5 5 1 5 5 1 5 5 1 5 ...
+##  $ bf_dur_12        : num  5 5 1 5 5 1 5 5 1 5 ...
+##  $ bf_dur_13        : num  5 5 1 5 5 1 5 5 1 5 ...
+##  $ mat_bfeed_6mon_95: num  3 3 1 NA 3 1 3 3 1 5 ...
+##  $ mat_bfeed_6mon_96: num  3 5 1 NA 3 1 3 3 1 5 ...
+##  $ mat_bfeed_6mon_97: num  3 5 1 NA 3 1 3 3 1 5 ...
+##  $ mat_bfeed_6mon_98: num  3 5 1 NA 3 1 3 3 1 5 ...
+##  $ mat_bfeed_6mon_99: num  3 5 1 NA 3 1 3 3 1 5 ...
+##  $ mat_bfeed_6mon_00: num  3 5 1 NA 3 1 3 3 1 5 ...
+##  $ mat_bfeed_6mon_01: num  3 5 1 NA 3 1 3 3 1 5 ...
+##  $ mat_bfeed_6mon_02: num  3 5 NA NA 3 1 3 3 1 5 ...
+##  $ mat_bfeed_6mon_03: num  3 5 NA 3 3 1 3 3 1 5 ...
+##  $ mat_bfeed_6mon_04: num  3 5 1 3 3 1 3 5 1 5 ...
+##  $ mat_bfeed_6mon_05: num  3 5 1 3 3 1 3 5 1 5 ...
+##  $ mat_bfeed_6mon_06: num  3 5 1 3 3 1 3 5 1 5 ...
+##  $ mat_bfeed_6mon_07: num  3 5 1 3 3 1 3 5 1 5 ...
+##  $ mat_bfeed_6mon_08: num  3 5 1 3 3 1 3 5 1 5 ...
+##  $ mat_bfeed_6mon_09: num  3 5 1 3 3 1 3 5 1 5 ...
+##  $ mat_bfeed_6mon_10: num  3 5 1 3 3 1 3 5 1 5 ...
+##  $ mat_bfeed_6mon_11: num  3 5 1 3 3 1 3 5 1 5 ...
+##  $ mat_bfeed_6mon_12: num  3 5 1 3 3 1 3 5 1 5 ...
+##  $ mat_bfeed_6mon_13: num  3 5 1 3 3 1 3 5 1 5 ...
+##  $ minage_fem_leg_95: num  4 4 5 NA 5 NA 5 4 NA NA ...
+##  $ minage_fem_leg_96: num  4 4 5 NA 5 NA 5 4 NA NA ...
+##  $ minage_fem_leg_97: num  4 4 5 NA 5 NA 5 4 NA NA ...
+##  $ minage_fem_leg_98: num  4 4 5 NA 5 NA 5 4 NA NA ...
+##  $ minage_fem_leg_99: num  4 4 5 NA 5 NA 5 4 NA NA ...
+##  $ minage_fem_leg_00: num  4 4 5 NA 5 NA 5 4 NA NA ...
+##  $ minage_fem_leg_01: num  4 4 5 NA 5 NA 5 4 NA NA ...
+##  $ minage_fem_leg_02: num  4 4 5 NA 5 NA 5 4 NA NA ...
+##  $ minage_fem_leg_03: num  4 5 5 NA 5 NA 5 4 NA NA ...
+##  $ minage_fem_leg_04: num  4 5 5 NA 5 NA 5 4 NA NA ...
+##  $ minage_fem_leg_05: num  4 5 5 NA 5 NA 5 4 NA NA ...
+##  $ minage_fem_leg_06: num  4 5 5 NA 5 NA 5 4 NA NA ...
+##  $ minage_fem_leg_07: num  4 5 5 NA 5 NA 5 4 NA NA ...
+##  $ minage_fem_leg_08: num  4 5 5 NA 5 NA 5 4 NA NA ...
+##  $ minage_fem_leg_09: num  4 5 5 NA 5 NA 5 4 NA NA ...
+##  $ minage_fem_leg_10: num  4 5 5 NA 5 NA 5 4 NA NA ...
+##  $ minage_fem_leg_11: num  4 5 5 NA 5 NA 5 4 NA NA ...
+##  $ minage_fem_leg_12: num  4 5 5 NA 5 NA 5 4 NA NA ...
+##   [list output truncated]</code></pre>
+<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="-.html#cb232-1"></a><span class="kw">glimpse</span>(rawdata)</span></code></pre></div>
+<pre><code>## Observations: 197
+## Variables: 156
+## $ country           &lt;chr&gt; &quot;Afghanistan&quot;, &quot;Albania&quot;, &quot;Algeria&quot;, &quot;Andorra&quot;, &quot;An…
+## $ iso2              &lt;chr&gt; &quot;AF&quot;, &quot;AL&quot;, &quot;DZ&quot;, &quot;AD&quot;, &quot;AO&quot;, &quot;AG&quot;, &quot;AR&quot;, &quot;AM&quot;, &quot;AU…
+## $ iso3              &lt;chr&gt; &quot;AFG&quot;, &quot;ALB&quot;, &quot;DZA&quot;, &quot;AND&quot;, &quot;AGO&quot;, &quot;ATG&quot;, &quot;ARG&quot;, &quot;A…
+## $ region            &lt;chr&gt; &quot;South Asia&quot;, &quot;Europe &amp; Central Asia&quot;, &quot;Middle East…
+## $ wb_econ           &lt;dbl&gt; 1, 2, 2, 4, 2, 4, 2, 2, 4, 4, 2, 4, 4, 1, 4, 2, 4, …
+## $ matleave_95       &lt;dbl&gt; 2, 5, 3, 2, 2, 2, 2, 3, 1, 5, 5, 2, 2, 2, 2, 5, 3, …
+## $ matleave_96       &lt;dbl&gt; 2, 5, 3, 2, 2, 2, 2, 3, 1, 5, 5, 2, 2, 2, 2, 5, 3, …
+## $ matleave_97       &lt;dbl&gt; 2, 5, 3, 2, 2, 2, 2, 3, 1, 5, 5, 2, 2, 2, 2, 5, 3, …
+## $ matleave_98       &lt;dbl&gt; 2, 5, 3, 2, 2, 2, 2, 3, 1, 5, 5, 2, 2, 2, 2, 5, 4, …
+## $ matleave_99       &lt;dbl&gt; 2, 5, 3, 2, 2, 2, 2, 3, 1, 5, 5, 2, 2, 2, 2, 5, 4, …
+## $ matleave_00       &lt;dbl&gt; 2, 5, 3, 3, 2, 2, 2, 3, 1, 5, 5, 2, 2, 2, 2, 5, 4, …
+## $ matleave_01       &lt;dbl&gt; 2, 5, 3, 3, 2, 2, 2, 3, 1, 5, 5, 2, 2, 2, 2, 5, 4, …
+## $ matleave_02       &lt;dbl&gt; 2, 5, 3, 3, 2, 2, 2, 3, 1, 5, 5, 2, 2, 2, 2, 5, 4, …
+## $ matleave_03       &lt;dbl&gt; 2, 5, 3, 3, 2, 2, 2, 3, 1, 5, 5, 2, 2, 2, 2, 5, 4, …
+## $ matleave_04       &lt;dbl&gt; 2, 5, 3, 3, 2, 2, 2, 5, 1, 5, 5, 2, 2, 2, 2, 5, 4, …
+## $ matleave_05       &lt;dbl&gt; 2, 5, 3, 3, 2, 2, 2, 5, 1, 5, 5, 2, 2, 2, 2, 5, 4, …
+## $ matleave_06       &lt;dbl&gt; 2, 5, 3, 3, 2, 2, 2, 5, 1, 5, 5, 2, 2, 3, 2, 5, 4, …
+## $ matleave_07       &lt;dbl&gt; 2, 5, 3, 3, 2, 2, 2, 5, 1, 5, 5, 2, 2, 3, 2, 5, 4, …
+## $ matleave_08       &lt;dbl&gt; 2, 5, 3, 3, 2, 2, 2, 5, 1, 5, 5, 2, 2, 3, 2, 5, 4, …
+## $ matleave_09       &lt;dbl&gt; 2, 5, 3, 3, 2, 2, 2, 5, 1, 5, 5, 2, 2, 3, 2, 5, 4, …
+## $ matleave_10       &lt;dbl&gt; 2, 5, 3, 3, 2, 2, 2, 5, NA, 5, 5, 2, 2, 3, 2, 5, 4,…
+## $ matleave_11       &lt;dbl&gt; 2, 5, 3, 3, 2, 2, 2, 5, 3, 5, 5, 2, 2, 3, 2, 5, 4, …
+## $ matleave_12       &lt;dbl&gt; 2, 5, 3, 3, 2, 2, 2, 5, 3, 5, 5, 2, 2, 3, 2, 5, 4, …
+## $ matleave_13       &lt;dbl&gt; 2, 5, 3, 3, 2, 2, 2, 5, 3, 5, 5, 2, 2, 3, 2, 5, 4, …
+## $ matleave_wrr_95   &lt;dbl&gt; 5, 4, 5, 5, 5, 3, 5, 5, 1, 5, 5, 5, 5, 5, 5, 5, 4, …
+## $ matleave_wrr_96   &lt;dbl&gt; 5, 4, 5, 5, 5, 3, 5, 5, 1, 5, 5, 5, 5, 5, 5, 5, 4, …
+## $ matleave_wrr_97   &lt;dbl&gt; 5, 4, 5, 5, 5, 3, 5, 5, 1, 5, 5, 5, 5, 5, 5, 5, 4, …
+## $ matleave_wrr_98   &lt;dbl&gt; 5, 4, 5, 5, 5, 5, 5, 5, 1, 5, 5, 5, 5, 5, 5, 5, 4, …
+## $ matleave_wrr_99   &lt;dbl&gt; 5, 4, 5, 5, 5, 5, 5, 5, 1, 5, 5, 5, 5, 5, 5, 5, 4, …
+## $ matleave_wrr_00   &lt;dbl&gt; 5, 4, 5, 5, 5, 5, 5, 5, 1, 5, 5, 5, 5, 5, 5, 5, 4, …
+## $ matleave_wrr_01   &lt;dbl&gt; 5, 4, 5, 5, 5, 5, 5, 5, 1, 5, 5, 5, 5, 5, 5, 5, 4, …
+## $ matleave_wrr_02   &lt;dbl&gt; 5, 4, 5, 5, 5, 5, 5, 5, 1, 5, 5, 5, 5, 5, 5, 5, 4, …
+## $ matleave_wrr_03   &lt;dbl&gt; 5, 4, 5, 5, 5, 5, 5, 5, 1, 5, 5, 5, 5, 5, 5, 5, 4, …
+## $ matleave_wrr_04   &lt;dbl&gt; 5, 4, 5, 5, 5, 5, 5, 5, 1, 5, 5, 5, 5, 5, 5, 5, 4, …
+## $ matleave_wrr_05   &lt;dbl&gt; 5, 4, 5, 5, 5, 5, 5, 5, 1, 5, 5, 5, 5, 5, 5, 5, 4, …
+## $ matleave_wrr_06   &lt;dbl&gt; 5, 4, 5, 5, 5, 5, 5, 5, 1, 5, 5, 5, 5, 5, 5, 5, 4, …
+## $ matleave_wrr_07   &lt;dbl&gt; 5, 4, 5, 5, 5, 5, 5, 5, 1, 5, 5, 5, 5, 5, 5, 5, 4, …
+## $ matleave_wrr_08   &lt;dbl&gt; 5, 4, 5, 5, 5, 5, 5, 5, 1, 5, 5, 5, 5, 5, 5, 5, 4, …
+## $ matleave_wrr_09   &lt;dbl&gt; 5, 4, 5, 5, 5, 5, 5, 5, 1, 5, 5, 5, 5, 5, 5, 5, 4, …
+## $ matleave_wrr_10   &lt;dbl&gt; 5, 4, 5, 5, 5, 5, 5, 5, NA, 5, 5, 5, 5, 5, 5, 5, 4,…
+## $ matleave_wrr_11   &lt;dbl&gt; 5, 4, 5, 5, 5, 5, 5, 5, 2, 5, 5, 5, 5, 5, 5, 5, 4, …
+## $ matleave_wrr_12   &lt;dbl&gt; 5, 4, 5, 5, 5, 5, 5, 5, 2, 5, 5, 5, 5, 5, 5, 5, 4, …
+## $ matleave_wrr_13   &lt;dbl&gt; 5, 4, 5, 5, 5, 5, 5, 5, 2, 5, 5, 5, 5, 5, 5, 5, 4, …
+## $ bf_dur_95         &lt;dbl&gt; 5, 1, 1, NA, 5, 1, 5, 5, 1, 5, 5, 1, 3, 1, 1, 5, 1,…
+## $ bf_dur_96         &lt;dbl&gt; 5, 5, 1, NA, 5, 1, 5, 5, 1, 5, 5, 1, 3, 1, 1, 5, 1,…
+## $ bf_dur_97         &lt;dbl&gt; 5, 5, 1, NA, 5, 1, 5, 5, 1, 5, 5, 1, 3, 1, 1, 5, 1,…
+## $ bf_dur_98         &lt;dbl&gt; 5, 5, 1, NA, 5, 1, 5, 5, 1, 5, 5, 1, 3, 1, 1, 5, 1,…
+## $ bf_dur_99         &lt;dbl&gt; 5, 5, 1, NA, 5, 1, 5, 5, 1, 5, 5, 1, 3, 1, 1, 5, 1,…
+## $ bf_dur_00         &lt;dbl&gt; 5, 5, 1, NA, 5, 1, 5, 5, 1, 5, 5, 1, 3, 1, 1, 5, 1,…
+## $ bf_dur_01         &lt;dbl&gt; 5, 5, 1, NA, 5, 1, 5, 5, 1, 5, 5, 1, 3, 1, 1, 5, 1,…
+## $ bf_dur_02         &lt;dbl&gt; 5, 5, NA, NA, 5, 1, 5, 5, 1, 5, 5, 1, 3, 1, 1, 5, 5…
+## $ bf_dur_03         &lt;dbl&gt; 5, 5, NA, 5, 5, 1, 5, 5, 1, 5, 5, 1, 3, 1, 1, 5, 5,…
+## $ bf_dur_04         &lt;dbl&gt; 5, 5, 1, 5, 5, 1, 5, 5, 1, 5, 5, 1, 3, 1, 1, 5, 5, …
+## $ bf_dur_05         &lt;dbl&gt; 5, 5, 1, 5, 5, 1, 5, 5, 1, 5, 5, 1, 3, 1, 1, 5, 5, …
+## $ bf_dur_06         &lt;dbl&gt; 5, 5, 1, 5, 5, 1, 5, 5, 1, 5, 5, 1, 3, 1, 1, 5, 5, …
+## $ bf_dur_07         &lt;dbl&gt; 5, 5, 1, 5, 5, 1, 5, 5, 1, 5, 5, 1, 3, 1, 1, 5, 5, …
+## $ bf_dur_08         &lt;dbl&gt; 5, 5, 1, 5, 5, 1, 5, 5, 1, 5, 5, 1, 3, 1, 1, 5, 5, …
+## $ bf_dur_09         &lt;dbl&gt; 5, 5, 1, 5, 5, 1, 5, 5, 1, 5, 5, 1, 3, 1, 1, 5, 5, …
+## $ bf_dur_10         &lt;dbl&gt; 5, 5, 1, 5, 5, 1, 5, 5, 1, 5, 5, 1, 3, 1, 1, 5, 5, …
+## $ bf_dur_11         &lt;dbl&gt; 5, 5, 1, 5, 5, 1, 5, 5, 1, 5, 5, 1, 3, 1, 1, 5, 5, …
+## $ bf_dur_12         &lt;dbl&gt; 5, 5, 1, 5, 5, 1, 5, 5, 1, 5, 5, 1, 5, 1, 1, 5, 5, …
+## $ bf_dur_13         &lt;dbl&gt; 5, 5, 1, 5, 5, 1, 5, 5, 1, 5, 5, 1, 5, 1, 1, 5, 5, …
+## $ mat_bfeed_6mon_95 &lt;dbl&gt; 3, 3, 1, NA, 3, 1, 3, 3, 1, 5, 5, 1, 1, 1, 1, 5, 1,…
+## $ mat_bfeed_6mon_96 &lt;dbl&gt; 3, 5, 1, NA, 3, 1, 3, 3, 1, 5, 5, 1, 1, 1, 1, 5, 1,…
+## $ mat_bfeed_6mon_97 &lt;dbl&gt; 3, 5, 1, NA, 3, 1, 3, 3, 1, 5, 5, 1, 1, 1, 1, 5, 1,…
+## $ mat_bfeed_6mon_98 &lt;dbl&gt; 3, 5, 1, NA, 3, 1, 3, 3, 1, 5, 5, 1, 1, 1, 1, 5, 3,…
+## $ mat_bfeed_6mon_99 &lt;dbl&gt; 3, 5, 1, NA, 3, 1, 3, 3, 1, 5, 5, 1, 1, 1, 1, 5, 3,…
+## $ mat_bfeed_6mon_00 &lt;dbl&gt; 3, 5, 1, NA, 3, 1, 3, 3, 1, 5, 5, 1, 1, 1, 1, 5, 3,…
+## $ mat_bfeed_6mon_01 &lt;dbl&gt; 3, 5, 1, NA, 3, 1, 3, 3, 1, 5, 5, 1, 1, 1, 1, 5, 3,…
+## $ mat_bfeed_6mon_02 &lt;dbl&gt; 3, 5, NA, NA, 3, 1, 3, 3, 1, 5, 5, 1, 1, 1, 1, 5, 5…
+## $ mat_bfeed_6mon_03 &lt;dbl&gt; 3, 5, NA, 3, 3, 1, 3, 3, 1, 5, 5, 1, 1, 1, 1, 5, 5,…
+## $ mat_bfeed_6mon_04 &lt;dbl&gt; 3, 5, 1, 3, 3, 1, 3, 5, 1, 5, 5, 1, 1, 1, 1, 5, 5, …
+## $ mat_bfeed_6mon_05 &lt;dbl&gt; 3, 5, 1, 3, 3, 1, 3, 5, 1, 5, 5, 1, 1, 1, 1, 5, 5, …
+## $ mat_bfeed_6mon_06 &lt;dbl&gt; 3, 5, 1, 3, 3, 1, 3, 5, 1, 5, 5, 1, 1, 1, 1, 5, 5, …
+## $ mat_bfeed_6mon_07 &lt;dbl&gt; 3, 5, 1, 3, 3, 1, 3, 5, 1, 5, 5, 1, 1, 1, 1, 5, 5, …
+## $ mat_bfeed_6mon_08 &lt;dbl&gt; 3, 5, 1, 3, 3, 1, 3, 5, 1, 5, 5, 1, 1, 1, 1, 5, 5, …
+## $ mat_bfeed_6mon_09 &lt;dbl&gt; 3, 5, 1, 3, 3, 1, 3, 5, 1, 5, 5, 1, 1, 1, 1, 5, 5, …
+## $ mat_bfeed_6mon_10 &lt;dbl&gt; 3, 5, 1, 3, 3, 1, 3, 5, 1, 5, 5, 1, 1, 1, 1, 5, 5, …
+## $ mat_bfeed_6mon_11 &lt;dbl&gt; 3, 5, 1, 3, 3, 1, 3, 5, 1, 5, 5, 1, 1, 1, 1, 5, 5, …
+## $ mat_bfeed_6mon_12 &lt;dbl&gt; 3, 5, 1, 3, 3, 1, 3, 5, 1, 5, 5, 1, 3, 1, 1, 5, 5, …
+## $ mat_bfeed_6mon_13 &lt;dbl&gt; 3, 5, 1, 3, 3, 1, 3, 5, 1, 5, 5, 1, 3, 1, 1, 5, 5, …
+## $ minage_fem_leg_95 &lt;dbl&gt; 4, 4, 5, NA, 5, NA, 5, 4, NA, NA, 5, NA, NA, 5, 5, …
+## $ minage_fem_leg_96 &lt;dbl&gt; 4, 4, 5, NA, 5, NA, 5, 4, NA, NA, 5, NA, NA, 5, 5, …
+## $ minage_fem_leg_97 &lt;dbl&gt; 4, 4, 5, NA, 5, NA, 5, 4, NA, NA, 5, NA, NA, 5, 5, …
+## $ minage_fem_leg_98 &lt;dbl&gt; 4, 4, 5, NA, 5, NA, 5, 4, NA, NA, 5, NA, NA, 5, 5, …
+## $ minage_fem_leg_99 &lt;dbl&gt; 4, 4, 5, NA, 5, NA, 5, 4, NA, NA, 4, NA, NA, 5, 5, …
+## $ minage_fem_leg_00 &lt;dbl&gt; 4, 4, 5, NA, 5, NA, 5, 4, NA, NA, 4, NA, NA, 5, 5, …
+## $ minage_fem_leg_01 &lt;dbl&gt; 4, 4, 5, NA, 5, NA, 5, 4, NA, NA, 4, NA, NA, 5, 5, …
+## $ minage_fem_leg_02 &lt;dbl&gt; 4, 4, 5, NA, 5, NA, 5, 4, NA, NA, 4, NA, NA, 5, 5, …
+## $ minage_fem_leg_03 &lt;dbl&gt; 4, 5, 5, NA, 5, NA, 5, 4, NA, NA, 4, NA, NA, 5, 5, …
+## $ minage_fem_leg_04 &lt;dbl&gt; 4, 5, 5, NA, 5, NA, 5, 4, NA, NA, 4, NA, NA, 5, 5, …
+## $ minage_fem_leg_05 &lt;dbl&gt; 4, 5, 5, NA, 5, NA, 5, 4, NA, NA, 4, NA, NA, 5, 5, …
+## $ minage_fem_leg_06 &lt;dbl&gt; 4, 5, 5, NA, 5, NA, 5, 4, NA, NA, 4, NA, NA, 5, 5, …
+## $ minage_fem_leg_07 &lt;dbl&gt; 4, 5, 5, NA, 5, NA, 5, 4, NA, NA, 4, NA, NA, 5, 5, …
+## $ minage_fem_leg_08 &lt;dbl&gt; 4, 5, 5, NA, 5, NA, 5, 4, NA, NA, 4, NA, NA, 5, 5, …
+## $ minage_fem_leg_09 &lt;dbl&gt; 4, 5, 5, NA, 5, NA, 5, 4, NA, NA, 4, NA, NA, 5, 5, …
+## $ minage_fem_leg_10 &lt;dbl&gt; 4, 5, 5, NA, 5, NA, 5, 4, NA, NA, 4, NA, NA, 5, 5, …
+## $ minage_fem_leg_11 &lt;dbl&gt; 4, 5, 5, NA, 5, NA, 5, 4, NA, NA, 4, NA, NA, 5, 5, …
+## $ minage_fem_leg_12 &lt;dbl&gt; 4, 5, 5, NA, 5, NA, 5, 4, NA, NA, 4, NA, NA, 5, 5, …
+## $ legal_diff_leg_95 &lt;dbl&gt; 3, 3, 2, NA, 5, NA, 5, 3, NA, NA, 5, NA, NA, 2, 5, …
+## $ legal_diff_leg_96 &lt;dbl&gt; 3, 3, 2, NA, 5, NA, 5, 3, NA, NA, 5, NA, NA, 2, 5, …
+## $ legal_diff_leg_97 &lt;dbl&gt; 3, 3, 2, NA, 5, NA, 5, 3, NA, NA, 5, NA, NA, 2, 5, …
+## $ legal_diff_leg_98 &lt;dbl&gt; 3, 3, 2, NA, 5, NA, 5, 3, NA, NA, 5, NA, NA, 2, 5, …
+## $ legal_diff_leg_99 &lt;dbl&gt; 3, 3, 2, NA, 5, NA, 5, 3, NA, NA, 3, NA, NA, 2, 5, …
+## $ legal_diff_leg_00 &lt;dbl&gt; 3, 3, 2, NA, 5, NA, 5, 3, NA, NA, 3, NA, NA, 2, 5, …
+## $ legal_diff_leg_01 &lt;dbl&gt; 3, 3, 2, NA, 5, NA, 5, 3, NA, NA, 3, NA, NA, 2, 5, …
+## $ legal_diff_leg_02 &lt;dbl&gt; 3, 3, 2, NA, 5, NA, 5, 3, NA, NA, 3, NA, NA, 2, 5, …
+## $ legal_diff_leg_03 &lt;dbl&gt; 3, 5, 2, NA, 5, NA, 5, 3, NA, NA, 3, NA, NA, 2, 5, …
+## $ legal_diff_leg_04 &lt;dbl&gt; 3, 5, 2, NA, 5, NA, 5, 3, NA, NA, 3, NA, NA, 2, 5, …
+## $ legal_diff_leg_05 &lt;dbl&gt; 3, 5, 5, NA, 5, NA, 5, 3, NA, NA, 3, NA, NA, 2, 5, …
+## $ legal_diff_leg_06 &lt;dbl&gt; 3, 5, 5, NA, 5, NA, 5, 3, NA, NA, 3, NA, NA, 2, 5, …
+## $ legal_diff_leg_07 &lt;dbl&gt; 3, 5, 5, NA, 5, NA, 5, 3, NA, NA, 3, NA, NA, 2, 5, …
+## $ legal_diff_leg_08 &lt;dbl&gt; 3, 5, 5, NA, 5, NA, 5, 3, NA, NA, 3, NA, NA, 2, 5, …
+## $ legal_diff_leg_09 &lt;dbl&gt; 3, 5, 5, NA, 5, NA, 5, 3, NA, NA, 3, NA, NA, 2, 5, …
+## $ legal_diff_leg_10 &lt;dbl&gt; 3, 5, 5, NA, 5, NA, 5, 3, NA, NA, 3, NA, NA, 2, 5, …
+## $ legal_diff_leg_11 &lt;dbl&gt; 3, 5, 5, NA, 5, NA, 5, 3, NA, NA, 3, NA, NA, 2, 5, …
+## $ legal_diff_leg_12 &lt;dbl&gt; 3, 5, 5, NA, 5, NA, 5, 3, NA, NA, 3, NA, NA, 2, 5, …
+## $ minage_fem_pc_95  &lt;dbl&gt; 3, 4, 5, NA, 3, NA, 4, 4, NA, NA, 5, NA, NA, 5, 4, …
+## $ minage_fem_pc_96  &lt;dbl&gt; 3, 4, 5, NA, 3, NA, 4, 4, NA, NA, 5, NA, NA, 5, 4, …
+## $ minage_fem_pc_97  &lt;dbl&gt; 3, 4, 5, NA, 3, NA, 4, 4, NA, NA, 5, NA, NA, 5, 4, …
+## $ minage_fem_pc_98  &lt;dbl&gt; 3, 4, 5, NA, 3, NA, 4, 4, NA, NA, 5, NA, NA, 5, 4, …
+## $ minage_fem_pc_99  &lt;dbl&gt; 3, 4, 5, NA, 3, NA, 4, 4, NA, NA, 4, NA, NA, 5, 4, …
+## $ minage_fem_pc_00  &lt;dbl&gt; 3, 4, 5, NA, 3, NA, 4, 4, NA, NA, 4, NA, NA, 5, 4, …
+## $ minage_fem_pc_01  &lt;dbl&gt; 3, 4, 5, NA, 3, NA, 4, 4, NA, NA, 4, NA, NA, 5, 4, …
+## $ minage_fem_pc_02  &lt;dbl&gt; 3, 4, 5, NA, 3, NA, 4, 4, NA, NA, 4, NA, NA, 5, 4, …
+## $ minage_fem_pc_03  &lt;dbl&gt; 3, 5, 5, NA, 3, NA, 4, 4, NA, NA, 4, NA, NA, 5, 4, …
+## $ minage_fem_pc_04  &lt;dbl&gt; 3, 5, 5, NA, 3, NA, 4, 4, NA, NA, 4, NA, NA, 5, 4, …
+## $ minage_fem_pc_05  &lt;dbl&gt; 3, 5, 5, NA, 3, NA, 4, 4, NA, NA, 4, NA, NA, 5, 4, …
+## $ minage_fem_pc_06  &lt;dbl&gt; 3, 5, 5, NA, 3, NA, 4, 4, NA, NA, 4, NA, NA, 5, 4, …
+## $ minage_fem_pc_07  &lt;dbl&gt; 3, 5, 5, NA, 3, NA, 4, 4, NA, NA, 4, NA, NA, 5, 4, …
+## $ minage_fem_pc_08  &lt;dbl&gt; 3, 5, 5, NA, 3, NA, 4, 4, NA, NA, 4, NA, NA, 5, 4, …
+## $ minage_fem_pc_09  &lt;dbl&gt; 3, 5, 5, NA, 3, NA, 5, 4, NA, NA, 4, NA, NA, 5, 4, …
+## $ minage_fem_pc_10  &lt;dbl&gt; 3, 5, 5, NA, 3, NA, 5, 4, NA, NA, 4, NA, NA, 5, 4, …
+## $ minage_fem_pc_11  &lt;dbl&gt; 3, 5, 5, NA, 3, NA, 5, 4, NA, NA, 4, NA, NA, 5, 4, …
+## $ minage_fem_pc_12  &lt;dbl&gt; 3, 5, 5, NA, 3, NA, 5, 4, NA, NA, 4, NA, NA, 5, 4, …
+## $ legal_diff_pc_95  &lt;dbl&gt; 2, 3, 2, NA, 3, NA, 3, 3, NA, NA, 5, NA, NA, 2, 5, …
+## $ legal_diff_pc_96  &lt;dbl&gt; 2, 3, 2, NA, 3, NA, 3, 3, NA, NA, 5, NA, NA, 2, 5, …
+## $ legal_diff_pc_97  &lt;dbl&gt; 2, 3, 2, NA, 3, NA, 3, 3, NA, NA, 5, NA, NA, 2, 5, …
+## $ legal_diff_pc_98  &lt;dbl&gt; 2, 3, 2, NA, 3, NA, 3, 3, NA, NA, 5, NA, NA, 2, 5, …
+## $ legal_diff_pc_99  &lt;dbl&gt; 2, 3, 2, NA, 3, NA, 3, 3, NA, NA, 3, NA, NA, 2, 5, …
+## $ legal_diff_pc_00  &lt;dbl&gt; 2, 3, 2, NA, 3, NA, 3, 3, NA, NA, 3, NA, NA, 2, 5, …
+## $ legal_diff_pc_01  &lt;dbl&gt; 2, 3, 2, NA, 3, NA, 3, 3, NA, NA, 3, NA, NA, 2, 5, …
+## $ legal_diff_pc_02  &lt;dbl&gt; 2, 3, 2, NA, 3, NA, 3, 3, NA, NA, 3, NA, NA, 2, 5, …
+## $ legal_diff_pc_03  &lt;dbl&gt; 2, 5, 2, NA, 3, NA, 3, 3, NA, NA, 3, NA, NA, 2, 5, …
+## $ legal_diff_pc_04  &lt;dbl&gt; 2, 5, 2, NA, 3, NA, 3, 3, NA, NA, 3, NA, NA, 2, 5, …
+## $ legal_diff_pc_05  &lt;dbl&gt; 2, 5, 5, NA, 3, NA, 3, 3, NA, NA, 3, NA, NA, 2, 5, …
+## $ legal_diff_pc_06  &lt;dbl&gt; 2, 5, 5, NA, 3, NA, 3, 3, NA, NA, 3, NA, NA, 2, 5, …
+## $ legal_diff_pc_07  &lt;dbl&gt; 2, 5, 5, NA, 3, NA, 3, 3, NA, NA, 3, NA, NA, 2, 5, …
+## $ legal_diff_pc_08  &lt;dbl&gt; 2, 5, 5, NA, 3, NA, 3, 3, NA, NA, 3, NA, NA, 2, 5, …
+## $ legal_diff_pc_09  &lt;dbl&gt; 2, 5, 5, NA, 3, NA, 5, 3, NA, NA, 3, NA, NA, 2, 5, …
+## $ legal_diff_pc_10  &lt;dbl&gt; 2, 5, 5, NA, 3, NA, 5, 3, NA, NA, 3, NA, NA, 2, 5, …
+## $ legal_diff_pc_11  &lt;dbl&gt; 2, 5, 5, NA, 3, NA, 5, 3, NA, NA, 3, NA, NA, 2, 5, …
+## $ legal_diff_pc_12  &lt;dbl&gt; 2, 5, 5, NA, 3, NA, 5, 3, NA, NA, 3, NA, NA, 2, 5, …
+## $ minwage_ppp_2013  &lt;dbl&gt; 4, 5, 5, NA, 4, NA, NA, 4, NA, NA, 4, NA, NA, 4, NA…
+## $ mw_overtime       &lt;dbl&gt; NA, 5, 2, NA, 2, NA, 5, 5, NA, NA, 5, NA, NA, -9, N…
+## $ oecd              &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, …</code></pre>
+</div>
+<div id="步驟二選取所需變項" class="section level4" number="6.1.1.2">
+<h4><span class="header-section-number">6.1.1.2</span> 步驟二：選取所需變項</h4>
+<div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb234-1"><a href="-.html#cb234-1"></a>matleave &lt;-<span class="st"> </span>rawdata[ , <span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">6</span><span class="op">:</span><span class="dv">24</span>)]</span>
+<span id="cb234-2"><a href="-.html#cb234-2"></a><span class="kw">glimpse</span>(matleave)</span></code></pre></div>
+<pre><code>## Observations: 197
+## Variables: 20
+## $ iso3        &lt;chr&gt; &quot;AFG&quot;, &quot;ALB&quot;, &quot;DZA&quot;, &quot;AND&quot;, &quot;AGO&quot;, &quot;ATG&quot;, &quot;ARG&quot;, &quot;ARM&quot;, &quot;…
+## $ matleave_95 &lt;dbl&gt; 2, 5, 3, 2, 2, 2, 2, 3, 1, 5, 5, 2, 2, 2, 2, 5, 3, 2, 3, …
+## $ matleave_96 &lt;dbl&gt; 2, 5, 3, 2, 2, 2, 2, 3, 1, 5, 5, 2, 2, 2, 2, 5, 3, 2, 3, …
+## $ matleave_97 &lt;dbl&gt; 2, 5, 3, 2, 2, 2, 2, 3, 1, 5, 5, 2, 2, 2, 2, 5, 3, 2, 3, …
+## $ matleave_98 &lt;dbl&gt; 2, 5, 3, 2, 2, 2, 2, 3, 1, 5, 5, 2, 2, 2, 2, 5, 4, 2, 3, …
+## $ matleave_99 &lt;dbl&gt; 2, 5, 3, 2, 2, 2, 2, 3, 1, 5, 5, 2, 2, 2, 2, 5, 4, 2, 3, …
+## $ matleave_00 &lt;dbl&gt; 2, 5, 3, 3, 2, 2, 2, 3, 1, 5, 5, 2, 2, 2, 2, 5, 4, 3, 3, …
+## $ matleave_01 &lt;dbl&gt; 2, 5, 3, 3, 2, 2, 2, 3, 1, 5, 5, 2, 2, 2, 2, 5, 4, 3, 3, …
+## $ matleave_02 &lt;dbl&gt; 2, 5, 3, 3, 2, 2, 2, 3, 1, 5, 5, 2, 2, 2, 2, 5, 4, 3, 3, …
+## $ matleave_03 &lt;dbl&gt; 2, 5, 3, 3, 2, 2, 2, 3, 1, 5, 5, 2, 2, 2, 2, 5, 4, 3, 3, …
+## $ matleave_04 &lt;dbl&gt; 2, 5, 3, 3, 2, 2, 2, 5, 1, 5, 5, 2, 2, 2, 2, 5, 4, 3, 3, …
+## $ matleave_05 &lt;dbl&gt; 2, 5, 3, 3, 2, 2, 2, 5, 1, 5, 5, 2, 2, 2, 2, 5, 4, 3, 3, …
+## $ matleave_06 &lt;dbl&gt; 2, 5, 3, 3, 2, 2, 2, 5, 1, 5, 5, 2, 2, 3, 2, 5, 4, 3, 3, …
+## $ matleave_07 &lt;dbl&gt; 2, 5, 3, 3, 2, 2, 2, 5, 1, 5, 5, 2, 2, 3, 2, 5, 4, 3, 3, …
+## $ matleave_08 &lt;dbl&gt; 2, 5, 3, 3, 2, 2, 2, 5, 1, 5, 5, 2, 2, 3, 2, 5, 4, 3, 3, …
+## $ matleave_09 &lt;dbl&gt; 2, 5, 3, 3, 2, 2, 2, 5, 1, 5, 5, 2, 2, 3, 2, 5, 4, 3, 3, …
+## $ matleave_10 &lt;dbl&gt; 2, 5, 3, 3, 2, 2, 2, 5, NA, 5, 5, 2, 2, 3, 2, 5, 4, 3, 3,…
+## $ matleave_11 &lt;dbl&gt; 2, 5, 3, 3, 2, 2, 2, 5, 3, 5, 5, 2, 2, 3, 2, 5, 4, 3, 3, …
+## $ matleave_12 &lt;dbl&gt; 2, 5, 3, 3, 2, 2, 2, 5, 3, 5, 5, 2, 2, 3, 2, 5, 4, 3, 3, …
+## $ matleave_13 &lt;dbl&gt; 2, 5, 3, 3, 2, 2, 2, 5, 3, 5, 5, 2, 2, 3, 2, 5, 4, 3, 3, …</code></pre>
+<p>選擇所需變項欄必須要把條件寫在rawdata中括號的逗號右側。我需要iso3的欄位作為國名的代號（iso3變項內的值為國家的三碼代號，例如台灣為TWN）。而6:24則為matleave_95至matleave_13的所有欄位。我這邊是選出第三行、與六至二十四行。<code>c(3, 6:24)</code>為標準兩個vector相串連（concatinating）的結果，<code>6:24</code>相當於產生<code>c(6, 7, 8, …, 24)</code>，而<code>c(3, 6:24)</code>則是把3擺在<code>6:24</code>之前。</p>
+</div>
+<div id="步驟三將na值取代為0" class="section level4" number="6.1.1.3">
+<h4><span class="header-section-number">6.1.1.3</span> 步驟三：將NA值取代為0。</h4>
+<div class="sourceCode" id="cb236"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb236-1"><a href="-.html#cb236-1"></a>matleave[<span class="kw">is.na</span>(matleave)] &lt;-<span class="st"> </span><span class="dv">0</span> </span></code></pre></div>
+<p><strong><code>NA</code></strong> 相當於「Not Available」或「Not a Value」的意思。通常若資料沒填到的話會有兩種情形，一種是什麼都沒有，系統會自動塞NA，另一種是系統會塞入一個長度為零的空字串「""」。<code>matleave[is.na(matleave)]</code>會選擇所有是NA的資料。<code>is.na(matleave)</code>會傳回一個包含TRUE與FALSE的向量。而matleave的中括號中若有TRUE或FALSE的向量，就會篩取出該位置為TRUE的資料。該操作的目的是以0取代NA的資料格，以避免彙整運算或繪圖時產生錯誤。</p>
+<p>有一些檢測是否data.frame或vector中還有沒有NA的方法。
+* 方法一：最簡單的是用<code>anyNA(matleave)</code>，如果還有NA的話，就會傳回TRUE；否則就會傳回FALSE。
+* 方法二：跑跑看<code>sum(is.na(matleave))</code>的結果會不會等於0。如果還有<code>NA</code>的話<code>is.na(matleave)</code>內的結果就還會包含<code>TRUE</code>。<code>TRUE</code>如果被當成數字加總是1，<code>FALSE</code>為0。所以如果全部加總起來不是0，那就代表還有NA。</p>
+</div>
+<div id="步驟四篩出所需要的資料列" class="section level4" number="6.1.1.4">
+<h4><span class="header-section-number">6.1.1.4</span> 步驟四：篩出所需要的資料列</h4>
+<div class="sourceCode" id="cb237"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb237-1"><a href="-.html#cb237-1"></a>m5 &lt;-<span class="st"> </span>matleave[matleave<span class="op">$</span>matleave_<span class="dv">13</span> <span class="op">==</span><span class="st"> </span><span class="dv">5</span>, ]</span>
+<span id="cb237-2"><a href="-.html#cb237-2"></a>m55&lt;-<span class="st"> </span>m5[m5<span class="op">$</span>matleave_<span class="dv">95</span> <span class="op">==</span><span class="st"> </span><span class="dv">5</span>,]</span></code></pre></div>
+<p>我先篩取出<code>matleave_13</code>年資料為5的欄位，再從中篩取出<code>matleave_95</code>年資料為5的資料。在這過程要特別留意，<code>matleave[matleave$'matleave_13' == 5, ]</code>逗號前面為一個和<code>matleave</code>等大小、形狀相同的T/F向量。
+建議若初學之時感到疑惑，在兩行程式碼前後可用<code>dim()</code>、<code>str()</code>、<code>nrow()</code>等函式觀察兩個階段分別剩下多少筆資料，或分別印出<code>matleave$matleave_13</code>、<code>matleave$matleave_13==5</code>、<code>length(matleave$matleave_13==5)</code>來觀察。</p>
+</div>
+<div id="步驟五繪圖" class="section level4" number="6.1.1.5">
+<h4><span class="header-section-number">6.1.1.5</span> 步驟五：繪圖</h4>
+<div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb238-1"><a href="-.html#cb238-1"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">4</span>,<span class="dv">6</span>), <span class="dt">mai=</span> <span class="kw">c</span>(<span class="fl">0.2</span>, <span class="fl">0.2</span>, <span class="fl">0.2</span>, <span class="fl">0.2</span>))</span>
+<span id="cb238-2"><a href="-.html#cb238-2"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(m55))){</span>
+<span id="cb238-3"><a href="-.html#cb238-3"></a>    <span class="kw">barplot</span>(<span class="kw">unlist</span>(m55[i,<span class="op">-</span><span class="dv">1</span>]),</span>
+<span id="cb238-4"><a href="-.html#cb238-4"></a>            <span class="dt">border=</span><span class="ot">NA</span>, <span class="dt">space=</span><span class="dv">0</span>,<span class="dt">xaxt=</span><span class="st">&quot;n&quot;</span>, <span class="dt">yaxt=</span><span class="st">&quot;n&quot;</span>, <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">5</span>))</span>
+<span id="cb238-5"><a href="-.html#cb238-5"></a>    <span class="kw">title</span>(m55[i,<span class="dv">1</span>], <span class="dt">line =</span> <span class="dv">-4</span>, <span class="dt">cex.main=</span><span class="dv">3</span>)</span>
+<span id="cb238-6"><a href="-.html#cb238-6"></a>}</span></code></pre></div>
+<p><img src="PDR_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+<p>基本繪圖很簡單，就只需要plot(x)或plot(x, y)，x與y之處分別給他向量，就可以繪製成散布圖（scatter）。但沒有調整過的圖通常很醜，所以，通常我會假想一個預期希望看見的樣子，然後朝那個目標逐一測試繪圖的參數（Arguments），過程概略如下。
+先plot一列資料看看。</p>
+<p>錯誤訊息說height必須要是一個vector，用?barplot查詢一下他的用法為barplot(height, …)，第一個參數必須要為height，顯然是個數值資料。因此自我檢查後，想起第一個變項欄為iso3國碼，因此我除了篩出第二列出來繪圖外，另外把第一欄給刪除。</p>
+<p>結果仍然是同樣的錯誤，顯然錯誤仍沒解決。因此，「經驗老道（意味著初學者可能沒辦法自己想到）」的我想到，搞不好這個資料型態不是vector或matrix，所以畫不出來。照道理來說height應該要是個numeric vector。因此用class()函式來測試一下資料的型態。</p>
+<div class="sourceCode" id="cb239"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb239-1"><a href="-.html#cb239-1"></a><span class="kw">class</span>(matleave[<span class="dv">2</span>, <span class="dv">-1</span>])</span></code></pre></div>
+<pre><code>## [1] &quot;tbl_df&quot;     &quot;tbl&quot;        &quot;data.frame&quot;</code></pre>
+<p>果不其然，雖然取的是一橫列資料，但他不是一個vector，他相當於是一個只有一筆資料的data.frame，雖然我們「感覺上」那是一列資料，很像vector，但他不是就不是，想太多！我確定這樣篩出來是我要繪製的資料項目沒錯，但我需要它是一個vector而不是data.frame，此時就要用變數型態的轉換，一個無論多大的data.frame想要拆成一長條的vector，就是用unlist()來轉，便會產生vector。此時我便可利用barplot()將其繪製為長條圖如下。</p>
+<div class="sourceCode" id="cb241"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb241-1"><a href="-.html#cb241-1"></a><span class="kw">class</span>(<span class="kw">unlist</span>(matleave[<span class="dv">2</span>, <span class="dv">-1</span>]))</span></code></pre></div>
+<pre><code>## [1] &quot;numeric&quot;</code></pre>
+<div class="sourceCode" id="cb243"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb243-1"><a href="-.html#cb243-1"></a><span class="kw">barplot</span>(<span class="kw">unlist</span>(m55[<span class="dv">2</span>, <span class="dv">-1</span>]))</span></code></pre></div>
+<p><img src="PDR_files/figure-html/unnamed-chunk-33-1.png" width="672" /></p>
+<p>接下來我會一一測試barplot()的參數把他畫成我要的樣子，他有哪些參數可查詢?barplot。最後我所得到的長條圖如下。ylim是為了確保之後要繪製等級4至1時，每個小圖仍然是等高的。space指的是bar之間的間隙、border顧名思義、並利用xaxt=“n”將x軸與y軸座標系隱藏起來。</p>
+<div class="sourceCode" id="cb244"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb244-1"><a href="-.html#cb244-1"></a><span class="kw">barplot</span>(<span class="kw">unlist</span>(m55[<span class="dv">2</span>, <span class="dv">-1</span>]))</span></code></pre></div>
+<p><img src="PDR_files/figure-html/unnamed-chunk-34-1.png" width="672" /></p>
+<div class="sourceCode" id="cb245"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb245-1"><a href="-.html#cb245-1"></a><span class="kw">barplot</span>(<span class="kw">unlist</span>(m55[<span class="dv">2</span>, <span class="dv">-1</span>]), <span class="dt">ylim=</span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">5</span>))</span></code></pre></div>
+<p><img src="PDR_files/figure-html/unnamed-chunk-34-2.png" width="672" /></p>
+<div class="sourceCode" id="cb246"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb246-1"><a href="-.html#cb246-1"></a><span class="kw">barplot</span>(<span class="kw">unlist</span>(m55[<span class="dv">2</span>, <span class="dv">-1</span>]), <span class="dt">ylim=</span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">5</span>), <span class="dt">space=</span><span class="dv">0</span>)</span></code></pre></div>
+<p><img src="PDR_files/figure-html/unnamed-chunk-34-3.png" width="672" /></p>
+<div class="sourceCode" id="cb247"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb247-1"><a href="-.html#cb247-1"></a><span class="kw">barplot</span>(<span class="kw">unlist</span>(m55[<span class="dv">2</span>, <span class="dv">-1</span>]), <span class="dt">ylim=</span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">5</span>), <span class="dt">space=</span><span class="dv">0</span>, <span class="dt">border=</span><span class="ot">NA</span>)</span></code></pre></div>
+<p><img src="PDR_files/figure-html/unnamed-chunk-34-4.png" width="672" /></p>
+<div class="sourceCode" id="cb248"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb248-1"><a href="-.html#cb248-1"></a><span class="kw">barplot</span>(<span class="kw">unlist</span>(m55[<span class="dv">2</span>, <span class="dv">-1</span>]), <span class="dt">ylim=</span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">5</span>), <span class="dt">space=</span><span class="dv">0</span>, <span class="dt">border=</span><span class="ot">NA</span>, <span class="dt">xaxt=</span><span class="st">&quot;n&quot;</span>, <span class="dt">yaxt=</span><span class="st">&quot;n&quot;</span>)</span></code></pre></div>
+<p><img src="PDR_files/figure-html/unnamed-chunk-34-5.png" width="672" />
+但此時我不只要畫一張圖，數一數一共要畫18張子圖，先畫六張的程式碼如下。底下可以看見每一行非常相似且一致的特徵，僅有m55內的「資料列索引」由1被列出至6。</p>
+<div class="sourceCode" id="cb249"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb249-1"><a href="-.html#cb249-1"></a><span class="kw">barplot</span>(<span class="kw">unlist</span>(m55[<span class="dv">1</span>, <span class="dv">-1</span>]), <span class="dt">ylim=</span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">5</span>), <span class="dt">space=</span><span class="dv">0</span>, <span class="dt">border=</span><span class="ot">NA</span>, <span class="dt">xaxt=</span><span class="st">&quot;n&quot;</span>, <span class="dt">yaxt=</span><span class="st">&quot;n&quot;</span>)</span>
+<span id="cb249-2"><a href="-.html#cb249-2"></a><span class="kw">barplot</span>(<span class="kw">unlist</span>(m55[<span class="dv">2</span>, <span class="dv">-1</span>]), <span class="dt">ylim=</span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">5</span>), <span class="dt">space=</span><span class="dv">0</span>, <span class="dt">border=</span><span class="ot">NA</span>, <span class="dt">xaxt=</span><span class="st">&quot;n&quot;</span>, <span class="dt">yaxt=</span><span class="st">&quot;n&quot;</span>)</span></code></pre></div>
+<p><img src="PDR_files/figure-html/unnamed-chunk-35-1.png" width="672" /></p>
+<div class="sourceCode" id="cb250"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb250-1"><a href="-.html#cb250-1"></a><span class="kw">barplot</span>(<span class="kw">unlist</span>(m55[<span class="dv">3</span>, <span class="dv">-1</span>]), <span class="dt">ylim=</span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">5</span>), <span class="dt">space=</span><span class="dv">0</span>, <span class="dt">border=</span><span class="ot">NA</span>, <span class="dt">xaxt=</span><span class="st">&quot;n&quot;</span>, <span class="dt">yaxt=</span><span class="st">&quot;n&quot;</span>)</span>
+<span id="cb250-2"><a href="-.html#cb250-2"></a><span class="kw">barplot</span>(<span class="kw">unlist</span>(m55[<span class="dv">4</span>, <span class="dv">-1</span>]), <span class="dt">ylim=</span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">5</span>), <span class="dt">space=</span><span class="dv">0</span>, <span class="dt">border=</span><span class="ot">NA</span>, <span class="dt">xaxt=</span><span class="st">&quot;n&quot;</span>, <span class="dt">yaxt=</span><span class="st">&quot;n&quot;</span>)</span>
+<span id="cb250-3"><a href="-.html#cb250-3"></a><span class="kw">barplot</span>(<span class="kw">unlist</span>(m55[<span class="dv">5</span>, <span class="dv">-1</span>]), <span class="dt">ylim=</span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">5</span>), <span class="dt">space=</span><span class="dv">0</span>, <span class="dt">border=</span><span class="ot">NA</span>, <span class="dt">xaxt=</span><span class="st">&quot;n&quot;</span>, <span class="dt">yaxt=</span><span class="st">&quot;n&quot;</span>)</span>
+<span id="cb250-4"><a href="-.html#cb250-4"></a><span class="kw">barplot</span>(<span class="kw">unlist</span>(m55[<span class="dv">6</span>, <span class="dv">-1</span>]), <span class="dt">ylim=</span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">5</span>), <span class="dt">space=</span><span class="dv">0</span>, <span class="dt">border=</span><span class="ot">NA</span>, <span class="dt">xaxt=</span><span class="st">&quot;n&quot;</span>, <span class="dt">yaxt=</span><span class="st">&quot;n&quot;</span>)</span></code></pre></div>
+<p>這種完全重複、只有索引相異的指令，最好的方法是用迴圈（for-loop）的方式將相同的程式碼，用一個新的變數來控制要畫哪一列，從1至6之間做六次。</p>
+<div class="sourceCode" id="cb251"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb251-1"><a href="-.html#cb251-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">6</span>){</span>
+<span id="cb251-2"><a href="-.html#cb251-2"></a>  <span class="kw">barplot</span>(<span class="kw">unlist</span>(m55[i, <span class="dv">-1</span>]), <span class="dt">ylim=</span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">5</span>), <span class="dt">space=</span><span class="dv">0</span>, <span class="dt">border=</span><span class="ot">NA</span>, <span class="dt">xaxt=</span><span class="st">&quot;n&quot;</span>, <span class="dt">yaxt=</span><span class="st">&quot;n&quot;</span>)</span>
+<span id="cb251-3"><a href="-.html#cb251-3"></a>}</span></code></pre></div>
+<p><img src="PDR_files/figure-html/unnamed-chunk-36-1.png" width="672" /><img src="PDR_files/figure-html/unnamed-chunk-36-2.png" width="672" />
+所以，確定可以用for迴圈幫我畫出六張圖，我就把1:6改成1:nrow(m55)，nrow(m55)為m55的資料筆數。
+但是像上面這樣做只會讓程式碼重新畫十八張圖。因此要上網查詢看看如何繪製子圖。你可以google「subplot in R」或「multiple plot in R」應該都可以找到相同的結果。有一個網頁是<a href="https://www.datamentor.io/r-programming/subplot">R Multiple Plot Using par Function</a>，他告訴你說用<code>par()</code>這個函式可以控制把數個子圖畫在同一張圖上。你可以查詢看看?par的參數，並且找到mai、mfcol和mfrow等參數的說明如下，並據此繪製成下圖。</p>
+<blockquote>
+<p><strong><code>mai</code></strong>: A numerical vector of the form c(bottom, left, top, right) which gives the margin size specified in inches.
+<strong><code>mfcol</code></strong>, <strong><code>mfrow</code></strong>: A vector of the form c(nr, nc). Subsequent figures will be drawn in an nr-by-nc array on the device by columns (mfcol), or rows (mfrow), respectively.</p>
+</blockquote>
+<div class="sourceCode" id="cb252"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb252-1"><a href="-.html#cb252-1"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">2</span>), <span class="dt">mai=</span> <span class="kw">c</span>(<span class="fl">0.2</span>, <span class="fl">0.2</span>, <span class="fl">0.2</span>, <span class="fl">0.2</span>))</span>
+<span id="cb252-2"><a href="-.html#cb252-2"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(m55)){</span>
+<span id="cb252-3"><a href="-.html#cb252-3"></a>  <span class="kw">barplot</span>(<span class="kw">unlist</span>(m55[i, <span class="dv">-1</span>]), <span class="dt">ylim=</span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">5</span>), <span class="dt">space=</span><span class="dv">0</span>, <span class="dt">border=</span><span class="ot">NA</span>, <span class="dt">xaxt=</span><span class="st">&quot;n&quot;</span>, <span class="dt">yaxt=</span><span class="st">&quot;n&quot;</span>)</span>
+<span id="cb252-4"><a href="-.html#cb252-4"></a>}</span></code></pre></div>
+<p><img src="PDR_files/figure-html/unnamed-chunk-37-1.png" width="672" /><img src="PDR_files/figure-html/unnamed-chunk-37-2.png" width="672" /></p>
+<p>從上圖中可以看見我幾乎快完成了。只差把國名，也就是iso3，打在該國的方塊上。在barplot上面打標題可以google「barplot title R」他會教你怎麼上title，但你也可以查詢「plot annotation R」也就是在圖上面繪製文字（和barplot分開繪製，會比較好控制字型，程式語言把這種上文字稱為annotation）。此時，若直接打title(m55[i, 1])已經能夠繪製文字，但不是我要的大小，我會進一步查詢?title怎麼控制文字大小和文字的「基線」，也就是把哪裡當成文字的底線。經查詢後，控制文字大小用cex.main、控制基線用line。然後我就自己測試看看大小和基線，直到我滿意如下圖。</p>
+<div class="sourceCode" id="cb253"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb253-1"><a href="-.html#cb253-1"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">4</span>,<span class="dv">6</span>), <span class="dt">mai=</span> <span class="kw">c</span>(<span class="fl">0.2</span>, <span class="fl">0.2</span>, <span class="fl">0.2</span>, <span class="fl">0.2</span>))</span>
+<span id="cb253-2"><a href="-.html#cb253-2"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(m55)){</span>
+<span id="cb253-3"><a href="-.html#cb253-3"></a>    <span class="kw">barplot</span>(<span class="kw">unlist</span>(m55[i,<span class="op">-</span><span class="dv">1</span>]), <span class="dt">ylim=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">5</span>), <span class="dt">space=</span><span class="dv">0</span>, <span class="dt">border=</span><span class="ot">NA</span>, <span class="dt">xaxt=</span><span class="st">&quot;n&quot;</span>,<span class="dt">yaxt=</span><span class="st">&quot;n&quot;</span>)</span>
+<span id="cb253-4"><a href="-.html#cb253-4"></a>    <span class="kw">title</span>(m55[i,<span class="dv">1</span>], <span class="dt">line =</span> <span class="dv">-4</span>, <span class="dt">cex.main=</span><span class="dv">3</span>)</span>
+<span id="cb253-5"><a href="-.html#cb253-5"></a>}</span></code></pre></div>
+<p><img src="PDR_files/figure-html/unnamed-chunk-38-1.png" width="672" /></p>
+
+</div>
+</div>
+</div>
+<div id="讀取csv以台北市竊盜案分佈為例" class="section level2" number="6.2">
+<h2><span class="header-section-number">6.2</span> 讀取CSV：以台北市竊盜案分佈為例</h2>
+<ul class="task-list">
+<li><input type="checkbox" disabled="" checked="" />
+copy from google docs</li>
+<li><input type="checkbox" disabled="" />
+copy google docs to paper to retrieve figs</li>
+<li><input type="checkbox" disabled="" />
+save figs to folder</li>
+<li><input type="checkbox" disabled="" />
+link to figs</li>
+<li><input type="checkbox" disabled="" />
+check concsistency between rmd and google docs
+### 步驟一：摘要與提要</li>
+</ul>
+<p>除了延續前節篩取資料列和選取變項欄外，本節的重點在於利用<code>count()</code>或<code>tapply()</code>等函式進行計數。一般來說，觀察得到的資料是觀察紀錄（例如在路口蹲點計算車流或者經過的行人類型）。但能夠被計算或比較的是觀察紀錄後的計量，也就是具目的性地抽取數個變項，然後看看各個變項組合有多少筆適才的觀察紀錄。最後，為了一般讀者閱讀，會經常把其中兩個變項抽出來，然後把一個變項當成欄，一個變項當成列，然後交叉呈現兩個變項下的資料計數。
+讀取CSV檔</p>
+<div class="sourceCode" id="cb254"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb254-1"><a href="-.html#cb254-1"></a><span class="kw">library</span>(tidyverse)</span></code></pre></div>
+<pre><code>## Warning: package &#39;tidyverse&#39; was built under R version 3.5.2</code></pre>
+<pre><code>## ── Attaching packages ────────────────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
+<pre><code>## ✓ ggplot2 3.2.1     ✓ purrr   0.3.3
+## ✓ tibble  2.1.3     ✓ stringr 1.4.0
+## ✓ tidyr   1.0.2     ✓ forcats 0.4.0
+## ✓ readr   1.3.1</code></pre>
+<pre><code>## Warning: package &#39;ggplot2&#39; was built under R version 3.5.2</code></pre>
+<pre><code>## Warning: package &#39;tibble&#39; was built under R version 3.5.2</code></pre>
+<pre><code>## Warning: package &#39;purrr&#39; was built under R version 3.5.2</code></pre>
+<pre><code>## Warning: package &#39;stringr&#39; was built under R version 3.5.2</code></pre>
+<pre><code>## Warning: package &#39;forcats&#39; was built under R version 3.5.2</code></pre>
+<pre><code>## ── Conflicts ───────────────────────────────────────────────────── tidyverse_conflicts() ──
+## x dplyr::filter()  masks stats::filter()
+## x purrr::flatten() masks jsonlite::flatten()
+## x dplyr::lag()     masks stats::lag()</code></pre>
+<div class="sourceCode" id="cb264"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb264-1"><a href="-.html#cb264-1"></a><span class="kw">options</span>(<span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
+<div id="步驟二載入台北市竊盜案資料" class="section level3" number="6.2.1">
+<h3><span class="header-section-number">6.2.1</span> 步驟二：載入台北市竊盜案資料</h3>
+<p><code>df &lt;- read.csv(url, fileEncoding = "big5")</code>這行的意思是把url用<code>read.csv()</code>這個函式讀取。讀取的同時，由於一般EXCEL的中文編碼為BIG5，所以該文件八成是該台北市政單位還用EXCEL在編資料，所以要跟程式碼講說，這個網址所指到的檔案編碼為BIG5。請自行嘗試看看如果沒有加入<code>fileEncoding</code>會有什麼錯誤訊息。</p>
+<div class="sourceCode" id="cb265"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb265-1"><a href="-.html#cb265-1"></a>url &lt;-<span class="st"> &quot;https://data.taipei/api/getDatasetInfo/downloadResource?id=68785231-d6c5-47a1-b001-77eec70bec02&amp;rid=34a4a431-f04d-474a-8e72-8d3f586db3df&quot;</span></span>
+<span id="cb265-2"><a href="-.html#cb265-2"></a>df &lt;-<span class="st"> </span><span class="kw">read.csv</span>(url, <span class="dt">fileEncoding =</span> <span class="st">&quot;big5&quot;</span>)</span></code></pre></div>
+<p>部分電腦可能為無法直接讀取，此時可以先自行把檔案下載下來後再讀取，唯獨記得要把該資料檔拖至本專案的資料夾內。例如以下面的例子來說，我把<code>tptheft.csv</code>拖至現在專案中的<code>data</code>資料夾，因此以下路徑正確而可以讀取。從不同的瀏覽器下載下來可能會產生不一樣的csv檔，如果無法開啟可以多嘗試不同的瀏覽器看看。</p>
+<div class="sourceCode" id="cb266"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb266-1"><a href="-.html#cb266-1"></a>df &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/tptheft.csv&quot;</span>, <span class="dt">fileEncoding =</span> <span class="st">&quot;big5&quot;</span>)</span></code></pre></div>
+<p><strong>注意</strong>：可用<code>View()</code>概略瀏覽該data.frame的變項值與變項。</p>
+</div>
+<div id="步驟三產生新的變項" class="section level3" number="6.2.2">
+<h3><span class="header-section-number">6.2.2</span> 步驟三：產生新的變項</h3>
+<p><code>發生時段</code>我打算取出前面的數字來代表時間就好，<code>發生地點</code>我打算只取出行政區名，其他地址不要。邏輯上，我要把那串字取出第x個字到第y個字，所以要用<code>substr()</code>這個函式，或者未來會教到的<code>stringr::str_sub()</code>函式。請用<code>?substr</code>查詢其用法和意義「getting sub string since x to y」。</p>
+<div class="sourceCode" id="cb267"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb267-1"><a href="-.html#cb267-1"></a>df<span class="op">$</span>time &lt;-<span class="st"> </span><span class="kw">substr</span>(df<span class="op">$</span>發生時段, <span class="dv">1</span>, <span class="dv">2</span>)</span>
+<span id="cb267-2"><a href="-.html#cb267-2"></a>df<span class="op">$</span>region &lt;-<span class="st"> </span><span class="kw">substr</span>(df<span class="op">$</span>發生.現.地點, <span class="dv">4</span>, <span class="dv">5</span>)</span></code></pre></div>
+<p>另外我有發現前面幾年的資料特別少，所以我想要取出現在是幾年。我用<code>str()</code>觀察<code>df</code>後發現「發生日期」為一個整數，那代表我可以對其做加減乘除做運算。該變項的數值最多有7位，部分為6位，因為資料是從99年跨至100至104年。我若要取出這是幾年的資料，經觀察後我打算將該整數除以10000取商，剛好可以獲得年份的資料。除法取商的語法為`%/%``。</p>
+<div class="sourceCode" id="cb268"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb268-1"><a href="-.html#cb268-1"></a>df<span class="op">$</span>year &lt;-<span class="st"> </span>df<span class="op">$</span>發生.現.日期 <span class="op">%/%</span><span class="st"> </span><span class="dv">10000</span></span></code></pre></div>
+</div>
+<div id="步驟四整理清理資料" class="section level3" number="6.2.3">
+<h3><span class="header-section-number">6.2.3</span> 步驟四：整理、清理資料</h3>
+<p>該資料可發現，有幾年的資料在特別早之前，似乎直到104年才逐漸穩定，但不太確定。所以我首先要刪除那些資料太少的年份。所以我打算用<code>table()</code>這個函式看看究竟每個年份出現幾次。</p>
+<div class="sourceCode" id="cb269"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb269-1"><a href="-.html#cb269-1"></a><span class="kw">table</span>(df<span class="op">$</span>time)</span></code></pre></div>
+<pre><code>## 
+##  00  02  04  06  08  10  12  14  16  18  20  22 
+## 295 191 151 184 270 327 339 315 236 275 272 198</code></pre>
+<div class="sourceCode" id="cb271"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb271-1"><a href="-.html#cb271-1"></a><span class="kw">table</span>(df<span class="op">$</span>region)</span></code></pre></div>
+<pre><code>## 
+##   1~   15   16   25  2段   31   40   61 七堵 三峽 三民 三芝 三重 中和 中壢 中山 
+##    1    2    1    1    1    2    1    1    2    3    1    1   35   18    8  366 
+## 中正 五股 信義 內埔 內湖 八德 北區 北屯 北投 南屯 南港 土城 士林 大同 大安 大溪 
+##  212    3  180    1  252    2    2    2  279    2  158    9  307  135  268    6 
+## 安樂 宜蘭 左營 平鎮 後龍 文山 新埔 新店 新莊 新豐 暖暖 東區 松山 板橋 林口 桃園 
+##    2    1    2    2    1  182    1   17   10    5    2    3  187   20    2    5 
+## 楊梅 樹林 橫山 水上 永和 汐止 泰山 淡水 深坑 湖口 湖西 田尾 萬華 竹山 竹東 芎林 
+##    5    4    1    1   11   12    2   18    2    1    1    1  264    1    1    1 
+## 芳苑 蘆洲 虎尾  街9 西區 觀音 過洋 頭份 頭屋 鹿港 龍潭 龜山 
+##    1    4    1    1    1    2    1    1    1    1    3    6</code></pre>
+<div class="sourceCode" id="cb273"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb273-1"><a href="-.html#cb273-1"></a><span class="kw">table</span>(df<span class="op">$</span>year)</span></code></pre></div>
+<pre><code>## 
+## 104 105 106 107 108 
+## 777 742 591 531 412</code></pre>
+<p>從上述彙整資料看來，資料把不是台北市的區域都給算進來了，所以要篩選台北市的區域，經過篩選後剩下2608筆資料。因為這些需要的資料都是文字型態的資料，且有數個，所以我們可以使用<code>%in%</code>這個運算符號，他指的是該變項的值是不是後面這個vector中的其中一個值。</p>
+<div class="sourceCode" id="cb275"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb275-1"><a href="-.html#cb275-1"></a>df &lt;-<span class="st"> </span>df[df<span class="op">$</span>region <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;中山&quot;</span>, <span class="st">&quot;中正&quot;</span>, <span class="st">&quot;信義&quot;</span>, <span class="st">&quot;內湖&quot;</span>,</span>
+<span id="cb275-2"><a href="-.html#cb275-2"></a>                          <span class="st">&quot;北投&quot;</span>, <span class="st">&quot;南港&quot;</span>, <span class="st">&quot;大同&quot;</span>, <span class="st">&quot;大安&quot;</span>, </span>
+<span id="cb275-3"><a href="-.html#cb275-3"></a>                          <span class="st">&quot;士林&quot;</span>, <span class="st">&quot;松山&quot;</span>, <span class="st">&quot;萬華&quot;</span>, <span class="st">&quot;南港&quot;</span>), ]</span></code></pre></div>
+<p>上述案例只能根據一個資料維度或根據一個變項來做計數彙整。然而，我們希望知道，不同的時間和不同的地點，是否竊盜比例會有所不同，此時我們需要同時考慮兩個變項。</p>
+<div class="sourceCode" id="cb276"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb276-1"><a href="-.html#cb276-1"></a>res &lt;-<span class="st"> </span><span class="kw">table</span>(df<span class="op">$</span>region, df<span class="op">$</span>time)</span></code></pre></div>
+</div>
+<div id="步驟六視覺化" class="section level3" number="6.2.4">
+<h3><span class="header-section-number">6.2.4</span> 步驟六：視覺化</h3>
+<p><code>mosaicplot()</code>非常擅長視覺化兩個離散變項，並透過自動化百分比的設置，可以讓資料探索者得知，哪些變項的大小分佈跟其他不同。</p>
+<div class="sourceCode" id="cb277"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb277-1"><a href="-.html#cb277-1"></a><span class="kw">mosaicplot</span>(res)</span></code></pre></div>
+<p><img src="PDR_files/figure-html/unnamed-chunk-47-1.png" width="672" /></p>
+<div class="sourceCode" id="cb278"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb278-1"><a href="-.html#cb278-1"></a><span class="kw">mosaicplot</span>(res, <span class="dt">main=</span><span class="st">&quot;mosaic plot&quot;</span>)</span></code></pre></div>
+<p><img src="PDR_files/figure-html/unnamed-chunk-47-2.png" width="672" /></p>
+<p>但是，類似上述繪圖無法顯示中文要怎麼辦？未來R的繪圖尤其是Mac會經常遇到無法顯示中文的問題，Windows未來在用ggplot2套件進行繪圖時也會遇到相同的問題。因此，我們需要告訴電腦要用什麼字體。例如Mac上可以用以下兩種字體。</p>
+<div class="sourceCode" id="cb279"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb279-1"><a href="-.html#cb279-1"></a><span class="kw">par</span>(<span class="dt">family=</span>(<span class="st">&#39;Heiti TC Light&#39;</span>))</span>
+<span id="cb279-2"><a href="-.html#cb279-2"></a><span class="co"># par(family=(&#39;STKaiti&#39;))</span></span>
+<span id="cb279-3"><a href="-.html#cb279-3"></a><span class="kw">mosaicplot</span>(res, <span class="dt">main=</span><span class="st">&quot;mosaic plot&quot;</span>)</span></code></pre></div>
+<p><img src="PDR_files/figure-html/unnamed-chunk-48-1.png" width="672" /></p>
+<p>用自訂顏色來觀察會更清楚，一共有十二個區，就給予十二種顏色。</p>
+<div class="sourceCode" id="cb280"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb280-1"><a href="-.html#cb280-1"></a>colors &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;#D0104C&#39;</span>, <span class="st">&#39;#DB4D6D&#39;</span>, <span class="st">&#39;#E83015&#39;</span>,  <span class="st">&#39;#F75C2F&#39;</span>,</span>
+<span id="cb280-2"><a href="-.html#cb280-2"></a>            <span class="st">&#39;#E79460&#39;</span>, <span class="st">&#39;#E98B2A&#39;</span>, <span class="st">&#39;#9B6E23&#39;</span>, <span class="st">&#39;#F7C242&#39;</span>,</span>
+<span id="cb280-3"><a href="-.html#cb280-3"></a>            <span class="st">&#39;#BEC23F&#39;</span>, <span class="st">&#39;#90B44B&#39;</span>, <span class="st">&#39;#66BAB7&#39;</span>, <span class="st">&#39;#1E88A8&#39;</span>)</span>
+<span id="cb280-4"><a href="-.html#cb280-4"></a><span class="kw">par</span>(<span class="dt">family=</span>(<span class="st">&#39;STKaiti&#39;</span>))</span>
+<span id="cb280-5"><a href="-.html#cb280-5"></a><span class="kw">mosaicplot</span>(res, <span class="dt">color=</span>colors, <span class="dt">border=</span><span class="dv">0</span>, <span class="dt">off =</span> <span class="dv">3</span>,</span>
+<span id="cb280-6"><a href="-.html#cb280-6"></a>           <span class="dt">main=</span><span class="st">&quot;Theft rate of Taipei city (region by hour)&quot;</span>)</span></code></pre></div>
+<p><img src="PDR_files/figure-html/unnamed-chunk-49-1.png" width="672" /></p>
+</div>
+<div id="綜合資料彙整data-summerazation" class="section level3" number="6.2.5">
+<h3><span class="header-section-number">6.2.5</span> 綜合：資料彙整（Data Summerazation）</h3>
+<p>在R中可以依照某個類別變數來計算次數、平均的函式有很多個。</p>
+<div id="方法一tapply" class="section level4" number="6.2.5.1">
+<h4><span class="header-section-number">6.2.5.1</span> 方法一：<code>tapply()</code></h4>
+<p><code>tapply()</code>是原始base套件中的函式，其家族還有<code>sapply()</code>、<code>lapply()</code>、<code>apply()</code>等函式。但在快速的資料探索性分析中，反而會比較常用<code>table()</code>，而善於操作變項的統計書籍則常用<code>aggreage()</code>，後期開發的dplyr套件則有<code>count()</code>。在未來的練習中，最常用的是<code>count()</code>。</p>
+</div>
+<div id="方法二table" class="section level4" number="6.2.5.2">
+<h4><span class="header-section-number">6.2.5.2</span> 方法二：<code>table()</code></h4>
+<p>以下為<code>table()</code>的用法，他也可以用於單一變項的計數，且他產生的結果並非一個data.frame而是一個資料型態稱為「table」，查詢看看<code>?table</code>以獲得更詳盡的說明。</p>
+<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb281-1"><a href="-.html#cb281-1"></a>res &lt;-<span class="st"> </span><span class="kw">table</span>(df<span class="op">$</span>time, df<span class="op">$</span>region)</span>
+<span id="cb281-2"><a href="-.html#cb281-2"></a><span class="kw">class</span>(res)</span></code></pre></div>
+<pre><code>## [1] &quot;table&quot;</code></pre>
+</div>
+<div id="方法三count" class="section level4" number="6.2.5.3">
+<h4><span class="header-section-number">6.2.5.3</span> 方法三：<code>count()</code></h4>
+<p>以下為<code>count()</code>的用法。注意，將df根據time與region兩個類別變項計數後，會多一個n的變項，指出某個時間、某個區域有多少起竊盜案件。這樣的型態是統計學最常看見的型態，也就是variable-based的型態。但如果我們希望它變成一個「二維」的表格，亦即欄和列分別代表兩個不同的變項，那就需要用tidyr的函式<code>spread()</code>將你所要展開到欄的那個變項，和計數後的數字n作為參數，展開為一個二維的表格如下（你也可以選擇展開time）。
+關於<code>tidyr::spread()</code>這樣的表示法，在::前為套件名稱，當程式尚未用<code>library(tidyr)</code>載入該套件，或者你只打算用<code>spread()</code>這麼一次，可以用這種表示法，指出這個<code>spread()</code>為<code>tidyr</code>這個套件中的函式。據此，R會自動載入該套件並執行該函式。</p>
+<div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb283-1"><a href="-.html#cb283-1"></a>res5 &lt;-<span class="st"> </span><span class="kw">count</span>(df, time, region)</span>
+<span id="cb283-2"><a href="-.html#cb283-2"></a>?count</span>
+<span id="cb283-3"><a href="-.html#cb283-3"></a><span class="kw">head</span>(res5)</span></code></pre></div>
+<pre><code>## # A tibble: 6 x 3
+##   time  region     n
+##   &lt;chr&gt; &lt;chr&gt;  &lt;int&gt;
+## 1 00    中山      60
+## 2 00    中正      15
+## 3 00    信義      24
+## 4 00    內湖      20
+## 5 00    北投      21
+## 6 00    南港      16</code></pre>
+<div class="sourceCode" id="cb285"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb285-1"><a href="-.html#cb285-1"></a>res6 &lt;-<span class="st"> </span>tidyr<span class="op">::</span><span class="kw">spread</span>(res5, region, n, <span class="dt">fill =</span> <span class="dv">0</span>)</span>
+<span id="cb285-2"><a href="-.html#cb285-2"></a>res6</span></code></pre></div>
+<pre><code>## # A tibble: 12 x 12
+##    time   中山  中正  信義  內湖  北投  南港  士林  大同  大安  松山  萬華
+##    &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1 00       60    15    24    20    21    16    24    14    23     4    14
+##  2 02       22    17     9    13    13    12    25     7    12    10    21
+##  3 04       20     6    11    12    15     6    12    12    12     5    19
+##  4 06       18    17    13    16    22    12    15     9    18    11    19
+##  5 08       33    22    18    22    17    14    19    17    28    16    28
+##  6 10       35    19    14    32    30    16    30    11    29    32    33
+##  7 12       27    23    16    22    30    13    42    10    43    23    24
+##  8 14       35    17    15    34    31    18    34    19    29    19    21
+##  9 16       19    15     6    23    31     8    26    11    21    18    21
+## 10 18       33    31    21    17    40    16    23    10    21    14    18
+## 11 20       34    12    19    25    15    19    36     9    20    23    32
+## 12 22       30    18    14    16    14     8    21     6    12    12    14</code></pre>
+</div>
+<div id="練習" class="section level4" number="6.2.5.4">
+<h4><span class="header-section-number">6.2.5.4</span> 練習</h4>
+<p>用<code>tapply()</code>、<code>table()</code>和<code>count()</code>與<code>spread()</code>後所跑出來的表格看似都是欄和列分別有兩個變項，請用<code>class()</code>測試看看，用不同的方法所產生的資料型態有何差異。</p>
+
+</div>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="date-and-time.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection",
+"scroll_highlight": true
+},
+"toolbar": {
+"position": "fixed"
+},
+"search": true,
+"info": true
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
