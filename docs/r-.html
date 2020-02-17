@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 2 R語言基礎速遊 | Playing Data with R</title>
+  <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="generator" content="bookdown 0.17 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 2 R語言基礎速遊 | Playing Data with R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="github-repo" content="P4CSS/PDR" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 2 R語言基礎速遊 | Playing Data with R" />
+  
+  <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  
+
+<meta name="author" content="JILUNG HSIEH" />
+
+
+<meta name="date" content="2020-02-17" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="part-part-i-r-basic.html"/>
+<link rel="next" href="vector.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>About</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#自述"><i class="fa fa-check"></i>自述</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#學程式這回事"><i class="fa fa-check"></i>學程式這回事</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#何謂演算法"><i class="fa fa-check"></i>何謂演算法？</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#掌握課外學習資源"><i class="fa fa-check"></i>掌握課外學習資源</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="part-part-i-r-basic.html"><a href="part-part-i-r-basic.html"><i class="fa fa-check"></i><b>1</b> (PART) Part I R Basic</a></li>
+<li class="chapter" data-level="2" data-path="r-.html"><a href="r-.html"><i class="fa fa-check"></i><b>2</b> R語言基礎速遊</a><ul>
+<li class="chapter" data-level="2.1" data-path="r-.html"><a href="r-.html#rstudio-基本操作"><i class="fa fa-check"></i><b>2.1</b> RStudio 基本操作</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="r-.html"><a href="r-.html#執行r-markdown"><i class="fa fa-check"></i><b>2.1.1</b> 執行R Markdown</a></li>
+<li class="chapter" data-level="2.1.2" data-path="r-.html"><a href="r-.html#安裝第三方套件"><i class="fa fa-check"></i><b>2.1.2</b> 安裝第三方套件</a></li>
+<li class="chapter" data-level="2.1.3" data-path="r-.html"><a href="r-.html#載入第三方套件"><i class="fa fa-check"></i><b>2.1.3</b> 載入第三方套件</a></li>
+<li class="chapter" data-level="2.1.4" data-path="r-.html"><a href="r-.html#註解"><i class="fa fa-check"></i><b>2.1.4</b> 註解</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="r-.html"><a href="r-.html#用r載入資料"><i class="fa fa-check"></i><b>2.2</b> 用R載入資料</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="r-.html"><a href="r-.html#範例一載入dcard資料"><i class="fa fa-check"></i><b>2.2.1</b> 範例一：載入Dcard資料</a></li>
+<li class="chapter" data-level="2.2.2" data-path="r-.html"><a href="r-.html#範例二讀取台北市竊盜案件發生地區與時間"><i class="fa fa-check"></i><b>2.2.2</b> 範例二：讀取台北市竊盜案件發生地區與時間</a></li>
+<li class="chapter" data-level="2.2.3" data-path="r-.html"><a href="r-.html#範例三用api載入內政部資料"><i class="fa fa-check"></i><b>2.2.3</b> 範例三：用API載入內政部資料</a></li>
+<li class="chapter" data-level="2.2.4" data-path="r-.html"><a href="r-.html#範例四獲取104資料"><i class="fa fa-check"></i><b>2.2.4</b> 範例四：獲取104資料</a></li>
+<li class="chapter" data-level="2.2.5" data-path="r-.html"><a href="r-.html#範例五獲取ubike資料"><i class="fa fa-check"></i><b>2.2.5</b> 範例五：獲取ubike資料</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="r-.html"><a href="r-.html#儲存現有變數"><i class="fa fa-check"></i><b>2.3</b> 儲存現有變數</a></li>
+<li class="chapter" data-level="2.4" data-path="r-.html"><a href="r-.html#查詢函式的定義"><i class="fa fa-check"></i><b>2.4</b> 查詢函式的定義</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="vector.html"><a href="vector.html"><i class="fa fa-check"></i><b>3</b> Vector</a><ul>
+<li class="chapter" data-level="" data-path="vector.html"><a href="vector.html#notes"><i class="fa fa-check"></i>Notes</a></li>
+<li class="chapter" data-level="3.1" data-path="vector.html"><a href="vector.html#vector的基本操作"><i class="fa fa-check"></i><b>3.1</b> Vector的基本操作</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="vector.html"><a href="vector.html#建立vector"><i class="fa fa-check"></i><b>3.1.1</b> 建立Vector</a></li>
+<li class="chapter" data-level="3.1.2" data-path="vector.html"><a href="vector.html#查看vector的內容"><i class="fa fa-check"></i><b>3.1.2</b> 查看Vector的內容</a></li>
+<li class="chapter" data-level="3.1.3" data-path="vector.html"><a href="vector.html#取出vector部分內容-subsetting-filtering"><i class="fa fa-check"></i><b>3.1.3</b> 取出Vector部分內容: Subsetting, filtering</a></li>
+<li class="chapter" data-level="3.1.4" data-path="vector.html"><a href="vector.html#deleting"><i class="fa fa-check"></i><b>3.1.4</b> Deleting</a></li>
+<li class="chapter" data-level="3.1.5" data-path="vector.html"><a href="vector.html#concatinating"><i class="fa fa-check"></i><b>3.1.5</b> Concatinating</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="vector.html"><a href="vector.html#vector的運算"><i class="fa fa-check"></i><b>3.2</b> Vector的運算</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="vector.html"><a href="vector.html#arithmetic-operations"><i class="fa fa-check"></i><b>3.2.1</b> Arithmetic operations</a></li>
+<li class="chapter" data-level="3.2.2" data-path="vector.html"><a href="vector.html#logic-comparisons"><i class="fa fa-check"></i><b>3.2.2</b> Logic comparisons</a></li>
+<li class="chapter" data-level="3.2.3" data-path="vector.html"><a href="vector.html#subsetting-by-logic-comparisons"><i class="fa fa-check"></i><b>3.2.3</b> Subsetting by logic comparisons</a></li>
+<li class="chapter" data-level="3.2.4" data-path="vector.html"><a href="vector.html#sorting-and-ordering"><i class="fa fa-check"></i><b>3.2.4</b> Sorting and ordering</a></li>
+<li class="chapter" data-level="3.2.5" data-path="vector.html"><a href="vector.html#built-in-math-functions"><i class="fa fa-check"></i><b>3.2.5</b> Built-in math functions</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="vector.html"><a href="vector.html#data-types"><i class="fa fa-check"></i><b>3.3</b> Data types</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="vector.html"><a href="vector.html#checking-data-type"><i class="fa fa-check"></i><b>3.3.1</b> Checking data type</a></li>
+<li class="chapter" data-level="3.3.2" data-path="vector.html"><a href="vector.html#converting-data-type"><i class="fa fa-check"></i><b>3.3.2</b> Converting data type</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="vector.html"><a href="vector.html#character-operations"><i class="fa fa-check"></i><b>3.4</b> Character operations</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="vector.html"><a href="vector.html#character-operations-1"><i class="fa fa-check"></i><b>3.4.1</b> Character operations</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="dataframe.html"><a href="dataframe.html"><i class="fa fa-check"></i><b>4</b> Dataframe</a><ul>
+<li class="chapter" data-level="" data-path="dataframe.html"><a href="dataframe.html#notes-1"><i class="fa fa-check"></i>Notes</a></li>
+<li class="chapter" data-level="4.1" data-path="dataframe.html"><a href="dataframe.html#建立data.frame"><i class="fa fa-check"></i><b>4.1</b> 建立data.frame</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="dataframe.html"><a href="dataframe.html#範例一手動輸入台北市行政區人口與面積"><i class="fa fa-check"></i><b>4.1.1</b> 範例一：手動輸入台北市行政區人口與面積</a></li>
+<li class="chapter" data-level="4.1.2" data-path="dataframe.html"><a href="dataframe.html#範例二手動輸入台灣的進出口對象與數量"><i class="fa fa-check"></i><b>4.1.2</b> 範例二：手動輸入台灣的進出口對象與數量</a></li>
+<li class="chapter" data-level="4.1.3" data-path="dataframe.html"><a href="dataframe.html#more"><i class="fa fa-check"></i><b>4.1.3</b> More</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="dataframe.html"><a href="dataframe.html#觀察data.frame"><i class="fa fa-check"></i><b>4.2</b> 觀察data.frame</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="dataframe.html"><a href="dataframe.html#觀察資料維度"><i class="fa fa-check"></i><b>4.2.1</b> 觀察資料維度</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="dataframe.html"><a href="dataframe.html#操作data-frame"><i class="fa fa-check"></i><b>4.3</b> 操作data frame</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="dataframe.html"><a href="dataframe.html#取出data-frame中的一個變數"><i class="fa fa-check"></i><b>4.3.1</b> 取出data frame中的一個變數</a></li>
+<li class="chapter" data-level="4.3.2" data-path="dataframe.html"><a href="dataframe.html#mutate-透過運算產生新變數"><i class="fa fa-check"></i><b>4.3.2</b> mutate 透過運算產生新變數</a></li>
+<li class="chapter" data-level="4.3.3" data-path="dataframe.html"><a href="dataframe.html#filter-select-篩選資料選取變數"><i class="fa fa-check"></i><b>4.3.3</b> filter, select 篩選資料、選取變數</a></li>
+<li class="chapter" data-level="4.3.4" data-path="dataframe.html"><a href="dataframe.html#sorting-排序按照某個變數排序"><i class="fa fa-check"></i><b>4.3.4</b> sorting 排序：按照某個變數排序</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="dataframe.html"><a href="dataframe.html#more-1"><i class="fa fa-check"></i><b>4.4</b> MORE</a><ul>
+<li class="chapter" data-level="4.4.1" data-path="dataframe.html"><a href="dataframe.html#plotting"><i class="fa fa-check"></i><b>4.4.1</b> Plotting</a></li>
+<li class="chapter" data-level="4.4.2" data-path="dataframe.html"><a href="dataframe.html#using-dplyr"><i class="fa fa-check"></i><b>4.4.2</b> Using dplyr</a></li>
+</ul></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Playing Data with R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="r語言基礎速遊" class="section level1">
+<h1><span class="header-section-number">Chapter 2</span> R語言基礎速遊</h1>
+<div id="rstudio-基本操作" class="section level2">
+<h2><span class="header-section-number">2.1</span> RStudio 基本操作</h2>
+<div id="執行r-markdown" class="section level3">
+<h3><span class="header-section-number">2.1.1</span> 執行R Markdown</h3>
+<ul>
+<li>Using <code>Cmd+Enter</code> (<code>Ctrl+Enter</code> in Window) to excute the line where your cursor is located.</li>
+<li>Using <code>Cmd(Ctrl)+Shift+Enter</code> to run all code in a cell</li>
+<li>Using <code>Cmd(Ctrl)+Option(Alt)+i</code> to insert a new cell</li>
+<li>Using mouse to select multiple lines, then <code>Cmd(Ctrl)+Shift+c</code> to comment/uncomment multiple lines.</li>
+</ul>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">a &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">b &lt;-<span class="st"> </span><span class="dv">4</span></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">a<span class="op">*</span>b</a></code></pre></div>
+<pre><code>## [1]  4  8 12 16 20</code></pre>
+</div>
+<div id="安裝第三方套件" class="section level3">
+<h3><span class="header-section-number">2.1.2</span> 安裝第三方套件</h3>
+<p>套件的使用分為<strong>安裝</strong>和<strong>載入</strong>兩個動作。通常安裝好R的時候就已經安裝好基本<code>base</code>套件。當執行R時便會將base套件<strong>預載</strong>入程式的執行環境中。非常多的R使用者會編寫第三方套件，並且將這些套件開放給群眾使用。通常這些套件已經被上載到<strong>R cran</strong>提供下載。而<strong>R cran</strong>上的套件我們可以使用<code>install.packages(&quot;package_name&quot;)</code>來自動安裝到我們的電腦中。</p>
+
+<div class="exercise">
+<span id="exr:unnamed-chunk-1" class="exercise"><strong>Exercise 2.1  (Installing packages)  </strong></span>安裝以下套件：<code>tidyverse</code>, <code>caret</code>, <code>jiebaR</code>, <code>stm</code>, <code>sf</code>
+</div>
+
+</div>
+<div id="載入第三方套件" class="section level3">
+<h3><span class="header-section-number">2.1.3</span> 載入第三方套件</h3>
+<p>這些第三方套件被安裝好後，還需要被<strong>加載</strong>到程式的執行環境中才可以使用。因此要用<code>library(package_name)</code>將其載入。</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">library</span>(jsonlite)</a></code></pre></div>
+<pre><code>## Warning: package &#39;jsonlite&#39; was built under R version 3.5.2</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">library</span>(httr)</a></code></pre></div>
+<pre><code>## Warning: package &#39;httr&#39; was built under R version 3.5.2</code></pre>
+
+<div class="exercise">
+<span id="exr:unnamed-chunk-3" class="exercise"><strong>Exercise 2.2  (Loading packages)  </strong></span>用<code>library(package_name)</code>載入已經安裝好的<code>jsonlite</code>與<code>httr</code>
+</div>
+
+
+<div class="exercise">
+<span id="exr:unnamed-chunk-4" class="exercise"><strong>Exercise 2.3  (loading packages)  </strong></span>你可以用下面的程式碼一次載入多個套件。概念是，把你要安裝的套件名稱存成一個vector，然後偵測看看該套件是否已經安裝過了。如果有任何套件沒安裝過，就把那些套件給安裝了。
+</div>
+
+</div>
+<div id="註解" class="section level3">
+<h3><span class="header-section-number">2.1.4</span> 註解</h3>
+<p>下列程式碼中開頭有<code>#</code>符號者為註解，程式在執行時會自動忽略前面有<code>#</code>符號的程式碼。</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="co"># a &lt;- c(1, 2, 3, 4, 5)</span></a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co"># b &lt;- 4</span></a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co"># a*b</span></a></code></pre></div>
+</div>
+</div>
+<div id="用r載入資料" class="section level2">
+<h2><span class="header-section-number">2.2</span> 用R載入資料</h2>
+<p>你這時候可能還沒用過R，先不要管以下每一行程式是什麼意思，就先使用看看、玩玩看。先看看RStudio怎麼執行R的程式，先看看R的資料長什麼樣子。</p>
+<div id="範例一載入dcard資料" class="section level3">
+<h3><span class="header-section-number">2.2.1</span> 範例一：載入Dcard資料</h3>
+<p>先不要去管以下程式碼<code>fromJSON(content(GET(url), &quot;text&quot;))</code>是什麼意思，先著重在語言的形式。通常一個函式會寫為<code>func_name()</code>，所以上述其實是三個函式由內而外一層套一層，從最內層開始往外做。這其實很make-sense，因為如果你有一個數學式<code>(1 + (3-3)/2)/8</code>，也是會從最裡面那層做出來。</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">url &lt;-<span class="st"> &quot;https://www.dcard.tw/_api/forums/relationship/posts?popular=true&quot;</span></a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">res &lt;-<span class="st"> </span><span class="kw">fromJSON</span>(<span class="kw">content</span>(<span class="kw">GET</span>(url), <span class="st">&quot;text&quot;</span>))</a>
+<a class="sourceLine" id="cb9-3" data-line-number="3">dplyr<span class="op">::</span><span class="kw">glimpse</span>(res)</a></code></pre></div>
+<pre><code>## Observations: 30
+## Variables: 33
+## $ id                  &lt;int&gt; 233084983, 233086073, 233084150, 233084588, 23308…
+## $ title               &lt;chr&gt; &quot;給所有男性，你被綠了！如果你的女友......&quot;, &quot;打了曖昧對象一巴掌#更&quot;, &quot;女友睡覺一定…
+## $ excerpt             &lt;chr&gt; &quot;如標題，我發現了一切，我想告誡你，如果你的女朋友：1. Line名稱叫 bobo，2. 年紀26…
+## $ anonymousSchool     &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, TRUE, FALSE,…
+## $ anonymousDepartment &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, T…
+## $ pinned              &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, …
+## $ forumId             &lt;chr&gt; &quot;42851318-b9e2-4a75-8a05-9fe180becefe&quot;, &quot;42851318…
+## $ replyId             &lt;int&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+## $ createdAt           &lt;chr&gt; &quot;2020-02-16T01:46:28.555Z&quot;, &quot;2020-02-16T06:49:55.…
+## $ updatedAt           &lt;chr&gt; &quot;2020-02-16T01:47:21.823Z&quot;, &quot;2020-02-17T02:59:03.…
+## $ commentCount        &lt;int&gt; 272, 33, 144, 40, 160, 28, 47, 43, 13, 26, 13, 12…
+## $ likeCount           &lt;int&gt; 4449, 2172, 1621, 1595, 1195, 799, 750, 689, 268,…
+## $ withNickname        &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, …
+## $ tags                &lt;list&gt; [&quot;HIDE_THUMBNAIL&quot;, &lt;&gt;, &lt;&gt;, &lt;&gt;, &lt;&gt;, &lt;&gt;, &lt;&gt;, &lt;&gt;, &lt;…
+## $ topics              &lt;list&gt; [&lt;&quot;愛情&quot;, &quot;女友&quot;, &quot;感情&quot;, &quot;男性&quot;, &quot;結婚&quot;&gt;, &lt;&quot;愛情&quot;, &quot;曖昧&quot;, &quot;約…
+## $ meta                &lt;df[,1]&gt; &lt;data.frame[26 x 1]&gt;
+## $ forumName           &lt;chr&gt; &quot;感情&quot;, &quot;感情&quot;, &quot;感情&quot;, &quot;感情&quot;, &quot;感情&quot;, &quot;感情&quot;, &quot;感情&quot;, &quot;感情&quot;, &quot;…
+## $ forumAlias          &lt;chr&gt; &quot;relationship&quot;, &quot;relationship&quot;, &quot;relationship&quot;, &quot;…
+## $ gender              &lt;chr&gt; &quot;F&quot;, &quot;F&quot;, &quot;M&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;M&quot;,…
+## $ replyTitle          &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+## $ mediaMeta           &lt;list&gt; [&lt;data.frame[0 x 0]&gt;, &lt;data.frame[6 x 8]&gt;, &lt;data…
+## $ reactions           &lt;list&gt; [&lt;data.frame[6 x 2]&gt;, &lt;data.frame[3 x 2]&gt;, &lt;data…
+## $ hidden              &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, …
+## $ customStyle         &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+## $ isSuspiciousAccount &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, …
+## $ layout              &lt;chr&gt; &quot;classic&quot;, &quot;classic&quot;, &quot;classic&quot;, &quot;classic&quot;, &quot;clas…
+## $ withImages          &lt;lgl&gt; FALSE, TRUE, TRUE, TRUE, FALSE, FALSE, TRUE, TRUE…
+## $ withVideos          &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, …
+## $ media               &lt;list&gt; [&lt;data.frame[0 x 0]&gt;, &lt;data.frame[5 x 1]&gt;, &lt;data…
+## $ reportReasonText    &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;…
+## $ postAvatar          &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;…
+## $ school              &lt;chr&gt; NA, NA, NA, NA, NA, &quot;國立高雄大學&quot;, NA, &quot;\U0001f317&quot;, &quot;…
+## $ department          &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, &quot;brybry20&quot;, &quot;cocaaaa_…</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">head</span>(res)</a></code></pre></div>
+<pre><code>##          id                                    title
+## 1 233084983 給所有男性，你被綠了！如果你的女友......
+## 2 233086073                    打了曖昧對象一巴掌#更
+## 3 233084150                 女友睡覺一定要摸屌才能睡
+## 4 233084588           更）#閃 情人節男友送我口紅！？
+## 5 233084746                   整天想摸奶是什麼概念？
+## 6 233084928              直球這麼明顯了 就差一步了……
+##                                                                                                                                                                                                    excerpt
+## 1                                         如標題，我發現了一切，我想告誡你，如果你的女朋友：1. Line名稱叫 bobo，2. 年紀26～27，3.  身高 160 左右，4. 在台北市的某銀行上班，5. Line照片是個人自拍照 長頭髮 
+## 2                             更，沒想到超多人回應的哈哈哈哈哈哈，我們之後當然在一起了 萬歲~~，我男朋友覺得他應該會記得這件事一輩子哈哈，祝大家趕快脫單呦~，______________正文__________，應該是發感情版吧
+## 3 我和現任女友是紫色交友軟體認識的，第一次約會就是去薰衣草森林看花花草草，然後就帶回家做愛了。然後就在一起（順序怪怪的？），第二次見面是在女友家過夜，我發現，她會一直強迫打手槍幾乎到快要天亮。我跟女友說
+## 4                  不曉得該放美妝還是感情版，但既然有閃的部分，所以就選感情了，# # # 更新在 B32 唷，前天是情人節，原本有叫他不要送禮物，而且那天他還加班到很晚，他來我家之後，我完全沈浸在我的switch裡，根
+## 5            我男友不誇張幾乎每天都在跟我要，說真的有點煩 只要睡覺前躺在床上 他就會一直要摸我奶 我都會有點不開心跟他說不要 但過沒多久他還是會繼續摸...，只要口氣差的拒絕他 他就會鬧脾氣的不抱我睡覺...，說
+## 6                                       最近有個相處還不錯的對象，昨晚心血來潮，想說撩他一下，：我         ：他，以下為聊天紀錄，=============================，：我做什麼事都十拿九穩，但就是差你這一吻，
+##   anonymousSchool anonymousDepartment pinned
+## 1            TRUE                TRUE  FALSE
+## 2            TRUE                TRUE  FALSE
+## 3            TRUE                TRUE  FALSE
+## 4            TRUE                TRUE  FALSE
+## 5            TRUE                TRUE  FALSE
+## 6           FALSE                TRUE  FALSE
+##                                forumId replyId                createdAt
+## 1 42851318-b9e2-4a75-8a05-9fe180becefe      NA 2020-02-16T01:46:28.555Z
+## 2 42851318-b9e2-4a75-8a05-9fe180becefe      NA 2020-02-16T06:49:55.774Z
+## 3 42851318-b9e2-4a75-8a05-9fe180becefe      NA 2020-02-15T18:10:59.869Z
+## 4 42851318-b9e2-4a75-8a05-9fe180becefe      NA 2020-02-15T20:17:43.408Z
+## 5 42851318-b9e2-4a75-8a05-9fe180becefe      NA 2020-02-15T22:01:01.260Z
+## 6 42851318-b9e2-4a75-8a05-9fe180becefe      NA 2020-02-16T01:19:38.961Z
+##                  updatedAt commentCount likeCount withNickname           tags
+## 1 2020-02-16T01:47:21.823Z          272      4449        FALSE HIDE_THUMBNAIL
+## 2 2020-02-17T02:59:03.001Z           33      2172        FALSE               
+## 3 2020-02-15T18:16:07.940Z          144      1621        FALSE               
+## 4 2020-02-16T22:37:11.626Z           40      1595        FALSE               
+## 5 2020-02-15T22:01:01.260Z          160      1195        FALSE               
+## 6 2020-02-16T16:36:22.297Z           28       799        FALSE               
+##                           topics  layout forumName   forumAlias gender
+## 1   愛情, 女友, 感情, 男性, 結婚 classic      感情 relationship      F
+## 2               愛情, 曖昧, 約會 classic      感情 relationship      F
+## 3 女友, 愛情, 打手槍, 感情, 分手 classic      感情 relationship      M
+## 4             情人節, 愛情, 口紅 classic      感情 relationship      F
+## 5                       奶, 愛情 classic      感情 relationship      F
+## 6         直球, 愛情, 氣死, 曖昧 classic      感情 relationship      F
+##   replyTitle
+## 1       &lt;NA&gt;
+## 2       &lt;NA&gt;
+## 3       &lt;NA&gt;
+## 4       &lt;NA&gt;
+## 5       &lt;NA&gt;
+## 6       &lt;NA&gt;
+##                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    mediaMeta
+## 1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       NULL
+## 2 a38dd69c-c52c-477c-8ec8-7ae0d7ac42ae, a38dd69c-c52c-477c-8ec8-7ae0d7ac42ae, 923ec7df-510c-4197-9fb6-edbb42d0af89, 4ac99890-b56e-43c7-871e-0f834adfd744, f62e1a18-1a12-4e4d-a576-7d0a5d904c95, 30c4bbb1-38a8-4302-b6c6-55d791c50cd7, https://i.imgur.com/zdWZE8Kl.jpg, https://i.imgur.com/zdWZE8K.jpg, https://i.imgur.com/6RMIJ9E.jpg, https://i.imgur.com/W55VLqA.jpg, https://i.imgur.com/Our9jjE.jpg, https://i.imgur.com/OmZk3Bs.png, https://i.imgur.com/zdWZE8Kl.jpg, https://imgur.com/zdWZE8K, https://imgur.com/6RMIJ9E, https://imgur.com/W55VLqA, https://imgur.com/Our9jjE, https://imgur.com/OmZk3Bs, https://i.imgur.com/zdWZE8Kl.jpg, https://i.imgur.com/zdWZE8Kl.jpg, https://i.imgur.com/6RMIJ9El.jpg, https://i.imgur.com/W55VLqAl.jpg, https://i.imgur.com/Our9jjEl.jpg, https://i.imgur.com/OmZk3Bsl.jpg, image/thumbnail, image/imgur, image/imgur, image/imgur, image/imgur, image/imgur, ANNOTATED, ANNOTATED, ANNOTATED, ANNOTATED, ANNOTATED, ANNOTATED, 2020-02-16T06:49:55.774Z, 2020-02-16T06:49:55.774Z, 2020-02-16T06:49:55.774Z, 2020-02-16T06:49:55.774Z, 2020-02-16T06:49:55.774Z, 2020-02-16T06:49:55.774Z, 2020-02-17T02:59:03.001Z, 2020-02-17T02:59:03.001Z, 2020-02-17T02:59:03.001Z, 2020-02-17T02:59:03.001Z, 2020-02-17T02:59:03.001Z, 2020-02-17T02:59:03.001Z
+## 3                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 8452d439-bc69-4cd9-a68f-d2a0400c3279, 8452d439-bc69-4cd9-a68f-d2a0400c3279, b5861979-5b6c-4d19-86e7-714ba4aefe5c, https://i.imgur.com/wprFVLfl.jpg, https://i.imgur.com/wprFVLf.jpg, https://i.imgur.com/NnLU68G.jpg, https://i.imgur.com/wprFVLfl.jpg, https://imgur.com/wprFVLf, https://imgur.com/NnLU68G, https://i.imgur.com/wprFVLfl.jpg, https://i.imgur.com/wprFVLfl.jpg, https://i.imgur.com/NnLU68Gl.jpg, image/thumbnail, image/imgur, image/imgur, ANNOTATED, ANNOTATED, ANNOTATED, 2020-02-15T18:10:59.869Z, 2020-02-15T18:10:59.869Z, 2020-02-15T18:10:59.869Z, 2020-02-15T18:16:07.940Z, 2020-02-15T18:16:07.940Z, 2020-02-15T18:16:07.940Z
+## 4                                                                                                                                             ce16be9d-f0cc-47f6-903f-be253b744c05, ce16be9d-f0cc-47f6-903f-be253b744c05, f337325a-9832-4fb2-9c7f-df0f3bc5022a, https://megapx-assets.dcard.tw/images/26f7d047-a081-4ec4-8660-78049a3a4959/640.jpeg, https://megapx-assets.dcard.tw/images/26f7d047-a081-4ec4-8660-78049a3a4959/1280.jpeg, https://megapx-assets.dcard.tw/images/bde499bd-b8f6-4f33-a1fe-a2a6e0bbcf4a/full.jpeg, https://megapx-assets.dcard.tw/images/26f7d047-a081-4ec4-8660-78049a3a4959/640.jpeg, https://megapx.dcard.tw/v1/images/26f7d047-a081-4ec4-8660-78049a3a4959, https://megapx.dcard.tw/v1/images/bde499bd-b8f6-4f33-a1fe-a2a6e0bbcf4a, https://megapx-assets.dcard.tw/images/26f7d047-a081-4ec4-8660-78049a3a4959/640.jpeg, https://megapx-assets.dcard.tw/images/26f7d047-a081-4ec4-8660-78049a3a4959/640.jpeg, https://megapx-assets.dcard.tw/images/bde499bd-b8f6-4f33-a1fe-a2a6e0bbcf4a/640.jpeg, image/thumbnail, image/megapx, image/megapx, ANNOTATED, ANNOTATED, ANNOTATED, 2020-02-15T20:17:43.408Z, 2020-02-15T20:17:43.408Z, 2020-02-15T20:17:43.408Z, 2020-02-16T22:37:11.626Z, 2020-02-16T22:37:11.626Z, 2020-02-16T22:37:11.626Z, 296, 828, 650, 640, 1792, 906
+## 5                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       NULL
+## 6                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       NULL
+##                                                                                                                                                                                                                                                    reactions
+## 1 286f599c-f86a-4932-82f0-f5a06f1eca03, 4b018f48-e184-445f-adf1-fc8e04ba09b9, aa0d425f-d530-4478-9a77-fe3aedc79eea, e8e6bc5d-41b0-4129-b134-97507523d7ff, 514c2569-fd53-4d9d-a415-bf0f88e7329f, 011ead16-9b83-4729-9fde-c588920c6c2d, 4331, 57, 41, 14, 5, 1
+## 2                                                                                                                             286f599c-f86a-4932-82f0-f5a06f1eca03, e8e6bc5d-41b0-4129-b134-97507523d7ff, 4b018f48-e184-445f-adf1-fc8e04ba09b9, 1995, 175, 2
+## 3                                           286f599c-f86a-4932-82f0-f5a06f1eca03, e8e6bc5d-41b0-4129-b134-97507523d7ff, 4b018f48-e184-445f-adf1-fc8e04ba09b9, aa0d425f-d530-4478-9a77-fe3aedc79eea, 514c2569-fd53-4d9d-a415-bf0f88e7329f, 1503, 79, 36, 2, 1
+## 4                                                                                                                              286f599c-f86a-4932-82f0-f5a06f1eca03, e8e6bc5d-41b0-4129-b134-97507523d7ff, 011ead16-9b83-4729-9fde-c588920c6c2d, 1573, 20, 2
+## 5 286f599c-f86a-4932-82f0-f5a06f1eca03, e8e6bc5d-41b0-4129-b134-97507523d7ff, aa0d425f-d530-4478-9a77-fe3aedc79eea, 4b018f48-e184-445f-adf1-fc8e04ba09b9, 514c2569-fd53-4d9d-a415-bf0f88e7329f, 011ead16-9b83-4729-9fde-c588920c6c2d, 1108, 43, 28, 11, 4, 1
+## 6                                                                                                                               286f599c-f86a-4932-82f0-f5a06f1eca03, e8e6bc5d-41b0-4129-b134-97507523d7ff, 514c2569-fd53-4d9d-a415-bf0f88e7329f, 740, 58, 1
+##   hidden customStyle isSuspiciousAccount  layout withImages withVideos
+## 1  FALSE          NA               FALSE classic      FALSE      FALSE
+## 2  FALSE          NA               FALSE classic       TRUE      FALSE
+## 3  FALSE          NA               FALSE classic       TRUE      FALSE
+## 4  FALSE          NA               FALSE classic       TRUE      FALSE
+## 5  FALSE          NA               FALSE classic      FALSE      FALSE
+## 6  FALSE          NA               FALSE classic      FALSE      FALSE
+##                                                                                                                                                                        media
+## 1                                                                                                                                                                       NULL
+## 2        https://i.imgur.com/zdWZE8K.jpg, https://i.imgur.com/6RMIJ9E.jpg, https://i.imgur.com/W55VLqA.jpg, https://i.imgur.com/Our9jjE.jpg, https://i.imgur.com/OmZk3Bs.png
+## 3                                                                                                           https://i.imgur.com/wprFVLf.jpg, https://i.imgur.com/NnLU68G.jpg
+## 4 https://megapx-assets.dcard.tw/images/26f7d047-a081-4ec4-8660-78049a3a4959/1280.jpeg, https://megapx-assets.dcard.tw/images/bde499bd-b8f6-4f33-a1fe-a2a6e0bbcf4a/full.jpeg
+## 5                                                                                                                                                                       NULL
+## 6                                                                                                                                                                       NULL
+##   reportReasonText postAvatar       school department
+## 1                                     &lt;NA&gt;       &lt;NA&gt;
+## 2                                     &lt;NA&gt;       &lt;NA&gt;
+## 3                                     &lt;NA&gt;       &lt;NA&gt;
+## 4                                     &lt;NA&gt;       &lt;NA&gt;
+## 5                                     &lt;NA&gt;       &lt;NA&gt;
+## 6                             國立高雄大學       &lt;NA&gt;</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="co"># View(res)</span></a></code></pre></div>
+</div>
+<div id="範例二讀取台北市竊盜案件發生地區與時間" class="section level3">
+<h3><span class="header-section-number">2.2.2</span> 範例二：讀取台北市竊盜案件發生地區與時間</h3>
+<p><strong>方法一：直接讀取線上資料</strong>。這個方法會直接讀取一個URL(例如程式碼中<code>url</code>所指到的網址)，該URL指向台北市開放資料集所釋出的台北市竊盜案件發生時間與地點的開放資料。</p>
+<p>可以用<code>head(df)</code>的程式碼來觀察看看他前六行的資料有哪些。</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">url &lt;-<span class="st"> &quot;http://data.taipei/opendata/datalist/datasetMeta/download?id=68785231-d6c5-47a1-b001-77eec70bec02&amp;rid=34a4a431-f04d-474a-8e72-8d3f586db3df&quot;</span></a>
+<a class="sourceLine" id="cb14-2" data-line-number="2">df &lt;-<span class="st"> </span><span class="kw">read.csv</span>(url, <span class="dt">fileEncoding =</span> <span class="st">&quot;big5&quot;</span>)</a>
+<a class="sourceLine" id="cb14-3" data-line-number="3"><span class="kw">head</span>(df)</a></code></pre></div>
+<pre><code>##   編號     案類 發生.現.日期 發生時段
+## 1    1 住宅竊盜      1040101    00~02
+## 2    2 住宅竊盜      1040101    00~02
+## 3    3 住宅竊盜      1040101    06~08
+## 4    4 住宅竊盜      1040101    10~12
+## 5    5 住宅竊盜      1040101    12~14
+## 6    6 住宅竊盜      1040102    00~02
+##                                  發生.現.地點
+## 1              台北市文山區萬美里萬寧街1~30號
+## 2 台北市信義區富台里忠孝東路5段295巷6弄1~30號
+## 3             台北市中山區新生北路1段91~120號
+## 4           台北市文山區明興里興隆路4段1~30號
+## 5               台北縣新莊市思源路332巷1~30號
+## 6   台北市士林區天福里1鄰忠誠路2段130巷1~30號</code></pre>
+<p><strong>方法二：讀取已下載的資料檔案</strong>。有時候所拿到的資料是已經下載好的靜態資料檔案，可以用程式直接開啟本機端（Local）的檔案。第一行程式碼是把<code>url</code>所指向的檔案給抓回來並儲存到本機端的<code>data</code>資料夾中，並命名為<code>tptheft.csv</code>。第二行程式碼則是直接讀取該資料夾中的該檔案。</p>
+<p>我在這邊用一個<code>dplyr</code>這個套件中的<code>glimpse()</code>函式來看看該筆資料的結構。可以看得出來有哪些變數，每個變數的前幾個範例值，以及變數的型態。</p>
+</div>
+<div id="範例三用api載入內政部資料" class="section level3">
+<h3><span class="header-section-number">2.2.3</span> 範例三：用API載入內政部資料</h3>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">url &lt;-<span class="st"> &quot;https://www.ris.gov.tw/rs-opendata/api/v1/datastore/ODRP024/107?page=1&quot;</span></a>
+<a class="sourceLine" id="cb16-2" data-line-number="2">first_page &lt;-<span class="st"> </span><span class="kw">fromJSON</span>(<span class="kw">content</span>(<span class="kw">GET</span>(url), <span class="st">&quot;text&quot;</span>))</a>
+<a class="sourceLine" id="cb16-3" data-line-number="3"><span class="kw">head</span>(first_page<span class="op">$</span>responseData)</a></code></pre></div>
+<pre><code>##   statistic_yyy district_code      site_id village    edu sex
+## 1           107   65000010001 新北市板橋區  留侯里   博畢  男
+## 2           107   65000010001 新北市板橋區  留侯里   碩畢  男
+## 3           107   65000010001 新北市板橋區  留侯里   大畢  男
+## 4           107   65000010001 新北市板橋區  留侯里   專畢  男
+## 5           107   65000010001 新北市板橋區  留侯里 高中畢  男
+## 6           107   65000010001 新北市板橋區  留侯里 國中畢  男
+##   headhousehold_count
+## 1                   3
+## 2                  26
+## 3                  71
+## 4                  52
+## 5                 122
+## 6                  40</code></pre>
+</div>
+<div id="範例四獲取104資料" class="section level3">
+<h3><span class="header-section-number">2.2.4</span> 範例四：獲取104資料</h3>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">url &lt;-<span class="st"> &quot;https://www.104.com.tw/jobs/search/list?ro=0&amp;kwop=7&amp;keyword=%E7%88%AC%E8%9F%B2&amp;order=1&amp;asc=0&amp;page=3&amp;mode=s&amp;jobsource=2018indexpoc&quot;</span></a>
+<a class="sourceLine" id="cb18-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb18-3" data-line-number="3">res &lt;-<span class="st"> </span><span class="kw">fromJSON</span>(<span class="kw">content</span>(<span class="kw">GET</span>(url), <span class="st">&quot;text&quot;</span>))</a>
+<a class="sourceLine" id="cb18-4" data-line-number="4">df &lt;-<span class="st"> </span>res<span class="op">$</span>data<span class="op">$</span>list</a>
+<a class="sourceLine" id="cb18-5" data-line-number="5"><span class="kw">head</span>(df)</a></code></pre></div>
+<pre><code>##   jobType    jobNo                               jobName
+## 1       0 11397872 【軟體/網路/APP工程師】柬埔寨金邊職缺
+## 2       0  9161490                      Python程式設計師
+## 3       0  8876423                  C# / .Net 軟體工程師
+## 4       2 10964862                  07_資料分析師 (中和)
+## 5       2 11539015                      Python數據⼯程師
+## 6       0  7468390                          IT系統工程師
+##                          jobNameSnippet jobRole jobRo jobAddrNoDesc
+## 1 【軟體/網路/APP工程師】柬埔寨金邊職缺       1     1        柬埔寨
+## 2                      Python程式設計師       1     1  台中市南屯區
+## 3                  C# / .Net 軟體工程師       1     1  台北市內湖區
+## 4                  07_資料分析師 (中和)       1     1  新北市中和區
+## 5                      Python數據⼯程師       1     1  台北市松山區
+## 6                          IT系統工程師       1     1  台南市仁德區
+##                        jobAddress
+## 1                                
+## 2 文心路一段521號7樓之1(鉅眾大樓)
+## 3           堤頂大道二段179號10樓
+## 4                                
+## 5                 光復北路95號7樓
+## 6                     新田二街1號
+##                                                                                                                                                                                                                                                                                 description
+## 1                                                       \r\nGolang開發工程師\r\nH5工程師\r\nCocos開發工程師\r\n廣告演算法工程師\r\n伺服器程式(高級/中級)\r\n用戶端程式(高級/中級)\r\n[[[爬蟲]]]開發工程師\r\n運維工程師(基礎)\r\n運維工程師(業務/中級)\r\n運維工程師(開發/高級)\r\n\r\n\r\n
+## 2                                                                                     職責要求： \r\n1. [[[爬蟲]]]及程式維護。\r\n2. Python程式開發及維護。\r\n3. 系統技術研究與專案推動上線。\r\n4. 需輪值班。   \r\n\r\n任職資格： \r\n1. 熟悉 Flask/tornado等 Python API中的一個或多個。
+## 3                                                                          本團隊以C#及Vue.js 等技術進行開發[[[爬蟲]]]程式，\r\n工作項目，重點如下，其他細節，歡迎各位朋友來談談：\r\n1. 使用HangFire為基礎來開發及維護[[[爬蟲]]]程式。\r\n2. 網站開發：\r\n(1)  Server 端,使用Asp.net Core
+## 4 1.消費者行為資料探勘、資料前處理及建立預測模型，提出分析報告並以簡單精要的方式呈現相關發現及後續做法，創造管理層的數據化決策價值。\n2.跨部門團隊合作大數據資料分析專案，針對發現之問題點提出建議改善，並有效率地掌控專案走向。\n3.熟悉Python或使用R語言做資料分析。\n4.其他主管交辦事項。
+## 5                                                                   ⼯作內容\r\n1.網路[[[爬蟲]]]開發\r\n2.Data cleanup and ETL \r\n3.負責數據流調度、監控及性能優化\r\n4.數據倉儲設計、優化及管理\r\n5.維護與改善現有數據流程\r\n6.相關流程⽂件撰寫\r\n7.其他主管交代事項\r\n\r\n必要條件：
+## 6                                                                                                                      開發新一代ERP系統\r\n1.後台商業邏輯Web API設計與實作(ASP.NET Core)\r\n2.前台網頁製作 (Angular)\r\n上述兩點依照個人能力可以只負責單一項目，可同時負責前後台者尤佳\r\n
+##   optionEdu period periodDesc applyCnt   applyDesc          custNo
+## 1      專科     03    2年以上    00001   0~5人應徵 130000000139287
+## 2      專科     00   經歷不拘    00011 11~30人應徵 130000000079214
+## 3      專科     02    1年以上    00008  6~10人應徵 130000000085985
+## 4      大學     03    2年以上    00019 11~30人應徵     70769567000
+## 5  學歷不拘     04    3年以上    00010  6~10人應徵 130000000091152
+## 6      大學     00   經歷不拘    00005   0~5人應徵     22798584000
+##                         custName coIndustry       coIndustryDesc salaryLow
+## 1 Morning Air Technology PTE.LTD 1001001006 其它軟體及網路相關業   0000000
+## 2               雋上科技有限公司 1001001002       電腦軟體服務業   0030000
+## 3           辰城科技股份有限公司 1001001003       網際網路相關業   0000000
+## 4       台灣之星電信股份有限公司 1001002001           電信相關業   0000000
+## 5               電獺股份有限公司 1001001003       網際網路相關業   0045000
+## 6           恒耀工業股份有限公司 1002011010   其他金屬相關製造業   0000000
+##   salaryHigh          salaryDesc s10 appearDate appearDateDesc optionZone
+## 1    0000000            待遇面議  10   20200113           1/13       8192
+## 2    0060000 月薪30,000~60,000元  50   20200120           1/20          0
+## 3    0000000            待遇面議  10   20200207           2/07          0
+## 4    0000000            待遇面議  10   20200205           2/05    6295680
+## 5    0070000 月薪45,000~70,000元  50   20200216           2/16       4096
+## 6    0000000            待遇面議  10   20200213           2/13     262144
+##   isApply applyDate isSave
+## 1       0                0
+## 2       0                0
+## 3       0                0
+## 4       0                0
+## 5       0                0
+## 6       0                0
+##                                                                                                                                                                                                                                                                                 descSnippet
+## 1                           \r\nGolang開發工程師\r\nH5工程師\r\nCocos開發工程師\r\n廣告演算法工程師\r\n伺服器程式(高級/中級)\r\n用戶端程式(高級/中級)\r\n&lt;em class=&#39;b-txt--highlight&#39;&gt;爬蟲&lt;/em&gt;開發工程師\r\n運維工程師(基礎)\r\n運維工程師(業務/中級)\r\n運維工程師(開發/高級)\r\n\r\n\r\n
+## 2                                                         職責要求： \r\n1. &lt;em class=&#39;b-txt--highlight&#39;&gt;爬蟲&lt;/em&gt;及程式維護。\r\n2. Python程式開發及維護。\r\n3. 系統技術研究與專案推動上線。\r\n4. 需輪值班。   \r\n\r\n任職資格： \r\n1. 熟悉 Flask/tornado等 Python API中的一個或多個。
+## 3                  本團隊以C#及Vue.js 等技術進行開發&lt;em class=&#39;b-txt--highlight&#39;&gt;爬蟲&lt;/em&gt;程式，\r\n工作項目，重點如下，其他細節，歡迎各位朋友來談談：\r\n1. 使用HangFire為基礎來開發及維護&lt;em class=&#39;b-txt--highlight&#39;&gt;爬蟲&lt;/em&gt;程式。\r\n2. 網站開發：\r\n(1)  Server 端,使用Asp.net Core
+## 4 1.消費者行為資料探勘、資料前處理及建立預測模型，提出分析報告並以簡單精要的方式呈現相關發現及後續做法，創造管理層的數據化決策價值。\n2.跨部門團隊合作大數據資料分析專案，針對發現之問題點提出建議改善，並有效率地掌控專案走向。\n3.熟悉Python或使用R語言做資料分析。\n4.其他主管交辦事項。
+## 5                                       ⼯作內容\r\n1.網路&lt;em class=&#39;b-txt--highlight&#39;&gt;爬蟲&lt;/em&gt;開發\r\n2.Data cleanup and ETL \r\n3.負責數據流調度、監控及性能優化\r\n4.數據倉儲設計、優化及管理\r\n5.維護與改善現有數據流程\r\n6.相關流程⽂件撰寫\r\n7.其他主管交代事項\r\n\r\n必要條件：
+## 6                                                                                                                      開發新一代ERP系統\r\n1.後台商業邏輯Web API設計與實作(ASP.NET Core)\r\n2.前台網頁製作 (Angular)\r\n上述兩點依照個人能力可以只負責單一項目，可同時負責前後台者尤佳\r\n
+##         tags
+## 1  員工600人
+## 2           
+## 3  員工135人
+## 4           
+## 5   員工50人
+## 6 員工1000人
+##                                                                                                                                               link.applyAnalyze
+## 1 //www.104.com.tw/jobs/apply/analysis?j=6a784a744074512b5e60422940463e67540424a733c3e466f444a42252525252314e42607503j97&amp;channel=104rpt&amp;jobsource=apply_analyze
+## 2 //www.104.com.tw/jobs/apply/analysis?j=3c60436c5e6c492034583a214e2e365f2383a426b34363e673c423a1d1d1d1d186464a363189j99&amp;channel=104rpt&amp;jobsource=apply_analyze
+## 3 //www.104.com.tw/jobs/apply/analysis?j=57774a2f617350285d49432459353d6643f4149723b3d456e434941242424241f24b67493816j55&amp;channel=104rpt&amp;jobsource=apply_analyze
+## 4         //www.104.com.tw/jobs/apply/analysis?j=50684b313c4e465e393a426b565c3f2196a684b2f3c74472929292928415c3a2d008j48&amp;channel=104rpt&amp;jobsource=apply_analyze
+## 5 //www.104.com.tw/jobs/apply/analysis?j=494f48713d714e6e49473f695b333b6423d3f4770393b436c41473f22222222220493f3f2a37j57&amp;channel=104rpt&amp;jobsource=apply_analyze
+## 6         //www.104.com.tw/jobs/apply/analysis?j=443a4426446c3f5631323a633c2e381975e4a44273c5c3e2121212121382b2625381j52&amp;channel=104rpt&amp;jobsource=apply_analyze
+##                                                  link.job
+## 1 //www.104.com.tw/job/6sank?jobsource=jolist_a_relevance
+## 2 //www.104.com.tw/job/5gd1u?jobsource=jolist_a_relevance
+## 3 //www.104.com.tw/job/5a93b?jobsource=jolist_a_relevance
+## 4 //www.104.com.tw/job/6j0ji?jobsource=jolist_a_relevance
+## 5 //www.104.com.tw/job/6vbk7?jobsource=jolist_a_relevance
+## 6 //www.104.com.tw/job/4g2na?jobsource=jolist_a_relevance
+##                                                          link.cust
+## 1 //www.104.com.tw/company/1a2x6bkys7?jobsource=jolist_a_relevance
+## 2 //www.104.com.tw/company/1a2x6bjofi?jobsource=jolist_a_relevance
+## 3 //www.104.com.tw/company/1a2x6bjtnl?jobsource=jolist_a_relevance
+## 4    //www.104.com.tw/company/wiedfdk?jobsource=jolist_a_relevance
+## 5 //www.104.com.tw/company/1a2x6bjxn4?jobsource=jolist_a_relevance
+## 6    //www.104.com.tw/company/ah1os00?jobsource=jolist_a_relevance
+##            jobsource                            jobNameRaw
+## 1 jolist_a_relevance 【軟體/網路/APP工程師】柬埔寨金邊職缺
+## 2 jolist_a_relevance                      Python程式設計師
+## 3 jolist_a_relevance                  C# / .Net 軟體工程師
+## 4 jolist_a_relevance                  07_資料分析師 (中和)
+## 5 jolist_a_relevance                      Python數據⼯程師
+## 6 jolist_a_relevance                          IT系統工程師
+##                      custNameRaw
+## 1 Morning Air Technology PTE.LTD
+## 2               雋上科技有限公司
+## 3           辰城科技股份有限公司
+## 4       台灣之星電信股份有限公司
+## 5               電獺股份有限公司
+## 6           恒耀工業股份有限公司</code></pre>
+</div>
+<div id="範例五獲取ubike資料" class="section level3">
+<h3><span class="header-section-number">2.2.5</span> 範例五：獲取ubike資料</h3>
+<ul>
+<li><a href="https://taipeicity.github.io/traffic_realtime/" class="uri">https://taipeicity.github.io/traffic_realtime/</a></li>
+</ul>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">url &lt;-<span class="st"> &quot;https://tcgbusfs.blob.core.windows.net/blobyoubike/YouBikeTP.json&quot;</span></a>
+<a class="sourceLine" id="cb20-2" data-line-number="2">ubike.list &lt;-<span class="st"> </span><span class="kw">fromJSON</span>(<span class="kw">content</span>(<span class="kw">GET</span>(url),<span class="st">&quot;text&quot;</span>, <span class="dt">encoding =</span> <span class="st">&quot;utf-8&quot;</span>))</a>
+<a class="sourceLine" id="cb20-3" data-line-number="3">ubike.v &lt;-<span class="st"> </span><span class="kw">unlist</span>(ubike.list<span class="op">$</span>retVal)</a>
+<a class="sourceLine" id="cb20-4" data-line-number="4">ubike.m &lt;-<span class="st"> </span><span class="kw">matrix</span>(ubike.v, <span class="dt">byrow =</span> T, <span class="dt">ncol =</span> <span class="dv">14</span>)</a>
+<a class="sourceLine" id="cb20-5" data-line-number="5">ubike.df &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(ubike.m)</a>
+<a class="sourceLine" id="cb20-6" data-line-number="6"><span class="kw">names</span>(ubike.df) &lt;-<span class="st"> </span><span class="kw">names</span>(ubike.list<span class="op">$</span>retVal<span class="op">$</span><span class="st">`</span><span class="dt">0001</span><span class="st">`</span>)</a>
+<a class="sourceLine" id="cb20-7" data-line-number="7"><span class="kw">head</span>(ubike.df)</a></code></pre></div>
+<pre><code>##    sno                       sna tot sbi  sarea           mday           lat
+## 1 0001     捷運市政府站(3號出口) 180  71 信義區 20200217111734 25.0408578889
+## 2 0002 捷運國父紀念館站(2號出口)  48   9 大安區 20200217111739     25.041254
+## 3 0003                台北市政府  40  21 信義區 20200217111715 25.0377972222
+## 4 0004                  市民廣場  60  29 信義區 20200217111728 25.0360361111
+## 5 0005                  興雅國中  60  17 信義區 20200217111727 25.0365638889
+## 6 0006              臺北南山廣場  80  20 信義區 20200217111726     25.034047
+##             lng                                                             ar
+## 1 121.567904444                                        忠孝東路/松仁路(東南側)
+## 2     121.55742                                忠孝東路四段/光復南路口(西南側)
+## 3 121.565169444               台北市政府東門(松智路) (鄰近信義商圈/台北探索館)
+## 4    121.562325 市府路/松壽路(西北側)(鄰近台北101/台北世界貿易中心/台北探索館)
+## 5   121.5686639       松仁路/松仁路95巷(東南側)(鄰近信義商圈/台北信義威秀影城)
+## 6    121.565973  松智路/松廉路(東北側) (鄰近台北101/信義商圈/台北信義威秀影城)
+##       sareaen                                     snaen
+## 1 Xinyi Dist.   MRT Taipei City Hall Stataion(Exit 3)-2
+## 2  Daan Dist. MRT S.Y.S Memorial Hall Stataion(Exit 2.)
+## 3 Xinyi Dist.                          Taipei City Hall
+## 4 Xinyi Dist.                            Citizen Square
+## 5 Xinyi Dist.                    Xingya Jr. High School
+## 6 Xinyi Dist.                            NAN SHAN PLAZA
+##                                                          aren bemp act
+## 1 The S.W. side of Road Zhongxiao East Road &amp; Road Chung Yan.  106   1
+## 2                         Sec,4. Zhongxiao E.Rd/GuangFu S. Rd   39   1
+## 3             Taipei City Government Eastgate (Song Zhi Road)   19   1
+## 4               The N.W. side of Road Shifu &amp; Road Song Shou.   29   1
+## 5        The S.E. side of Road Songren &amp; Ln. 95, Songren Rd..   42   1
+## 6            The N.E. side of Road Song Zhi &amp; Road Song Lian.   60   1</code></pre>
+</div>
+</div>
+<div id="儲存現有變數" class="section level2">
+<h2><span class="header-section-number">2.3</span> 儲存現有變數</h2>
+<p>R可以暫時把現在有的變數儲存成暫存檔。可以用<code>save()</code>或<code>load()</code>，或者用<code>saveRDS()</code>與<code>readRDS()</code>。也可以用<code>readr</code>套件的<code>write_rds()</code>與<code>read_rds()</code>。</p>
+<p>用以下的指令可以一次把所有環境中的變項全部儲存成一個檔案。<code>ls()</code>可以列出目前執行環境下所有的變項，在<code>save()</code>時必須要用<code>file=</code>參數來指定所要儲存成的目標檔案。檔案名稱由於是一個字串，所以必須要用雙引號。</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="kw">save</span>(<span class="dt">list=</span><span class="kw">ls</span>(), <span class="dt">file =</span> <span class="st">&quot;output/hateGirl.rda&quot;</span>)</a></code></pre></div>
+</div>
+<div id="查詢函式的定義" class="section level2">
+<h2><span class="header-section-number">2.4</span> 查詢函式的定義</h2>
+<p>使用R的時候會經常遇到沒看過的函式，或者根本忘記某個函式要怎麼用。像我這種記憶力不好的，兩個月沒寫R，稍微特殊一點的函式名稱我就忘記了。忘記用法還好，還經常整個函式的名稱都忘記了。這時候你就可以用<code>help()</code>的指令查詢函式的用法和套件的內容。例如以下是查詢<code>summary()</code>這個函式的用法，你也可以用縮寫的方式來寫，就函式名稱前面打個問號就好。</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="kw">help</span>(summary)</a>
+<a class="sourceLine" id="cb23-2" data-line-number="2">?summary</a></code></pre></div>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="part-part-i-r-basic.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="vector.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection",
+"scroll_highlight": true
+},
+"toolbar": {
+"position": "fixed"
+},
+"search": true,
+"info": true
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

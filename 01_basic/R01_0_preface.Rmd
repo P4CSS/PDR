@@ -1,7 +1,0 @@
-# (PART) Part I Data Acquisition {-}
-# R basic
-
-## Preface{-}
-
-Description here
-

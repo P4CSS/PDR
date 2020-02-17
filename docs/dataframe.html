@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 4 Dataframe | Playing Data with R</title>
+  <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="generator" content="bookdown 0.17 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 4 Dataframe | Playing Data with R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="github-repo" content="P4CSS/PDR" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 4 Dataframe | Playing Data with R" />
+  
+  <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  
+
+<meta name="author" content="JILUNG HSIEH" />
+
+
+<meta name="date" content="2020-02-17" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="vector.html"/>
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>About</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#自述"><i class="fa fa-check"></i>自述</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#學程式這回事"><i class="fa fa-check"></i>學程式這回事</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#何謂演算法"><i class="fa fa-check"></i>何謂演算法？</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#掌握課外學習資源"><i class="fa fa-check"></i>掌握課外學習資源</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="part-part-i-r-basic.html"><a href="part-part-i-r-basic.html"><i class="fa fa-check"></i><b>1</b> (PART) Part I R Basic</a></li>
+<li class="chapter" data-level="2" data-path="r-.html"><a href="r-.html"><i class="fa fa-check"></i><b>2</b> R語言基礎速遊</a><ul>
+<li class="chapter" data-level="2.1" data-path="r-.html"><a href="r-.html#rstudio-基本操作"><i class="fa fa-check"></i><b>2.1</b> RStudio 基本操作</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="r-.html"><a href="r-.html#執行r-markdown"><i class="fa fa-check"></i><b>2.1.1</b> 執行R Markdown</a></li>
+<li class="chapter" data-level="2.1.2" data-path="r-.html"><a href="r-.html#安裝第三方套件"><i class="fa fa-check"></i><b>2.1.2</b> 安裝第三方套件</a></li>
+<li class="chapter" data-level="2.1.3" data-path="r-.html"><a href="r-.html#載入第三方套件"><i class="fa fa-check"></i><b>2.1.3</b> 載入第三方套件</a></li>
+<li class="chapter" data-level="2.1.4" data-path="r-.html"><a href="r-.html#註解"><i class="fa fa-check"></i><b>2.1.4</b> 註解</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="r-.html"><a href="r-.html#用r載入資料"><i class="fa fa-check"></i><b>2.2</b> 用R載入資料</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="r-.html"><a href="r-.html#範例一載入dcard資料"><i class="fa fa-check"></i><b>2.2.1</b> 範例一：載入Dcard資料</a></li>
+<li class="chapter" data-level="2.2.2" data-path="r-.html"><a href="r-.html#範例二讀取台北市竊盜案件發生地區與時間"><i class="fa fa-check"></i><b>2.2.2</b> 範例二：讀取台北市竊盜案件發生地區與時間</a></li>
+<li class="chapter" data-level="2.2.3" data-path="r-.html"><a href="r-.html#範例三用api載入內政部資料"><i class="fa fa-check"></i><b>2.2.3</b> 範例三：用API載入內政部資料</a></li>
+<li class="chapter" data-level="2.2.4" data-path="r-.html"><a href="r-.html#範例四獲取104資料"><i class="fa fa-check"></i><b>2.2.4</b> 範例四：獲取104資料</a></li>
+<li class="chapter" data-level="2.2.5" data-path="r-.html"><a href="r-.html#範例五獲取ubike資料"><i class="fa fa-check"></i><b>2.2.5</b> 範例五：獲取ubike資料</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="r-.html"><a href="r-.html#儲存現有變數"><i class="fa fa-check"></i><b>2.3</b> 儲存現有變數</a></li>
+<li class="chapter" data-level="2.4" data-path="r-.html"><a href="r-.html#查詢函式的定義"><i class="fa fa-check"></i><b>2.4</b> 查詢函式的定義</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="vector.html"><a href="vector.html"><i class="fa fa-check"></i><b>3</b> Vector</a><ul>
+<li class="chapter" data-level="" data-path="vector.html"><a href="vector.html#notes"><i class="fa fa-check"></i>Notes</a></li>
+<li class="chapter" data-level="3.1" data-path="vector.html"><a href="vector.html#vector的基本操作"><i class="fa fa-check"></i><b>3.1</b> Vector的基本操作</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="vector.html"><a href="vector.html#建立vector"><i class="fa fa-check"></i><b>3.1.1</b> 建立Vector</a></li>
+<li class="chapter" data-level="3.1.2" data-path="vector.html"><a href="vector.html#查看vector的內容"><i class="fa fa-check"></i><b>3.1.2</b> 查看Vector的內容</a></li>
+<li class="chapter" data-level="3.1.3" data-path="vector.html"><a href="vector.html#取出vector部分內容-subsetting-filtering"><i class="fa fa-check"></i><b>3.1.3</b> 取出Vector部分內容: Subsetting, filtering</a></li>
+<li class="chapter" data-level="3.1.4" data-path="vector.html"><a href="vector.html#deleting"><i class="fa fa-check"></i><b>3.1.4</b> Deleting</a></li>
+<li class="chapter" data-level="3.1.5" data-path="vector.html"><a href="vector.html#concatinating"><i class="fa fa-check"></i><b>3.1.5</b> Concatinating</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="vector.html"><a href="vector.html#vector的運算"><i class="fa fa-check"></i><b>3.2</b> Vector的運算</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="vector.html"><a href="vector.html#arithmetic-operations"><i class="fa fa-check"></i><b>3.2.1</b> Arithmetic operations</a></li>
+<li class="chapter" data-level="3.2.2" data-path="vector.html"><a href="vector.html#logic-comparisons"><i class="fa fa-check"></i><b>3.2.2</b> Logic comparisons</a></li>
+<li class="chapter" data-level="3.2.3" data-path="vector.html"><a href="vector.html#subsetting-by-logic-comparisons"><i class="fa fa-check"></i><b>3.2.3</b> Subsetting by logic comparisons</a></li>
+<li class="chapter" data-level="3.2.4" data-path="vector.html"><a href="vector.html#sorting-and-ordering"><i class="fa fa-check"></i><b>3.2.4</b> Sorting and ordering</a></li>
+<li class="chapter" data-level="3.2.5" data-path="vector.html"><a href="vector.html#built-in-math-functions"><i class="fa fa-check"></i><b>3.2.5</b> Built-in math functions</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="vector.html"><a href="vector.html#data-types"><i class="fa fa-check"></i><b>3.3</b> Data types</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="vector.html"><a href="vector.html#checking-data-type"><i class="fa fa-check"></i><b>3.3.1</b> Checking data type</a></li>
+<li class="chapter" data-level="3.3.2" data-path="vector.html"><a href="vector.html#converting-data-type"><i class="fa fa-check"></i><b>3.3.2</b> Converting data type</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="vector.html"><a href="vector.html#character-operations"><i class="fa fa-check"></i><b>3.4</b> Character operations</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="vector.html"><a href="vector.html#character-operations-1"><i class="fa fa-check"></i><b>3.4.1</b> Character operations</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="dataframe.html"><a href="dataframe.html"><i class="fa fa-check"></i><b>4</b> Dataframe</a><ul>
+<li class="chapter" data-level="" data-path="dataframe.html"><a href="dataframe.html#notes-1"><i class="fa fa-check"></i>Notes</a></li>
+<li class="chapter" data-level="4.1" data-path="dataframe.html"><a href="dataframe.html#建立data.frame"><i class="fa fa-check"></i><b>4.1</b> 建立data.frame</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="dataframe.html"><a href="dataframe.html#範例一手動輸入台北市行政區人口與面積"><i class="fa fa-check"></i><b>4.1.1</b> 範例一：手動輸入台北市行政區人口與面積</a></li>
+<li class="chapter" data-level="4.1.2" data-path="dataframe.html"><a href="dataframe.html#範例二手動輸入台灣的進出口對象與數量"><i class="fa fa-check"></i><b>4.1.2</b> 範例二：手動輸入台灣的進出口對象與數量</a></li>
+<li class="chapter" data-level="4.1.3" data-path="dataframe.html"><a href="dataframe.html#more"><i class="fa fa-check"></i><b>4.1.3</b> More</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="dataframe.html"><a href="dataframe.html#觀察data.frame"><i class="fa fa-check"></i><b>4.2</b> 觀察data.frame</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="dataframe.html"><a href="dataframe.html#觀察資料維度"><i class="fa fa-check"></i><b>4.2.1</b> 觀察資料維度</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="dataframe.html"><a href="dataframe.html#操作data-frame"><i class="fa fa-check"></i><b>4.3</b> 操作data frame</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="dataframe.html"><a href="dataframe.html#取出data-frame中的一個變數"><i class="fa fa-check"></i><b>4.3.1</b> 取出data frame中的一個變數</a></li>
+<li class="chapter" data-level="4.3.2" data-path="dataframe.html"><a href="dataframe.html#mutate-透過運算產生新變數"><i class="fa fa-check"></i><b>4.3.2</b> mutate 透過運算產生新變數</a></li>
+<li class="chapter" data-level="4.3.3" data-path="dataframe.html"><a href="dataframe.html#filter-select-篩選資料選取變數"><i class="fa fa-check"></i><b>4.3.3</b> filter, select 篩選資料、選取變數</a></li>
+<li class="chapter" data-level="4.3.4" data-path="dataframe.html"><a href="dataframe.html#sorting-排序按照某個變數排序"><i class="fa fa-check"></i><b>4.3.4</b> sorting 排序：按照某個變數排序</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="dataframe.html"><a href="dataframe.html#more-1"><i class="fa fa-check"></i><b>4.4</b> MORE</a><ul>
+<li class="chapter" data-level="4.4.1" data-path="dataframe.html"><a href="dataframe.html#plotting"><i class="fa fa-check"></i><b>4.4.1</b> Plotting</a></li>
+<li class="chapter" data-level="4.4.2" data-path="dataframe.html"><a href="dataframe.html#using-dplyr"><i class="fa fa-check"></i><b>4.4.2</b> Using dplyr</a></li>
+</ul></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Playing Data with R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="dataframe" class="section level1">
+<h1><span class="header-section-number">Chapter 4</span> Dataframe</h1>
+<div id="notes-1" class="section level2 unnumbered">
+<h2>Notes</h2>
+<p>一開始用Excel去想像抽象的語言。一欄（一直行、Column、一個變數）就是一個vector，所以可想像一個vector裡面應該資料型態要是一致的。常用基本資料型態包含numeric（數值型態）、character（文字型態）。單一一個Excel試算表就像一個list或data.frame。把好幾欄湊在一起，不同欄包含的資料形態就可能不同（有些欄是人名，有些欄是數字），湊在一起變成一個list，而data.frame就是一種特殊list的型態。</p>
+</div>
+<div id="建立data.frame" class="section level2">
+<h2><span class="header-section-number">4.1</span> 建立data.frame</h2>
+<div id="範例一手動輸入台北市行政區人口與面積" class="section level3">
+<h3><span class="header-section-number">4.1.1</span> 範例一：手動輸入台北市行政區人口與面積</h3>
+<p><strong>將資料Assign給變數</strong>。複製網頁上的資料，並把每個變項（例如區名、人口數、行政區面積）建立成vector，再分別Assign給變數。每個變項的vector必須等長（不是嗎？有幾個行政區，就要有幾個區的人口數，就要有幾個區的面積）。</p>
+<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb151-1" data-line-number="1">population &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">158228</span>, <span class="dv">126687</span>, <span class="dv">228075</span>, <span class="dv">204903</span>, <span class="dv">308383</span>, <span class="dv">187920</span>)</a>
+<a class="sourceLine" id="cb151-2" data-line-number="2">town &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;中正&quot;</span>, <span class="st">&quot;大同&quot;</span>, <span class="st">&quot;中山&quot;</span>, <span class="st">&quot;松山&quot;</span>, <span class="st">&quot;大安&quot;</span>, <span class="st">&quot;萬華&quot;</span>)</a>
+<a class="sourceLine" id="cb151-3" data-line-number="3">area &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">7.6071</span>, <span class="fl">5.6815</span>, <span class="fl">13.6821</span>, <span class="fl">9.2878</span>, <span class="fl">11.3614</span>, <span class="fl">8.8522</span>)</a></code></pre></div>
+<p><strong>將vectors整合成data.frame</strong>。使用<code>data.frame()</code>可以將數個等長的vetors整合成一個data.frame。就像一個EXCEL資料表。</p>
+<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb152-1" data-line-number="1">df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(town, population, area)</a>
+<a class="sourceLine" id="cb152-2" data-line-number="2">df</a></code></pre></div>
+<pre><code>##   town population    area
+## 1 中正     158228  7.6071
+## 2 大同     126687  5.6815
+## 3 中山     228075 13.6821
+## 4 松山     204903  9.2878
+## 5 大安     308383 11.3614
+## 6 萬華     187920  8.8522</code></pre>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb154-1" data-line-number="1"><span class="co"># View(df)</span></a></code></pre></div>
+</div>
+<div id="範例二手動輸入台灣的進出口對象與數量" class="section level3">
+<h3><span class="header-section-number">4.1.2</span> 範例二：手動輸入台灣的進出口對象與數量</h3>
+<p>這個案例是到<a href="https://cus93.trade.gov.tw/FSC3040F/FSC3040F">台灣出口進口貿易資料查詢</a>的網頁上，逐筆複製資料貼上。先建立三個vecvtors，再將vectors合併為data.frame。</p>
+<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb155-1" data-line-number="1">country &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;CN&quot;</span>, <span class="st">&quot;US&quot;</span>, <span class="st">&quot;JP&quot;</span>, <span class="st">&quot;HK&quot;</span>, <span class="st">&quot;KR&quot;</span>, <span class="st">&quot;SG&quot;</span>, <span class="st">&quot;DE&quot;</span>, <span class="st">&quot;MY&quot;</span>, <span class="st">&quot;VN&quot;</span>, <span class="st">&quot;PH&quot;</span>, <span class="st">&quot;TH&quot;</span>, <span class="st">&quot;AU&quot;</span>, <span class="st">&quot;NL&quot;</span>, <span class="st">&quot;SA&quot;</span>, <span class="st">&quot;ID&quot;</span>, <span class="st">&quot;GB&quot;</span>, <span class="st">&quot;IN&quot;</span>, <span class="st">&quot;FR&quot;</span>, <span class="st">&quot;IT&quot;</span>, <span class="st">&quot;AE&quot;</span>)</a>
+<a class="sourceLine" id="cb155-2" data-line-number="2">import &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">26.142</span>, <span class="fl">12.008</span>, <span class="fl">7.032</span>, <span class="fl">13.646</span>, <span class="fl">4.589</span>, <span class="fl">5.768</span>, <span class="fl">2.131</span>, <span class="fl">2.802</span>, <span class="fl">3.428</span>, <span class="fl">3.019</span>, <span class="fl">1.976</span>, <span class="fl">1.118</span>, <span class="fl">1.624</span>, <span class="fl">0.449</span>, <span class="fl">0.983</span>, <span class="fl">1.302</span>, <span class="fl">1.027</span>, <span class="fl">0.553</span>, <span class="fl">0.670</span>, <span class="fl">0.455</span>)</a>
+<a class="sourceLine" id="cb155-3" data-line-number="3">export &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">22.987</span>, <span class="fl">12.204</span>, <span class="fl">11.837</span>, <span class="fl">7.739</span>, <span class="fl">5.381</span>, <span class="fl">4.610</span>, <span class="fl">2.866</span>, <span class="fl">2.784</span>, <span class="fl">2.414</span>, <span class="fl">2.092</span>, <span class="fl">1.839</span>, <span class="fl">1.788</span>, <span class="fl">1.665</span>, <span class="fl">1.409</span>, <span class="fl">1.391</span>, <span class="fl">1.075</span>, <span class="fl">0.974</span>, <span class="fl">0.899</span>, <span class="fl">0.800</span>, <span class="fl">0.728</span>)</a>
+<a class="sourceLine" id="cb155-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb155-5" data-line-number="5">df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(country, import, export)</a>
+<a class="sourceLine" id="cb155-6" data-line-number="6"><span class="kw">str</span>(df)</a></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    20 obs. of  3 variables:
+##  $ country: Factor w/ 20 levels &quot;AE&quot;,&quot;AU&quot;,&quot;CN&quot;,..: 3 19 11 7 12 17 4 13 20 15 ...
+##  $ import : num  26.14 12.01 7.03 13.65 4.59 ...
+##  $ export : num  22.99 12.2 11.84 7.74 5.38 ...</code></pre>
+<ul>
+<li><strong>stringAsFacgtors參數設定</strong>: 這時若以<code>str(df)</code>觀察該<code>df</code>的結構會發現，文字型態的資料被轉為<code>Factors</code>，這是我們所不樂見的。過去統計通常會把文字型態當成類別變數，於是用<code>Factors</code>作為資料型態，但資料科學中經常要處理大量的文字資料。此時可以加入一個參數<code>stringsAsFactors</code>設為<code>FALSE</code>，意味著預設不要將文字的資料轉為Factor而是直接以文字變項來處理。</li>
+<li><strong>設定全域參數</strong>: 為了避免每次都要打這串參數，可以把它設定為全域參數，可以在程式一開始時便加上<code>options(stringsAsFactors = FASLE)</code>，意味著底下所有的函式如果有<code>stringsAsFactors</code>這個參數，一律自動設為<code>FALSE</code>。</li>
+</ul>
+<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb157-1" data-line-number="1">df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(country, import, export, <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb157-2" data-line-number="2"><span class="kw">str</span>(df)</a></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    20 obs. of  3 variables:
+##  $ country: chr  &quot;CN&quot; &quot;US&quot; &quot;JP&quot; &quot;HK&quot; ...
+##  $ import : num  26.14 12.01 7.03 13.65 4.59 ...
+##  $ export : num  22.99 12.2 11.84 7.74 5.38 ...</code></pre>
+</div>
+<div id="more" class="section level3">
+<h3><span class="header-section-number">4.1.3</span> More</h3>
+<p>甚至也可以用<code>data.frame()</code>建立一個新的、空的<code>data.frame</code>。在別的程式語言中，這可能被稱為建構子或initializing。
+<strong>命名規則</strong>：<code>df.test</code>就R的用法就是一個變數，並不是<code>df</code>和<code>test</code>各自是一個變數。</p>
+<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb159-1" data-line-number="1">df.test &lt;-<span class="st"> </span><span class="kw">data.frame</span>()</a></code></pre></div>
+</div>
+</div>
+<div id="觀察data.frame" class="section level2">
+<h2><span class="header-section-number">4.2</span> 觀察data.frame</h2>
+<ul>
+<li><code>View(df)</code> 用RStudio所提供的GUI直接觀看變數</li>
+<li><code>head(df)</code> 取前面六筆資料（也就是六列的資料來概觀該資料）</li>
+<li><code>class(df)</code> 這個變數的物件型態</li>
+<li><code>str(df)</code> 這個data.frame的結構，包含有哪些變數、各別是什麼變數型態，並呈現前幾個範例值。</li>
+<li><code>summary(df)</code> 輸出每個變數的最大值、最小值、平均數、中位數等基本統計數值。</li>
+<li><code>dplyr::glimpse(df)</code> 為<code>dplyr</code>套件中的函式。和<code>str(df)</code>的功能幾乎相同，但排版排的好太多了。</li>
+</ul>
+<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb160-1" data-line-number="1"><span class="co"># View(df)</span></a>
+<a class="sourceLine" id="cb160-2" data-line-number="2"><span class="kw">head</span>(df)    <span class="co"># get first part of the data.frame</span></a></code></pre></div>
+<pre><code>##   country import export
+## 1      CN 26.142 22.987
+## 2      US 12.008 12.204
+## 3      JP  7.032 11.837
+## 4      HK 13.646  7.739
+## 5      KR  4.589  5.381
+## 6      SG  5.768  4.610</code></pre>
+<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb162-1" data-line-number="1"><span class="kw">class</span>(df)</a></code></pre></div>
+<pre><code>## [1] &quot;data.frame&quot;</code></pre>
+<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb164-1" data-line-number="1"><span class="kw">str</span>(df)</a></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    20 obs. of  3 variables:
+##  $ country: chr  &quot;CN&quot; &quot;US&quot; &quot;JP&quot; &quot;HK&quot; ...
+##  $ import : num  26.14 12.01 7.03 13.65 4.59 ...
+##  $ export : num  22.99 12.2 11.84 7.74 5.38 ...</code></pre>
+<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb166-1" data-line-number="1"><span class="kw">summary</span>(df)</a></code></pre></div>
+<pre><code>##    country              import           export      
+##  Length:20          Min.   : 0.449   Min.   : 0.728  
+##  Class :character   1st Qu.: 1.016   1st Qu.: 1.312  
+##  Mode  :character   Median : 2.054   Median : 1.966  
+##                     Mean   : 4.536   Mean   : 4.374  
+##                     3rd Qu.: 4.884   3rd Qu.: 4.803  
+##                     Max.   :26.142   Max.   :22.987</code></pre>
+<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb168-1" data-line-number="1">dplyr<span class="op">::</span><span class="kw">glimpse</span>(df)</a></code></pre></div>
+<pre><code>## Observations: 20
+## Variables: 3
+## $ country &lt;chr&gt; &quot;CN&quot;, &quot;US&quot;, &quot;JP&quot;, &quot;HK&quot;, &quot;KR&quot;, &quot;SG&quot;, &quot;DE&quot;, &quot;MY&quot;, &quot;VN&quot;, &quot;PH&quot;, &quot;…
+## $ import  &lt;dbl&gt; 26.142, 12.008, 7.032, 13.646, 4.589, 5.768, 2.131, 2.802, 3.…
+## $ export  &lt;dbl&gt; 22.987, 12.204, 11.837, 7.739, 5.381, 4.610, 2.866, 2.784, 2.…</code></pre>
+<div id="觀察資料維度" class="section level3">
+<h3><span class="header-section-number">4.2.1</span> 觀察資料維度</h3>
+<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb170-1" data-line-number="1"><span class="kw">dim</span>(df)</a></code></pre></div>
+<pre><code>## [1] 20  3</code></pre>
+<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb172-1" data-line-number="1"><span class="kw">ncol</span>(df)</a></code></pre></div>
+<pre><code>## [1] 3</code></pre>
+<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb174-1" data-line-number="1"><span class="kw">nrow</span>(df)</a></code></pre></div>
+<pre><code>## [1] 20</code></pre>
+<div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb176-1" data-line-number="1"><span class="kw">length</span>(df)</a></code></pre></div>
+<pre><code>## [1] 3</code></pre>
+</div>
+</div>
+<div id="操作data-frame" class="section level2">
+<h2><span class="header-section-number">4.3</span> 操作data frame</h2>
+<div id="取出data-frame中的一個變數" class="section level3">
+<h3><span class="header-section-number">4.3.1</span> 取出data frame中的一個變數</h3>
+<p>每個data frame的一欄、一個變數相當於是一個vector，可以嘗試把其中一個變數取出來做資料型態觀察。
+* <code>names(df)</code> 列出變數名稱
+* <code>df$發生.現.地點</code> 顯示該變數內容
+* <code>df$發生時段</code> 顯示該變數內容
+* <code>length(df$發生時段)</code> 顯示該變數的長度（相當於有幾個）</p>
+<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb178-1" data-line-number="1"><span class="kw">names</span>(df)</a></code></pre></div>
+<pre><code>## [1] &quot;country&quot; &quot;import&quot;  &quot;export&quot;</code></pre>
+<div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb180-1" data-line-number="1"><span class="kw">head</span>(df<span class="op">$</span>發生.現.地點)</a></code></pre></div>
+<pre><code>## NULL</code></pre>
+<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb182-1" data-line-number="1"><span class="kw">head</span>(df<span class="op">$</span>發生時段)</a></code></pre></div>
+<pre><code>## NULL</code></pre>
+<div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb184-1" data-line-number="1"><span class="kw">length</span>(df<span class="op">$</span>發生時段)</a></code></pre></div>
+<pre><code>## [1] 0</code></pre>
+<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb186-1" data-line-number="1"><span class="kw">summary</span>(df)</a></code></pre></div>
+<pre><code>##    country              import           export      
+##  Length:20          Min.   : 0.449   Min.   : 0.728  
+##  Class :character   1st Qu.: 1.016   1st Qu.: 1.312  
+##  Mode  :character   Median : 2.054   Median : 1.966  
+##                     Mean   : 4.536   Mean   : 4.374  
+##                     3rd Qu.: 4.884   3rd Qu.: 4.803  
+##                     Max.   :26.142   Max.   :22.987</code></pre>
+</div>
+<div id="mutate-透過運算產生新變數" class="section level3">
+<h3><span class="header-section-number">4.3.2</span> mutate 透過運算產生新變數</h3>
+<ul>
+<li>這裡容易犯錯的是，要記得跟程式講說你要加總或四則運算的是哪個df的variable。</li>
+<li>從下面的這個操作中，該data.frame會產生一個新的變數<code>sub</code>，這就相當於Excel中的某一行減去某一行，然後把資料放在新的一行。</li>
+</ul>
+<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb188-1" data-line-number="1">df<span class="op">$</span>sub &lt;-<span class="st"> </span>df<span class="op">$</span>import <span class="op">-</span><span class="st"> </span>df<span class="op">$</span>export</a></code></pre></div>
+</div>
+<div id="filter-select-篩選資料選取變數" class="section level3">
+<h3><span class="header-section-number">4.3.3</span> filter, select 篩選資料、選取變數</h3>
+<ul>
+<li>注意，要告訴程式<code>import</code>和<code>export</code>是哪個<code>data.frame</code>的。</li>
+<li><code>df[,]</code>為存取<code>df</code>中某個區段的數值或某個數值的方法。因此<code>df[1, 1]</code>會取出第一行第一列，也就是第一筆資料的第一個vector。<code>df[2, 3]</code>則會取出第二筆資料的第三個variable。</li>
+<li>下面的例子<code>nrow(df)</code>為1894，有1894筆資料，所以自然df<span class="math inline">\(import與df\)</span>export的長度都是1894。因此，比較這兩個變數的大小會得到一個長度為1894的boolean (logical) variable。因此把這個長度為1894、充滿TRUE和FALSE的logical vector丟進df的row之處，因為取自df，大小判斷式結果的長度自然和原本的df的列數相同。因此當這個TRUE/FALSE被丟在df的列之處，便會篩選出<code>import</code>大於<code>p.xport</code>的數值。</li>
+<li>原本的df有五個variable，而上述的操作是篩選資料，所以被篩選的是列，因此行的數量、名稱都不會變。因此，我篩選完後，直接存取這個被篩選過的data.frame的country variable，自然是可以的。</li>
+</ul>
+<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb189-1" data-line-number="1">df</a></code></pre></div>
+<pre><code>##    country import export    sub
+## 1       CN 26.142 22.987  3.155
+## 2       US 12.008 12.204 -0.196
+## 3       JP  7.032 11.837 -4.805
+## 4       HK 13.646  7.739  5.907
+## 5       KR  4.589  5.381 -0.792
+## 6       SG  5.768  4.610  1.158
+## 7       DE  2.131  2.866 -0.735
+## 8       MY  2.802  2.784  0.018
+## 9       VN  3.428  2.414  1.014
+## 10      PH  3.019  2.092  0.927
+## 11      TH  1.976  1.839  0.137
+## 12      AU  1.118  1.788 -0.670
+## 13      NL  1.624  1.665 -0.041
+## 14      SA  0.449  1.409 -0.960
+## 15      ID  0.983  1.391 -0.408
+## 16      GB  1.302  1.075  0.227
+## 17      IN  1.027  0.974  0.053
+## 18      FR  0.553  0.899 -0.346
+## 19      IT  0.670  0.800 -0.130
+## 20      AE  0.455  0.728 -0.273</code></pre>
+<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb191-1" data-line-number="1"><span class="kw">names</span>(df)</a></code></pre></div>
+<pre><code>## [1] &quot;country&quot; &quot;import&quot;  &quot;export&quot;  &quot;sub&quot;</code></pre>
+<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb193-1" data-line-number="1"><span class="kw">nrow</span>(df)</a></code></pre></div>
+<pre><code>## [1] 20</code></pre>
+<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb195-1" data-line-number="1"><span class="co"># filter row data by column value</span></a>
+<a class="sourceLine" id="cb195-2" data-line-number="2">df[df<span class="op">$</span>import <span class="op">&gt;</span><span class="st"> </span>df<span class="op">$</span>export,]</a></code></pre></div>
+<pre><code>##    country import export   sub
+## 1       CN 26.142 22.987 3.155
+## 4       HK 13.646  7.739 5.907
+## 6       SG  5.768  4.610 1.158
+## 8       MY  2.802  2.784 0.018
+## 9       VN  3.428  2.414 1.014
+## 10      PH  3.019  2.092 0.927
+## 11      TH  1.976  1.839 0.137
+## 16      GB  1.302  1.075 0.227
+## 17      IN  1.027  0.974 0.053</code></pre>
+<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb197-1" data-line-number="1">df[df<span class="op">$</span>import <span class="op">&gt;</span><span class="st"> </span>df<span class="op">$</span>export,]<span class="op">$</span>country</a></code></pre></div>
+<pre><code>## [1] &quot;CN&quot; &quot;HK&quot; &quot;SG&quot; &quot;MY&quot; &quot;VN&quot; &quot;PH&quot; &quot;TH&quot; &quot;GB&quot; &quot;IN&quot;</code></pre>
+<div class="sourceCode" id="cb199"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb199-1" data-line-number="1">df[df<span class="op">$</span>import <span class="op">&gt;</span><span class="st"> </span>df<span class="op">$</span>export,<span class="dv">1</span>]</a></code></pre></div>
+<pre><code>## [1] &quot;CN&quot; &quot;HK&quot; &quot;SG&quot; &quot;MY&quot; &quot;VN&quot; &quot;PH&quot; &quot;TH&quot; &quot;GB&quot; &quot;IN&quot;</code></pre>
+<div class="sourceCode" id="cb201"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb201-1" data-line-number="1"><span class="co"># 1 row == a data.frame with only one data entry</span></a>
+<a class="sourceLine" id="cb201-2" data-line-number="2"><span class="kw">class</span>(df[df<span class="op">$</span>import <span class="op">&gt;</span><span class="st"> </span>df<span class="op">$</span>export,<span class="dv">1</span>])</a></code></pre></div>
+<pre><code>## [1] &quot;character&quot;</code></pre>
+<div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb203-1" data-line-number="1"><span class="kw">class</span>(df[,<span class="dv">1</span>]) <span class="co"># character vector</span></a></code></pre></div>
+<pre><code>## [1] &quot;character&quot;</code></pre>
+<div class="sourceCode" id="cb205"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb205-1" data-line-number="1"><span class="kw">class</span>(df[<span class="dv">1</span>,]) <span class="co"># data.frame</span></a></code></pre></div>
+<pre><code>## [1] &quot;data.frame&quot;</code></pre>
+<div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb207-1" data-line-number="1"><span class="kw">class</span>(<span class="kw">unlist</span>(df[<span class="dv">1</span>, <span class="dv">-1</span>])) <span class="co"># filter the 1st row and select all columns except 1</span></a></code></pre></div>
+<pre><code>## [1] &quot;numeric&quot;</code></pre>
+</div>
+<div id="sorting-排序按照某個變數排序" class="section level3">
+<h3><span class="header-section-number">4.3.4</span> sorting 排序：按照某個變數排序</h3>
+<p><code>df.sorted &lt;- df[order(df$import),]</code>會使得整個df照<code>import</code>的大小排序重新做排列。因為<code>order(df$import)</code>會把資料照指定順序排列後的位置傳回來，所以把他丟給<code>df</code>的列的位置，便會使得<code>df</code>的資料照指定的順序排列。
+預設是由小到大，加上<code>decreasing = T</code>這個參數後變成由大而小。</p>
+<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb209-1" data-line-number="1"><span class="co"># sort rows by df$import column</span></a>
+<a class="sourceLine" id="cb209-2" data-line-number="2">df.sorted &lt;-<span class="st"> </span>df[<span class="kw">order</span>(df<span class="op">$</span>import),]</a>
+<a class="sourceLine" id="cb209-3" data-line-number="3"><span class="co"># View(df.sorted)</span></a>
+<a class="sourceLine" id="cb209-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb209-5" data-line-number="5"><span class="co"># sort rows in decreasing order</span></a>
+<a class="sourceLine" id="cb209-6" data-line-number="6">df.sorted &lt;-<span class="st"> </span>df[<span class="kw">order</span>(df<span class="op">$</span>import, <span class="dt">decreasing =</span> T),]</a>
+<a class="sourceLine" id="cb209-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb209-8" data-line-number="8"><span class="co"># add - to column in order() can sort in decreasing order</span></a>
+<a class="sourceLine" id="cb209-9" data-line-number="9">df.sorted &lt;-<span class="st"> </span>df[<span class="kw">order</span>(<span class="op">-</span>df<span class="op">$</span>import),]</a>
+<a class="sourceLine" id="cb209-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb209-11" data-line-number="11"><span class="kw">head</span>(df.sorted)</a></code></pre></div>
+<pre><code>##   country import export    sub
+## 1      CN 26.142 22.987  3.155
+## 4      HK 13.646  7.739  5.907
+## 2      US 12.008 12.204 -0.196
+## 3      JP  7.032 11.837 -4.805
+## 6      SG  5.768  4.610  1.158
+## 5      KR  4.589  5.381 -0.792</code></pre>
+</div>
+</div>
+<div id="more-1" class="section level2">
+<h2><span class="header-section-number">4.4</span> MORE</h2>
+<div id="plotting" class="section level3">
+<h3><span class="header-section-number">4.4.1</span> Plotting</h3>
+<p><code>graphics::plot()</code>為會預載入R的繪圖套件，如果希望繪圖的同時加上回歸線和資料點標籤的話，必須要三行一起執行。</p>
+<div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb211-1" data-line-number="1"><span class="co"># plot(df) # raise error, 1st column is a character vector</span></a>
+<a class="sourceLine" id="cb211-2" data-line-number="2"><span class="kw">plot</span>(df[, <span class="dv">2</span><span class="op">:</span><span class="dv">3</span>])</a></code></pre></div>
+<p><img src="PDR_files/figure-html/plotting-1.png" width="672" /></p>
+<div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb212-1" data-line-number="1"><span class="kw">plot</span>(df[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, <span class="dv">2</span><span class="op">:</span><span class="dv">3</span>])</a>
+<a class="sourceLine" id="cb212-2" data-line-number="2"><span class="kw">text</span>(import, export, <span class="dt">labels=</span>country, <span class="dt">cex=</span> <span class="fl">0.5</span>, <span class="dt">pos=</span><span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb212-3" data-line-number="3"><span class="kw">lines</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">25</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">25</span>, <span class="dt">col=</span><span class="st">&#39;red&#39;</span>)</a></code></pre></div>
+<p><img src="PDR_files/figure-html/plotting-2.png" width="672" /></p>
+<div class="sourceCode" id="cb213"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb213-1" data-line-number="1">?plot</a></code></pre></div>
+</div>
+<div id="using-dplyr" class="section level3">
+<h3><span class="header-section-number">4.4.2</span> Using dplyr</h3>
+<div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb214-1" data-line-number="1"><span class="kw">library</span>(dplyr)</a></code></pre></div>
+<pre><code>## Warning: package &#39;dplyr&#39; was built under R version 3.5.2</code></pre>
+<pre><code>## 
+## Attaching package: &#39;dplyr&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     filter, lag</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     intersect, setdiff, setequal, union</code></pre>
+<div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb219-1" data-line-number="1">df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(country, import, export, <span class="dt">stringsAsFactors =</span> F)</a>
+<a class="sourceLine" id="cb219-2" data-line-number="2">df &lt;-<span class="st"> </span><span class="kw">mutate</span>(df, <span class="dt">sub =</span> import <span class="op">-</span><span class="st"> </span>export)</a>
+<a class="sourceLine" id="cb219-3" data-line-number="3"><span class="kw">filter</span>(df, import <span class="op">&gt;</span><span class="st"> </span>export)</a></code></pre></div>
+<pre><code>##   country import export   sub
+## 1      CN 26.142 22.987 3.155
+## 2      HK 13.646  7.739 5.907
+## 3      SG  5.768  4.610 1.158
+## 4      MY  2.802  2.784 0.018
+## 5      VN  3.428  2.414 1.014
+## 6      PH  3.019  2.092 0.927
+## 7      TH  1.976  1.839 0.137
+## 8      GB  1.302  1.075 0.227
+## 9      IN  1.027  0.974 0.053</code></pre>
+<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb221-1" data-line-number="1"><span class="kw">select</span>(df, <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">3</span>))</a></code></pre></div>
+<pre><code>##    country export
+## 1       CN 22.987
+## 2       US 12.204
+## 3       JP 11.837
+## 4       HK  7.739
+## 5       KR  5.381
+## 6       SG  4.610
+## 7       DE  2.866
+## 8       MY  2.784
+## 9       VN  2.414
+## 10      PH  2.092
+## 11      TH  1.839
+## 12      AU  1.788
+## 13      NL  1.665
+## 14      SA  1.409
+## 15      ID  1.391
+## 16      GB  1.075
+## 17      IN  0.974
+## 18      FR  0.899
+## 19      IT  0.800
+## 20      AE  0.728</code></pre>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="vector.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection",
+"scroll_highlight": true
+},
+"toolbar": {
+"position": "fixed"
+},
+"search": true,
+"info": true
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

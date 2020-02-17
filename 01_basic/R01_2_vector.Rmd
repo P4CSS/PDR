@@ -1,37 +1,29 @@
 
+# Vector
 
-## R的基本語法
+## Notes {-}
+在這一章節與下一章節**data.frame**，你會學到vector、factor、matrix、list與data.frame這些「資料型態」
+* `vector`就它當是google或Excel試算表的一欄，就是一個變項或稱變數（variable）。
+* `data.frame`要特別費心去看，因為通常我們看到的一個google sheet或一個EXCEL sheet就相當一個`data.frame`。`data.frame`其實相當於是「list of vector」的組成。
+* `factor`和`matrix`就先自己看看，還沒碰到統計或者大量的數值資料時，暫時不會用到這兩種變數型態。`matrix`比較常在網絡資料或者文字資料等需要操作大型矩陣的時候會用。
 
-### Assignment
+有些資料型態非常雷同（例如**matrix**或**data.frame**都是將資料儲存為欄列型態的二維資料），但學習過程你要特別注意，不同的資料型態之間有什麼差異？
+* **matrix**和**data.frame**有什麼差？
+* **factor**和**vector**有什麼差？
+* **data.frame**和**list**有什麼差？
 
-符號`<-` 將右邊的算式或數值指派給左邊的變數。右邊如果是numeric，那左邊的變數就是numeric variable；右邊如果是character，左邊的變數就是character variable。R的`<-`符號和一般程式語言的`=`意義是一樣的，甚至R也可以用`=`來作Assignment。在幾乎所有程式語言中，單等號`=`指的是Assignment，把右方的算式、值或物件指給左方的變數。而比較兩者相不相等，則用雙等號`==`，例如`1==3-2`。
+每一個資料型態有什麼操作
+* 產生（creating）：怎麼新建一個這個資料型態？
+* 選取（selecting columns）：我可不可以只要這幾項？
+* 合併（merging or concatenating）：兩個這種資料型態可不可以疊在一起？
+* 刪除（deleting, truncating）：怎麼把某一個或某幾個刪掉（要先選）？
+* 轉換（type converting）：可不可以轉成另一種型態？
 
-```{r assignment}
-a <- 1
-b <- c(1, 2, 3, 4)
-c <- c("1", "2", "3", "4")
-d <- c(b, a)
-e <- "abcd"
-```
-
-### 註解 (Comment)
-
-* **註解**：在程式碼區塊若前面有`#`字號後面跟著空白的話，那代表那行被標示為註解，程式執行時會自動跳過註解不執行。
-* **快速鍵**：當游標在某一行程式碼時打`cmd(ctrl)-shift-c`，就可以產生註解。
-
-```{r}
-# df <- data.frame(a = c(1, 2, 3), b = c(3, 4, 5))
-```
-
-
-
-
-
-## Vector
 
 在這邊我們使用[各縣市平均每月薪資所得](https://www.ptt.cc/bbs/Gossiping/M.1535459575.A.54D.html)以及[各縣市人口數](https://zh.wikipedia.org/wiki/%E8%87%BA%E7%81%A3%E8%A1%8C%E6%94%BF%E5%8D%80%E4%BA%BA%E5%8F%A3%E5%88%97%E8%A1%A8)兩筆範例資料來做練習。
 
 
+## Vector的基本操作
 ### 建立Vector
 
 在程式碼中，只要是文字必用成對的雙引號或單引號包含其中，以區隔「變數」和「數字」。例如如果看到沒有雙引號的「英文字母」必定是變數名稱，或函式名稱。如果看到有雙引號的數字，那也是文字。
@@ -44,7 +36,9 @@ area <- c(271.8, 2052.5, 1221, 2951.9, 2214.9, 2191.7)
 ```
 
 
-**Creating by seq() function**
+* 用`seq()`建立一個連續而規律的vector。例如`seq(11, 99, 11)`的意思是，從11到99，每隔11取一個。
+* 用`a:b`建立一個從a到b的連續整數。例如1:10會產生從1到10的十個數字。
+
 ```{r}
 a <- seq(11, 99, 11)
 a
@@ -53,7 +47,7 @@ b
 ```
 
 
-**Creating sequences by distribution** 
+* 產生一群符合某種分配的數列。例如`runif()`是指uniform分配，`rnorm()`是指常態分配；`rnorm(1000, 1, 10)`指的是產生1000個從1~10之間的數。
 ```{r}
 x <- runif(1000, 1, 10) # uniform dist, n=1000
 plot(density(x))
@@ -75,11 +69,11 @@ income
 head(county)
 tail(county)
 length(county)
-# View(county)
 ```
 
+**用View()檢視資料**。你可以用`View(county)`將`county`的內容呈現在RStudio的預覽視窗上，是RStudio的使用者很常用的作法。
 
-### Subsetting, filtering
+### 取出Vector部分內容: Subsetting, filtering
 It is important to know how to neglect first n or last n elements. For example, a[1:(length(a)-2)] will neglect the last two elements. Thinking why I need parentheses for `length(a)-2` here.
 ```{r}
 county
@@ -93,7 +87,8 @@ a[length(a):3]
 
 
 ### Deleting
-* Without assignment, deletion won't change original vectors
+
+Without assignment, deletion won't change original vectors
 ```{r}
 b <- 11:20
 b[-(3:5)]
@@ -101,7 +96,7 @@ b[-c(1, 3, 5)]
 b
 ```
 
-* Correct deleting operations with assignment to replace original vector
+Correct deleting operations with assignment to replace original vector
 ```{r}
 b <- b[-(3:5)]
 b
@@ -113,7 +108,9 @@ a
 ```
 
 ### Concatinating
-- Concatinating is quite useful for web crawling when you crawl article links page by page. You may be not sure the number of page you need to crawl. So you need to append entire new vector to old vector. It is concatinating. ("Appending" often means adding one new element at the end of data.)
+
+Concatinating is quite useful for web crawling when you crawl article links page by page. You may be not sure the number of page you need to crawl. So you need to append entire new vector to old vector. It is concatinating. ("Appending" often means adding one new element at the end of data.)
+
 ```{r}
 a <- 1:10
 a <- c(a, 11)
@@ -125,7 +122,7 @@ a <- c(a, a, b)
 a
 ```
 
-## Computing vectors
+## Vector的運算
 
 ### Arithmetic operations
 
@@ -166,7 +163,7 @@ all(a>11) # are all elements larger than 1
 
 
 ### Subsetting by logic comparisons
-* two methods to filter data from vectors, by index vector or a logical vector with equal length.
+two methods to filter data from vectors, by index vector or a logical vector with equal length.
 
 ```{r}
 a <- seq(11, 55, 11)
@@ -187,9 +184,7 @@ which(a%%2==1)
 ### Sorting and ordering
 
 * `sort(x)`的結果必須用`<-`覆蓋原本的`x`，此時的`x`才算被排序的結果。
-
 * `order(x)`函式會傳回`x`數值由小到大的**索引**。這個例子的結果是`5, 4, 3, 6, 1, 2`，也就是`5`位置的那個數最小、`4`那個位置的數次小、接下來`3, 6, 1, 2`。
-
 * `x[order(x)]`把`order(x)`結果（也就是`c(5, 4, 3, 6, 1, 2)`）傳給原本的`x`便會使得原本的`x`重新排序。通常`order()`的用途是，我們可以將兩個等長的variables例如var1和var2，依據var2來重新排序var1，例如var1[order(var2)]。
 
 ```{r}
@@ -228,9 +223,7 @@ mode(testing)				# character
 ### Converting data type
 
 * numeric vector可以用`as.character(x)`轉成`charcter`；logical vector可以用`as.numeric(x)`轉為`numeric`。概念上可以說是`character > numeric > logical`。
-
 * 如果硬是在logical vector後附加一個numeric element的話，那就會整個vector被轉為numeric vector；相仿地，如果numeric vector後附加一個character element的話那整個vector就會被轉為character vector。
-
 * 可以用`sum()`函式來計算logical vector有幾個`TRUE`值。例如`sum(a%%2==1)`就是計算`a`中有幾個奇數。`TRUE`可視為`1`、`FALSE`可視為`0`，所以加總起來就是`TRUE`有幾個。
 
 ```{r}

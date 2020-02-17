@@ -1,0 +1,200 @@
+
+# Dataframe
+## Notes {-}
+一開始用Excel去想像抽象的語言。一欄（一直行、Column、一個變數）就是一個vector，所以可想像一個vector裡面應該資料型態要是一致的。常用基本資料型態包含numeric（數值型態）、character（文字型態）。單一一個Excel試算表就像一個list或data.frame。把好幾欄湊在一起，不同欄包含的資料形態就可能不同（有些欄是人名，有些欄是數字），湊在一起變成一個list，而data.frame就是一種特殊list的型態。
+
+
+
+## 建立data.frame
+### 範例一：手動輸入台北市行政區人口與面積
+**將資料Assign給變數**。複製網頁上的資料，並把每個變項（例如區名、人口數、行政區面積）建立成vector，再分別Assign給變數。每個變項的vector必須等長（不是嗎？有幾個行政區，就要有幾個區的人口數，就要有幾個區的面積）。
+
+```{r creating vectors}
+population <- c(158228, 126687, 228075, 204903, 308383, 187920)
+town <- c("中正", "大同", "中山", "松山", "大安", "萬華")
+area <- c(7.6071, 5.6815, 13.6821, 9.2878, 11.3614, 8.8522)
+```
+
+**將vectors整合成data.frame**。使用`data.frame()`可以將數個等長的vetors整合成一個data.frame。就像一個EXCEL資料表。
+
+```{r combining vectors to data frame}
+df <- data.frame(town, population, area)
+df
+# View(df)
+```
+
+
+
+### 範例二：手動輸入台灣的進出口對象與數量
+這個案例是到[台灣出口進口貿易資料查詢](https://cus93.trade.gov.tw/FSC3040F/FSC3040F)的網頁上，逐筆複製資料貼上。先建立三個vecvtors，再將vectors合併為data.frame。
+
+```{r creating data frame}
+country <- c("CN", "US", "JP", "HK", "KR", "SG", "DE", "MY", "VN", "PH", "TH", "AU", "NL", "SA", "ID", "GB", "IN", "FR", "IT", "AE")
+import <- c(26.142, 12.008, 7.032, 13.646, 4.589, 5.768, 2.131, 2.802, 3.428, 3.019, 1.976, 1.118, 1.624, 0.449, 0.983, 1.302, 1.027, 0.553, 0.670, 0.455)
+export <- c(22.987, 12.204, 11.837, 7.739, 5.381, 4.610, 2.866, 2.784, 2.414, 2.092, 1.839, 1.788, 1.665, 1.409, 1.391, 1.075, 0.974, 0.899, 0.800, 0.728)
+
+df <- data.frame(country, import, export)
+str(df)
+```
+
+
+* **stringAsFacgtors參數設定**: 這時若以`str(df)`觀察該`df`的結構會發現，文字型態的資料被轉為`Factors`，這是我們所不樂見的。過去統計通常會把文字型態當成類別變數，於是用`Factors`作為資料型態，但資料科學中經常要處理大量的文字資料。此時可以加入一個參數`stringsAsFactors`設為`FALSE`，意味著預設不要將文字的資料轉為Factor而是直接以文字變項來處理。
+* **設定全域參數**: 為了避免每次都要打這串參數，可以把它設定為全域參數，可以在程式一開始時便加上`options(stringsAsFactors = FASLE)`，意味著底下所有的函式如果有`stringsAsFactors`這個參數，一律自動設為`FALSE`。
+
+
+```{r Argument:stringAsFacgors}
+df <- data.frame(country, import, export, stringsAsFactors = FALSE)
+str(df)
+```
+
+
+
+
+### More
+甚至也可以用`data.frame()`建立一個新的、空的`data.frame`。在別的程式語言中，這可能被稱為建構子或initializing。
+**命名規則**：`df.test`就R的用法就是一個變數，並不是`df`和`test`各自是一個變數。
+
+```{r initializing an empty data frame}
+df.test <- data.frame()
+```
+
+
+
+## 觀察data.frame
+* `View(df)` 用RStudio所提供的GUI直接觀看變數
+* `head(df)` 取前面六筆資料（也就是六列的資料來概觀該資料）
+* `class(df)` 這個變數的物件型態
+* `str(df)` 這個data.frame的結構，包含有哪些變數、各別是什麼變數型態，並呈現前幾個範例值。
+* `summary(df)` 輸出每個變數的最大值、最小值、平均數、中位數等基本統計數值。
+* `dplyr::glimpse(df)` 為`dplyr`套件中的函式。和`str(df)`的功能幾乎相同，但排版排的好太多了。
+
+```{r previewing data frame}
+# View(df)
+head(df)	# get first part of the data.frame
+class(df)
+str(df)
+summary(df)
+dplyr::glimpse(df)
+```
+
+
+
+
+### 觀察資料維度
+
+```{r checking dimension}
+dim(df)
+ncol(df)
+nrow(df)
+length(df)
+```
+
+
+## 操作data frame
+### 取出data frame中的一個變數
+每個data frame的一欄、一個變數相當於是一個vector，可以嘗試把其中一個變數取出來做資料型態觀察。
+* `names(df)`  列出變數名稱
+* `df$發生.現.地點` 顯示該變數內容
+* `df$發生時段` 顯示該變數內容
+* `length(df$發生時段)` 顯示該變數的長度（相當於有幾個）
+
+```{r observing data frame}
+names(df)
+head(df$發生.現.地點)
+head(df$發生時段)
+length(df$發生時段)
+summary(df)
+```
+
+
+
+
+### mutate 透過運算產生新變數
+* 這裡容易犯錯的是，要記得跟程式講說你要加總或四則運算的是哪個df的variable。
+* 從下面的這個操作中，該data.frame會產生一個新的變數`sub`，這就相當於Excel中的某一行減去某一行，然後把資料放在新的一行。
+
+```{r creating new variable}
+df$sub <- df$import - df$export
+```
+
+
+
+
+### filter, select 篩選資料、選取變數
+* 注意，要告訴程式`import`和`export`是哪個`data.frame`的。
+* `df[,]`為存取`df`中某個區段的數值或某個數值的方法。因此`df[1, 1]`會取出第一行第一列，也就是第一筆資料的第一個vector。`df[2, 3]`則會取出第二筆資料的第三個variable。
+* 下面的例子`nrow(df)`為1894，有1894筆資料，所以自然df$import與df$export的長度都是1894。因此，比較這兩個變數的大小會得到一個長度為1894的boolean (logical) variable。因此把這個長度為1894、充滿TRUE和FALSE的logical vector丟進df的row之處，因為取自df，大小判斷式結果的長度自然和原本的df的列數相同。因此當這個TRUE/FALSE被丟在df的列之處，便會篩選出`import`大於`p.xport`的數值。
+* 原本的df有五個variable，而上述的操作是篩選資料，所以被篩選的是列，因此行的數量、名稱都不會變。因此，我篩選完後，直接存取這個被篩選過的data.frame的country variable，自然是可以的。
+
+
+```{r filtering}
+df
+names(df)
+nrow(df)
+
+# filter row data by column value
+df[df$import > df$export,]
+df[df$import > df$export,]$country
+df[df$import > df$export,1]
+
+# 1 row == a data.frame with only one data entry
+class(df[df$import > df$export,1])
+class(df[,1]) # character vector
+class(df[1,]) # data.frame
+class(unlist(df[1, -1])) # filter the 1st row and select all columns except 1
+
+```
+
+
+
+
+### sorting 排序：按照某個變數排序
+`df.sorted <- df[order(df$import),]`會使得整個df照`import`的大小排序重新做排列。因為`order(df$import)`會把資料照指定順序排列後的位置傳回來，所以把他丟給`df`的列的位置，便會使得`df`的資料照指定的順序排列。
+預設是由小到大，加上`decreasing = T`這個參數後變成由大而小。
+
+```{r sorting}
+# sort rows by df$import column
+df.sorted <- df[order(df$import),]
+# View(df.sorted)
+
+# sort rows in decreasing order
+df.sorted <- df[order(df$import, decreasing = T),]
+
+# add - to column in order() can sort in decreasing order
+df.sorted <- df[order(-df$import),]
+
+head(df.sorted)
+```
+
+
+
+## MORE
+### Plotting
+
+`graphics::plot()`為會預載入R的繪圖套件，如果希望繪圖的同時加上回歸線和資料點標籤的話，必須要三行一起執行。
+
+```{r plotting}
+# plot(df) # raise error, 1st column is a character vector
+plot(df[, 2:3])
+
+
+plot(df[1:10, 2:3])
+text(import, export, labels=country, cex= 0.5, pos=3)
+lines(1:25, 1:25, col='red')
+
+?plot
+```
+
+
+
+### Using dplyr
+
+```{r using dplyr}
+library(dplyr)
+df <- data.frame(country, import, export, stringsAsFactors = F)
+df <- mutate(df, sub = import - export)
+filter(df, import > export)
+select(df, c(1, 3))
+
+```
+
