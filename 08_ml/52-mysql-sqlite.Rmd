@@ -1,0 +1,98 @@
+# Connect to database
+
+## Why Database
+To begin, you can read some information about why we need database rather than using RData or R only. Seeing 
+
+1. [Brining the powers of sql into r](https://datascienceplus.com/bringing-the-powers-of-sql-into-r/) (link)
+2. [Working with database in r](https://www.r-bloggers.com/working-with-databases-in-r/) (link)
+
+Besides, dplyr is a powerful tool for integrating with both MySQL and sqlite database. Seeing 
+
+1. [data manipulation with tidyr](https://datascienceplus.com/data-manipulation-with-tidyr/) (link)
+2. [Performing sql selects on r dataframes](https://datascienceplus.com/performing-sql-selects-on-r-data-frames/) (link)
+
+## Introduction to SQL
+* Conventionally, SQL keywords will be uppercase for being distinguished from other variables. e.g., 
+  * `SELECT * FROM post WHERE shares_count > 10000`
+  * 
+
+--------------------------------------------------------------------------------
+## SQLite database
+
+### Load RSQLite library and test data
+```{r}
+library(RSQLite)
+load("data/sqlite_prac.RData")
+```
+
+### Convert POXITct timestamp from database to R time/date objects
+```{r}
+post.tsai$created_time <- as.POSIXct(post.tsai$created_time)
+post.tsai$updated_time <- as.Date(post.tsai$updated_time)
+
+post.ke$created_time <- as.POSIXct(post.ke$created_time)
+post.ke$updated_time <- as.Date(post.ke$updated_time)
+```
+
+### Connect to a database
+```{r}
+conn = dbConnect(RSQLite::SQLite(), dbname="../data/fb")
+```
+
+### List tables in the database
+```{r}
+dbListTables(conn)
+```
+### Add and append dataframe to table
+```{r}
+dbWriteTable(conn, "post", post.ke)
+dbWriteTable(conn, "post", post.tsai, append=T)
+```
+### Observe data table
+```{r}
+dbListFields(conn, "post")
+dbFetch(dbSendQuery(conn, "PRAGMA table_info(post)"))
+```
+
+### Fetch data from database
+* `dbSendQuery()` sends query through conn then gets back query results
+* `dbFetch()` fetchs the reuslt to data.frame
+```{r}
+res <- dbSendQuery(conn, "SELECT * FROM post where shares_count > 10000")
+dbFetch(res)
+```
+
+### Time and date query
+* Must use `strftime('%s', 'str_time')`  to speficy the time range you ask.
+* Returned time/date variables needs to be converted back to R objects.
+```{r}
+rdf <- dbFetch(dbSendQuery(conn, "SELECT * FROM post WHERE created_time BETWEEN strftime('%s', '2016-08-01 00:00:00') AND strftime('%s', '2016-09-01 00:00:00')"))
+
+rdf$created_time <- as.POSIXct(rdf$created_time, origin="1970-01-01")
+rdf$updated_time <- as.Date(rdf$updated_time, origin="1970-01-01")
+```
+
+### Delete data table
+```{r}
+dbRemoveTable(conn, "post")
+```
+
+### Clear results & Close connection
+```{r}
+# dbClearResult(res)
+dbDisconnect(conn)
+```
+
+
+## MySQL Database
+### Installment
+1. Register an Oracle account and sign-in it.
+2. Download MySQL Community (GPL) version
+![MySQL Community](fig/mysql/01.png)
+
+### 管理資料庫 Manage your DB
+#### Win
+#### OSX
+1. Download [MySQL Workbench](https://www.mysql.com/products/workbench/). It provides GUI to adminstrate your MySQL database.
+2. Run the app and create a new connection.
+![MySQL Workbench interface](fig/mysql/02.png)

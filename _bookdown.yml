@@ -4,4 +4,4 @@ language:
     chapter_name: "Chapter "
 delete_merged_file: true
 output_dir: "docs"
-rmd_subdir: ["00_overview/", "01_basic/", "02_readfile/", "03_crawler/", "04_tidydata/", "05_string/", "06_viz/", "07_tm/", "08ml/", "09bookdown/"]
+rmd_subdir: ["00_overview/", "01_basic/", "02_readfile/", "03_crawler/", "04_tidydata/", "05_string/", "06_viz/", "07_tm/"]

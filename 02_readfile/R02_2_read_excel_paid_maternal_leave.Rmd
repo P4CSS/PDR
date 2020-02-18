@@ -1,4 +1,4 @@
-# 讀取Excel：以世界各國產假支薪政策為例
+## 讀取Excel：以世界各國產假支薪政策為例
 
 這份資料適合完全沒有碰過R的人學習，更適用於了解R的基本資料型態的人（如vector、data.frame等）。在這份教學中你將依序透過操作學到：
 1. 如何讀入Excel檔（.xlsx, .xls）？
@@ -16,8 +16,8 @@
 
 
 
-## 程式寫作：使用base套件
-### 步驟一：用readxl套件讀取Excel檔
+### 程式寫作：使用base套件
+#### 步驟一：用readxl套件讀取Excel檔
 
 ```{r}
 # install.packages("readxl")
@@ -47,18 +47,14 @@ str(rawdata)
 glimpse(rawdata)
 ```
 
-
-
-### 步驟二：選取所需變項
+#### 步驟二：選取所需變項
 ```{r}
 matleave <- rawdata[ , c(3, 6:24)]
 glimpse(matleave)
 ```
 選擇所需變項欄必須要把條件寫在rawdata中括號的逗號右側。我需要iso3的欄位作為國名的代號（iso3變項內的值為國家的三碼代號，例如台灣為TWN）。而6:24則為matleave_95至matleave_13的所有欄位。我這邊是選出第三行、與六至二十四行。`c(3, 6:24)`為標準兩個vector相串連（concatinating）的結果，`6:24`相當於產生`c(6, 7, 8, …, 24)`，而`c(3, 6:24)`則是把3擺在`6:24`之前。
 
-
-
-### 步驟三：將NA值取代為0。
+#### 步驟三：將NA值取代為0。
 
 ```{r}
 matleave[is.na(matleave)] <- 0 
@@ -70,9 +66,7 @@ matleave[is.na(matleave)] <- 0
 * 方法一：最簡單的是用`anyNA(matleave)`，如果還有NA的話，就會傳回TRUE；否則就會傳回FALSE。
 * 方法二：跑跑看`sum(is.na(matleave))`的結果會不會等於0。如果還有`NA`的話`is.na(matleave)`內的結果就還會包含`TRUE`。`TRUE`如果被當成數字加總是1，`FALSE`為0。所以如果全部加總起來不是0，那就代表還有NA。
 
-
-
-### 步驟四：篩出所需要的資料列
+#### 步驟四：篩出所需要的資料列
 ```{r}
 m5 <- matleave[matleave$matleave_13 == 5, ]
 m55<- m5[m5$matleave_95 == 5,]
@@ -81,9 +75,7 @@ m55<- m5[m5$matleave_95 == 5,]
 建議若初學之時感到疑惑，在兩行程式碼前後可用`dim()`、`str()`、`nrow()`等函式觀察兩個階段分別剩下多少筆資料，或分別印出`matleave$matleave_13`、`matleave$matleave_13==5`、`length(matleave$matleave_13==5)`來觀察。
 
 
-
-
-### 步驟五：繪圖
+#### 步驟五：繪圖
 
 ```{r}
 par(mfrow=c(4,6), mai= c(0.2, 0.2, 0.2, 0.2))
@@ -97,12 +89,12 @@ for (i in c(1:nrow(m55))){
 基本繪圖很簡單，就只需要plot(x)或plot(x, y)，x與y之處分別給他向量，就可以繪製成散布圖（scatter）。但沒有調整過的圖通常很醜，所以，通常我會假想一個預期希望看見的樣子，然後朝那個目標逐一測試繪圖的參數（Arguments），過程概略如下。
 先plot一列資料看看。
 
-```{r eval=FALSE, include=FALSE}
+```{r}
 barplot(m55[2, ])       # raise error
 ```
 
 錯誤訊息說height必須要是一個vector，用?barplot查詢一下他的用法為barplot(height, ...)，第一個參數必須要為height，顯然是個數值資料。因此自我檢查後，想起第一個變項欄為iso3國碼，因此我除了篩出第二列出來繪圖外，另外把第一欄給刪除。
-```{r eval=FALSE, include=FALSE}
+```{r  }
 barplot(m55[2, -1])     # raise error
 ```
 
@@ -162,7 +154,26 @@ for (i in 1:nrow(m55)){
 }
 ```
 
+### 使用dplyr套件
+```{r}
+library(tidyverse)
+options(stringsAsFactors = F) 
 
+raw <- readxl::read_xls("../R4CSS/data/WORLD-MACHE_Gender_6.8.15.xls")
+df <- raw %>% select(1:24) %>%
+    select(country, iso3, matleave_13) %>%
+    mutate(minor_tw = matleave_13-2)  
+library(rworldmap)
+myMap <- joinCountryData2Map(df, joinCode = "ISO3", nameJoinColumn = "iso3")
+
+colors <- c("#000000", "#00FF00", "#FF4000", "#FF8000", "#FFFF00")
+mapCountryData(myMap
+			   , nameColumnToPlot="minor_tw"
+			   , catMethod = "categorical"
+			   , colourPalette = colors
+			   , addLegend="FALSE"
+)
+```
 
 
 
